@@ -1,8 +1,10 @@
 <template>
   <main class="index_main detailsmain">
-    <div class="title">{{ helpdata.name }}</div>
-    <div class="subtitle">{{ helpdata.updateDate }}</div>
-    <div v-html="helpdata.textContent"></div>
+    <div class="title">{{ helpdata.title }}</div>
+    <div class="subtitle">{{ helpdata.msName }}</div>
+    <div>
+      <img :src="imgurl(helpdata.coverImgs)">
+    </div>
   </main>
 </template>
 
@@ -21,7 +23,7 @@ export default {
   },
   methods: {
     gethelp() {
-      this.$http.get('/api/Website/GetModelByType?type=1').then((res) => {
+      this.$http.get('/api/Website/DetailCourseShow?Id=' + this.$route.query.id).then((res) => {
         this.helpdata = res
       })
     }

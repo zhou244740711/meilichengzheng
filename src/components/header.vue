@@ -1,9 +1,9 @@
 <template>
   <div>
     <header class="header row row-center">
-      <div class="logo col">
+      <router-link :to="{ name: 'Home'}" class="logo col">
         <img src="images/logo.png" alt="">
-      </div>
+      </router-link>
       <i class="i_menu iconfont icon-caidan" @click="menuclick"></i>
     </header>
     <div class="header_box"></div>

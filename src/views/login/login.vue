@@ -1,0 +1,40 @@
+<template>
+  <div class="login">
+    <div class="login_navbox clearfix">
+      <router-link :to="{ name: 'login'}" class="login_nav active">登陆</router-link>
+      <router-link :to="{ name: 'register'}" class="login_nav">注册</router-link>
+    </div>
+    <div class="login_form">
+      <div class="login_row row row-center">
+        <div class="img_ico">
+          <img src="images/haoma@2x.png" alt="">
+        </div>
+        <input type="text" class="col input" placeholder="请输入身份证号">
+      </div>
+      <div class="login_row row row-center">
+        <div class="img_ico">
+          <img src="images/mima@2x.png" alt="">
+        </div>
+        <input type="password" class="col input" placeholder="请输入密码">
+      </div>
+    </div>
+    <div class="login_btn">登陆</div>
+    <router-link :to="{name: 'forgetpassword'}" class="login_forget">忘记密码</router-link>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+
+export default {
+  name: 'Help',
+  data() {
+    return {
+    }
+  },
+  created: function () {
+  },
+  methods: {
+  }
+}
+</script>

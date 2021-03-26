@@ -1,13 +1,13 @@
 import Vue from 'vue'
-import './plugins/axios'
 import App from './App.vue'
+import 'mint-ui/lib/style.css'
 import Mint from 'mint-ui';
 import router from './router'
+import './plugins/common'
 
-// import axios from "./plugins/axios";
-import axios from 'axios'
-Vue.prototype.$http = axios
-
+import httpRequest from "./plugins/axios";
+Vue.prototype.$http = httpRequest
+Vue.prototype.Toast = Mint.Toast
 
 Vue.config.productionTip = false
 Vue.use(Mint);

@@ -1,0 +1,15 @@
+{
+  "code": 200,
+  "success": true,
+  "msg": "",
+  "data": {
+    "msName": "专业技术人才培养",
+    "title": "课程测试",
+    "msId": 9,
+    "sort": 0,
+    "coverImgs": "/images/2021/03/25/202103250757248218.jpeg",
+    "video": null,
+    "createDate": "2021-03-25T07:57:26",
+    "id": 2
+  }
+}

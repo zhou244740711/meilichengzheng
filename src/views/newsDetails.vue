@@ -1,7 +1,7 @@
 <template>
   <main class="index_main detailsmain">
-    <div class="title">{{ helpdata.name }}</div>
-    <div class="subtitle">{{ helpdata.updateDate }}</div>
+    <div class="title">{{ helpdata.title }}</div>
+    <div class="subtitle">{{ helpdata.subhead }}</div>
     <div v-html="helpdata.textContent"></div>
   </main>
 </template>
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     gethelp() {
-      this.$http.get('/api/Website/GetModelByType?type=1').then((res) => {
+      this.$http.get('/api/Website/GetDetailMsg?Id=' + this.$route.query.id).then((res) => {
         this.helpdata = res
       })
     }

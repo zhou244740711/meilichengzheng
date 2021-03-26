@@ -1,7 +1,7 @@
 @import "ionic-change.css";
-@import "//at.alicdn.com/t/font_2442825_phzc19kfqpi.css";
+@import "//at.alicdn.com/t/font_2442825_ybg5r8eo3eo.css";
 
-@color-base: #439537;
+@color-base: #1ead5b;
 @gery999: #999;
 @gery333: #333;
 
@@ -44,7 +44,7 @@
       border-bottom: solid 2px #f3f3f3;
       a{
         display: block;
-        background: #187A18;
+        background: #39C077;
         color: #ffffff;
         font-size: 30px;
       }
@@ -232,5 +232,166 @@
     color: #666;
     margin-bottom: 15px;
     text-indent: 2em;
+  }
+  img{
+    max-width: 100%;
+  }
+}
+
+.login{
+  height: 100vh;
+  background: url(/images/login_b.png) no-repeat bottom center;
+  background-size: 100% auto;
+  padding-top: 10vh;
+}
+.login_navbox{
+  width: 400px;
+  text-align: center;
+  margin: 0 auto 10vh;
+  font-size: 38px;
+  .login_nav{
+    float: left;
+    width: 200px;
+    border-bottom: solid 1px #eeeeee;
+    padding-bottom: 30px;
+    font-weight: 500;
+    color: #999999;
+  }
+  .login_nav.active{
+    color: #1ead5b;
+    border-bottom: solid 3px #1ead5b;
+  }
+}
+.login_form{
+  padding: 0 50px;
+  margin-bottom: 10vh;
+  .login_row{
+    margin-bottom: 5vh;
+    border-bottom: solid 1px #eeeeee;
+    padding-bottom: 20px;
+    .img_ico{
+      width: 35px;
+      margin-right: 10px;
+      img{
+        width: 100%;
+        display: block;
+      }
+    }
+    .input{
+      font-size: 28px;
+      height: 40px;
+      line-height: 40px;
+    }
+    .title{
+      font-size: 29px;
+      color: #333333;
+      width: 6em;
+      font-weight: 400;
+    }
+  }
+
+  .yzbtn{
+    width: 149px;
+    height: 60px;
+    line-height: 60px;
+    background: #10A14C;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 26px;
+    color: #ffffff;
+  }
+}
+.login_btn{
+  width: 563px;
+  height: 88px;
+  line-height: 88px;
+  background: linear-gradient(146deg, #10A14C 0%, #50D08F 100%);
+  border-radius: 45px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 38px;
+  margin: 0 auto;
+}
+.login_forget{
+  font-size: 28px;
+  color: #909090;
+  text-align: center;
+  margin-top: 3vh;
+  display: block;
+}
+.login_tishi{
+  font-size: 28px;
+  color: #10A14C;
+  text-align: center;
+  margin-top: 3vh;
+}
+
+.forget_title{
+  padding: 0 50px;
+  margin-bottom: 10vh;
+  .title{
+    color: #10A14C;
+    font-size: 38px;
+    margin-bottom: 20px;
+  }
+  .subtitle{
+    color: #909090;
+    font-size: 26px;
+  }
+}
+
+.information_list{
+  padding: 20px 40px;
+  .item{
+    border-bottom: solid 1px #eeeeee;
+    line-height: 40px;
+    margin-bottom: 10px;
+    padding: 15px 0;
+    .title{
+      color: #333333;
+      font-size: 28px;
+    }
+    .col{
+      text-align: right;
+      .input{
+        width: 100%;
+        font-size: 28px;
+        color: #333333;
+        text-align: right;
+      }
+    }
+    .list_radio{
+      text-align: right;
+      .mint-radio-label{
+        font-size: 28px;
+        color: #333333;
+      }
+    }
+    .iconfont{
+      font-size: 28px;
+      color: #333333;
+    }
+  }
+}
+.list_radio{
+  .mint-radiolist-title{
+    display: none;
+  }
+  .mint-cell{
+    min-height: auto;
+    background: none;
+    display: inline-block;
+    .mint-cell-wrapper{
+      background: none;
+      border: none;
+    }
+    .mint-cell-right,
+    .mint-cell-left{
+      display: none;
+    }
+    &:last-child{
+      background: none;
+    }
   }
 }

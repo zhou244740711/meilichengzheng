@@ -1,7 +1,5 @@
 <template>
   <div id="app">
-    <my-header @menuclick="menuclick"></my-header>
-    <my-nav ref="nav"></my-nav>
     <router-view/>
   </div>
 </template>
@@ -11,14 +9,9 @@
 
 </style>
 <script>
-import MyHeader from "./components/header";
-import MyNav from "./components/nav";
 export default {
-  components: {MyNav, MyHeader},
+  components: {},
   methods: {
-    menuclick () {
-      this.$refs.nav.showmenu()
-    }
   }
 }
 </script>
