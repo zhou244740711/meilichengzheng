@@ -344,7 +344,7 @@ body{
   padding: 0;
   color: #000;
   word-wrap: break-word;
-  font-size: 28px;
+  font-size: 14px;
   font-family: "Microsoft YaHei", "微软雅黑", Helvetica, "黑体", Arial, Tahoma;
   line-height: 1.2;
   text-rendering: optimizeLegibility;
@@ -583,7 +583,7 @@ input[type="color"] {
   height: 40px;
   color: #111;
   vertical-align: middle;
-  font-size: 28px;
+  font-size: 14px;
   line-height: 40px; }
 
 .item-input input,

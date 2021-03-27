@@ -8,32 +8,83 @@
 [v-cloak]{
   display: none;
 }
+
+@headerheight: 44px;
+
 .header{
-  height: 96px;
+  height: @headerheight;
   background: @color-base;
-  padding: 0 30px;
+  padding: 0 10px;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   .logo{
     img{
-      height: 64px;
+      height: 34px;
+      display: block;
     }
   }
   .i_menu{
-    font-size: 80px;
+    font-size: 40px;
     color: #ffffff;
   }
 }
 .header_box{
-  height: 96px;
+  height: @headerheight;
+}
+
+@keyframes mymove
+{
+  0% {
+    transform: translateX(0);
+  }
+  100%{
+    transform: translateX(-100%);
+  }
+}
+
+.tongzhi{
+  height: 50px;
+  line-height: 50px;
+  display: flex;
+  width: 100%;
+  padding: 0 10px;
+  .iconfont{
+    font-size: 16px;
+    color: #f78977;
+  }
+  .tongzhi_view{
+    flex: 1;
+    display: block;
+    width: calc(100vw - 80px);
+    overflow: hidden;
+    .tongzhi_list{
+      animation: mymove 15s linear infinite;
+      //animation-duration: 15s;
+      width: auto;
+      clear: both;
+      white-space: nowrap;
+      &:after,
+      &:before{
+        content: '';
+        display: block;
+        clear: both;
+      }
+      .tongzhi_item{
+        white-space: nowrap;
+        margin-right: 100px;
+        float: left;
+        font-size: 12px;
+      }
+    }
+  }
 }
 
 .nav{
   ul{
     position: fixed;
-    top: 96px;
+    top: @headerheight;
     left: 0;
     width: 100%;
     z-index: 20;
@@ -68,50 +119,34 @@
   }
 }
 .index_main{
-  padding: 20px;
-}
-.tongzhi{
-  height: 100px;
-  line-height: 100px;
-  padding: 0 20px;
-  .iconfont{
-    font-size: 52px;
-    color: #f78977;
-  }
-  .text{
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-    font-size: 28px;
-    color: #333;
-  }
+  padding: 10px;
 }
 
 .index_navlink{
-  padding: 0 20px;
+  padding: 0 10px;
   .navimg{
     img{
       width: 100%;
     }
   }
   .navimg + .navimg{
-    margin-left: 20px;
+    margin-left: 10px;
   }
 }
 .index_title{
-  height: 45px;
-  line-height: 45px;
-  font-size: 28px;
-  border-left: solid 8px @color-base;
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  border-left: solid 3px @color-base;
   padding-left: 10px;
-  margin: 20px auto;
+  margin: 10px auto;
   .title{
-    font-size: 32px;
+    font-size: 16px;
     color: @gery333;
     font-weight: bold;
   }
   .more{
-    font-size: 24px;
+    font-size: 12px;
     color: @gery999;
   }
 }
@@ -393,5 +428,57 @@
     &:last-child{
       background: none;
     }
+  }
+}
+
+
+.xueyuanindex{
+  .xueyuanindex_header{
+    img{
+      width: 100%;
+      display: block;
+    }
+  }
+  .xueyuan_header2{
+    background: #ffffff;
+    margin: 0 35px 35px;
+    padding: 40px 30px;
+    position: relative;
+    top: -70px;
+    border-radius: 8px;
+
+    select{
+      font-size: 28px;
+      color: #333333;
+    }
+
+    .xueyuan_header2_select{
+      text-align: center;
+      margin-bottom: 20px;
+      select{
+        border: solid 1px #eeeeee;
+        height: 54px;
+        line-height: 54px;
+      }
+    }
+    .xueyuan_header2_navbox{
+      .navselect{
+        text-align: center;
+        select{
+        }
+      }
+    }
+  }
+}
+
+.noclass{
+  text-align: center;
+  img{
+    width: 310px;
+    margin-bottom: 30px;
+  }
+  p{
+    font-size: 24px;
+    color: #999999;
   }
 }

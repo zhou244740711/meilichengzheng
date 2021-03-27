@@ -1,0 +1,80 @@
+<template>
+  <div>
+    <div class="banner">
+      <img src="images/banner.png" alt="">
+    </div>
+    <textscroll></textscroll>
+    <div class="index_navlink row row-center row-stretch">
+      <div class="col navimg"><img src="images/nav1.png" alt=""></div>
+      <div class="col navimg"><img src="images/nav2.png" alt=""></div>
+    </div>
+    <main class="index_main">
+      <div class="index_title row row-center">
+        <div class="title col">课程展示</div>
+        <router-link :to="{ name: 'classshow'}" class="more">更多》</router-link>
+      </div>
+      <div class="classlist clearfix">
+        <router-link class="item" v-for="item in classlist" :key="item.id" :to="{ name: 'ClassDetails', query: { id: item.id}}">
+          <div class="box">
+            <div class="img"><img :src="imgurl(item.coverImgs)" alt=""></div>
+            <div class="text">
+              <p class="title">{{ item.title }}</p>
+              <p class="subtitle">{{ item.msName }}</p>
+            </div>
+          </div>
+        </router-link>
+      </div>
+      <div class="index_title row row-center">
+        <div class="title col">政策法规</div>
+        <router-link :to="{ name: 'zhengce'}" class="more">更多》</router-link>
+      </div>
+      <div class="index_zhengcelist">
+        <router-link class="item" v-for="item in zhengcelist" :key="item.id" :to="{ name: 'NewsDetails', query: { id: item.id}}">
+          <p class="title">{{ item.title }}</p>
+          <time>{{ item.releaseTime }}</time>
+        </router-link>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import Textscroll from "../components/textscroll";
+export default {
+  name: 'Home',
+  components: {Textscroll},
+  data () {
+    return {
+      classlist: [],
+      zhengcelist: [],
+    }
+  },
+  created: function () {
+    this.getclasslist()
+    this.getzhengcelist()
+  },
+  methods: {
+    // 获取课程列表
+    getclasslist() {
+      this.$http.post('/api/Website/GetCourseShowList', {
+        "pageSize": 6,
+        "pageIndex": 1,
+      }).then((res) => {
+        this.classlist = res.data
+      })
+    },
+    // 获取课程列表
+    getzhengcelist() {
+      this.$http.post('/api/Website/GetMsgList', {
+        "type": 2,
+        "categoryId": 0,
+        "pageSize": 6,
+        "pageIndex": 1,
+      }).then((res) => {
+        this.zhengcelist = res.data
+      })
+    }
+  }
+}
+</script>
