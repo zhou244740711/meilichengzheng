@@ -79,6 +79,11 @@ const routes = [
     name: 'xueyuanindex',
     component: () => import('../views/xueyuan/index')
   },
+  {
+    path: '/imgupload',
+    name: 'imgupload',
+    component: () => import('../components/imgupload')
+  },
 ]
 
 const router = new VueRouter({
