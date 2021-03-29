@@ -31,7 +31,7 @@
       <div class="index_zhengcelist">
         <router-link class="item" v-for="item in zhengcelist" :key="item.id" :to="{ name: 'NewsDetails', query: { id: item.id}}">
           <p class="title">{{ item.title }}</p>
-          <time>{{ item.releaseTime }}</time>
+          <time>{{ item.releaseTime | dateformat }}</time>
         </router-link>
       </div>
     </main>
@@ -48,28 +48,41 @@ export default {
     return {
       classlist: [],
       zhengcelist: [],
+      newslist: [],
     }
   },
   created: function () {
     this.getclasslist()
     this.getzhengcelist()
+    this.getzhengcelist2()
   },
   methods: {
     // 获取课程列表
     getclasslist() {
       this.$http.post('/api/Website/GetCourseShowList', {
-        "pageSize": 6,
+        "pageSize": 4,
         "pageIndex": 1,
       }).then((res) => {
         this.classlist = res.data
       })
     },
-    // 获取课程列表
+    // 获取 消息列表
     getzhengcelist() {
+      this.$http.post('/api/Website/GetMsgList', {
+        "type": 1,
+        "categoryId": 0,
+        "pageSize": 6,
+        "pageIndex": 1,
+      }).then((res) => {
+        this.newslist = res.data
+      })
+    },
+    // 获取 政策法规
+    getzhengcelist2() {
       this.$http.post('/api/Website/GetMsgList', {
         "type": 2,
         "categoryId": 0,
-        "pageSize": 6,
+        "pageSize": 5,
         "pageIndex": 1,
       }).then((res) => {
         this.zhengcelist = res.data

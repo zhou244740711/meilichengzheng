@@ -8,7 +8,7 @@
          infinite-scroll-distance="10">
       <router-link class="item" v-for="item in newslist" :key="item.id" :to="{ name: 'NewsDetails', query: { id: item.id}}">
         <p class="title">{{ item.title }}</p>
-        <time>{{ item.releaseTime }}</time>
+        <time>{{ item.releaseTime | dateformat }}</time>
       </router-link>
     </div>
 
