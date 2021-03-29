@@ -3,7 +3,7 @@
     <div class="banner">
       <img src="images/banner.png" alt="">
     </div>
-    <textscroll></textscroll>
+    <textscroll :list="newslist" @click="tonews()"></textscroll>
     <div class="index_navlink row row-center row-stretch">
       <div class="col navimg"><img src="images/nav1.png" alt=""></div>
       <div class="col navimg"><img src="images/nav2.png" alt=""></div>
@@ -57,6 +57,9 @@ export default {
     this.getzhengcelist2()
   },
   methods: {
+    tonews () {
+      this.$router.push({name: 'newslist'})
+    },
     // 获取课程列表
     getclasslist() {
       this.$http.post('/api/Website/GetCourseShowList', {

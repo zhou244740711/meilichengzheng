@@ -14,7 +14,7 @@ export default {
   components: {MyHeader, MyNav},
   methods: {
     menuclick () {
-      this.$refs.nav.showmenu()
+      this.$refs.nav.togglemenu()
     },
   }
 }

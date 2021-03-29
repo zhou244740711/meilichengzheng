@@ -23,6 +23,9 @@ export default {
     }
   },
   methods: {
+    togglemenu () {
+      this.menushow = !this.menushow
+    },
     showmenu () {
       this.menushow = true
     },

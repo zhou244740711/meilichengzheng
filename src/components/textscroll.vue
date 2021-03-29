@@ -22,12 +22,23 @@ export default{
       newslist: this.list
     }
   },
+  watch: {
+    list (newsdata) {
+      this.newslist = newsdata
+      this.widthchange()
+    }
+  },
   mounted () {
-    this.w = 0
-    this.$refs.list.children.forEach((item) => {
-      this.w += item.clientWidth + 105
-    })
-    this.s = this.w / 100
+    this.widthchange()
+  },
+  methods: {
+    widthchange () {
+      this.w = 0
+      this.$refs.list.children.forEach((item) => {
+        this.w += item.clientWidth + 21
+      })
+      this.s = this.w / 50
+    }
   }
 }
 </script>

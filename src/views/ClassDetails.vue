@@ -1,10 +1,6 @@
 <template>
   <main class="index_main detailsmain">
-    <div class="title">{{ helpdata.title }}</div>
-    <div class="subtitle">{{ helpdata.msName }}</div>
-    <div>
-      <img :src="imgurl(helpdata.coverImgs)">
-    </div>
+    <vue-core-video-player :src="imgurl(helpdata.video)"></vue-core-video-player>
   </main>
 </template>
 

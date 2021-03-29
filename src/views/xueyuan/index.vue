@@ -33,10 +33,9 @@
       <p>请选择课程</p>
     </div>
 
-    {{selected}}
     <mt-tabbar v-model="selected">
       <mt-tab-item id="tab1">
-        <img slot="icon" src="images/shouye-@2x.png">
+        <img slot="icon" src="images/shouye@2x.png">
         首页
       </mt-tab-item>
       <mt-tab-item id="tab2">
