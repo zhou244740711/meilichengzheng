@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import BasicLayout from "../layout/BasicLayout";
+import StadyLaout from "@/layout/StadyLaout";
 
 Vue.use(VueRouter)
 
@@ -75,9 +76,27 @@ const routes = [
     component: () => import('../views/xueyuan/information')
   },
   {
-    path: '/xueyuanindex',
-    name: 'xueyuanindex',
-    component: () => import('../views/xueyuan/index')
+    path: '/Stady',
+    name: 'Stady',
+    redirect: '/xueyuanindex',
+    component: StadyLaout,
+    children: [
+      {
+        path: '/xueyuanindex',
+        name: 'xueyuanindex',
+        component: () => import('../views/xueyuan/index')
+      },
+      {
+        path: '/Shopcar',
+        name: 'Shopcar',
+        component: () => import('../views/xueyuan/index')
+      },
+      {
+        path: '/Myself',
+        name: 'Myself',
+        component: () => import('../views/xueyuan/index')
+      },
+    ]
   },
   {
     path: '/imgupload',

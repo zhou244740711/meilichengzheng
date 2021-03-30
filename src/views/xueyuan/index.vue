@@ -28,20 +28,6 @@
       <p>请选择课程</p>
     </div>
 
-    <mt-tabbar v-model="selected">
-      <mt-tab-item id="tab1">
-        <img slot="icon" src="images/shouye@2x.png">
-        首页
-      </mt-tab-item>
-      <mt-tab-item id="tab2">
-        <img slot="icon" src="images/gouwuche@2x.png">
-        购物车
-      </mt-tab-item>
-      <mt-tab-item id="tab3">
-        <img slot="icon" src="images/wode@2x.png">
-        我的
-      </mt-tab-item>
-    </mt-tabbar>
   </div>
 </template>
 
