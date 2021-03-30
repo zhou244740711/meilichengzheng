@@ -435,7 +435,7 @@
 
 
 .xueyuanindex{
-  background: #F7F7F7;
+  background: #f3f3f3;
   min-height: 100vh;
 
   .xueyuanindex_header{
@@ -566,6 +566,355 @@
       span{
         color: #333333;
       }
+    }
+  }
+}
+
+.z-button{
+  height: 30px;
+  line-height: 28px;
+  background: #10A14C;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #ffffff;
+  padding: 0 10px;
+}
+.z-button-blue__kx{
+  border: solid 1px #10A14C;
+  background: #ffffff;
+  color: #10A14C;
+}
+
+.stydy_card{
+  background: #ffffff;
+  position: relative;
+  margin: 15px;
+
+  .card_header{
+    padding: 10px;
+    text-align: right;
+    padding-right: 13px;
+    .tip{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 60px;
+      height: 20px;
+      line-height: 20px;
+      background: url("/images/biaoqian@2x.png") no-repeat left top;
+      background-size: 100% auto;
+      text-align: left;
+      color: #ffffff;
+      padding-left: 5px;
+    }
+    .number{
+      font-size: 12px;
+      color: #999999;
+    }
+  }
+  .card_main{
+    padding: 13px 13px 0 28px;
+    font-size: 12px;
+    color: #999999;
+
+    .t1{
+      b{
+        color: #333333;
+        font-size: 16px;
+      }
+    }
+    .t2{
+      font-size: 16px;
+      color: #333333;
+      font-weight: bold;
+    }
+    .title{
+      font-size: 14px;
+      color: #333333;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+  }
+  .card_footer{
+    padding: 5px 13px 15px 28px;
+
+    .z-button{
+      margin-left: 5px;
+    }
+  }
+
+  .tag{
+    height: 20px;
+    line-height: 20px;
+    padding: 0 3px;
+    background: #C3F3D7;
+    font-size: 12px;
+    color: #10A14C;
+    display: inline-block;
+  }
+}
+
+.confirm_order_card_list{
+  margin: 10px auto;
+  .confirm_order_card{
+    border-bottom: solid 1px #eeeeee;
+    margin: 0;
+
+    .card_header{
+      text-align: left;
+      padding-bottom: 0;
+      .tip{
+        right: 0;
+        left: auto;
+        background-image: url("/images/biaoqian2@2x.png");
+        text-align: right;
+        padding-right: 5px;
+        padding-left: 0;
+      }
+    }
+    .card_main{
+      padding: 10px;
+    }
+    .card_footer{
+
+    }
+  }
+}
+
+.confirm_list{
+  background: #ffffff;
+  .item{
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+
+    .title{
+      font-size: 14px;
+      color: #333333;
+      font-weight: 400;
+    }
+    .input{
+      text-align: right;
+      font-size: 14px;
+      color: #333333;
+    }
+    .text{
+      text-align: right;
+    }
+    .iconfont{
+      font-size: 18px;
+    }
+  }
+}
+.confirm_tip{
+  margin: 15px;
+  font-size: 14px;
+  color: #10A14C;
+  line-height: 2;
+}
+
+.greg9{
+  color: #999999;
+}
+.confirm_footer{
+  height: 46px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #F7F7F7;
+
+  .text{
+    padding-left: 15px;
+  }
+  .t1{
+    font-size: 14px;
+    color: #999999;
+  }
+  .t2{
+    font-size: 12px;
+    color: #10A14C;
+  }
+  .t3{
+    font-size: 16px;
+    color: #333333;
+  }
+ .button{
+   background: #10A14C;
+   font-size: 20px;
+   color: #FFFFFF;
+   padding: 0 15px;
+   height: 46px;
+   line-height: 46px;
+ }
+}
+
+.Coupon{
+ .Coupon_list{
+   padding: 13px 33px;
+   .item{
+     //background: #FFFFFF;
+     margin-bottom: 20px;
+     border-radius: 5px;
+     overflow: hidden;
+
+     .img{
+       position: relative;
+       background: url("/images/keyong@2x.png") no-repeat center center;
+       background-size: 100% 100%;
+       height: 92px;
+       width: 130px;
+       justify-content: center;
+       flex-direction: column;
+       text-align: center;
+       color: #FFFFFF;
+
+       .t1{
+         font-size: 20px;
+         margin-bottom: 5px;
+       }
+       .t2{
+         font-size: 14px;
+       }
+     }
+     .textbox{
+       padding: 10px;
+       background: #FFFFFF;
+       .tip{
+         height: 20px;
+         line-height: 20px;
+         font-size: 10px;
+         color: #FFFFFF;
+         display: inline-block;
+         padding: 0 5px;
+         background: linear-gradient(146deg, #10A14C 0%, #50D08F 100%);
+         margin-bottom: 5px;
+       }
+       .t1{
+         font-size: 10px;
+         color: #BFBFBF;
+         margin-bottom: 5px;
+       }
+       .t2{
+         font-size: 10px;
+         color: #333333;
+       }
+     }
+   }
+   .item.select{
+     position: relative;
+     &:after{
+       display: block;
+       content: '';
+       width: 30px;
+       height: 30px;
+       position: absolute;
+       right: 0;
+       top: 0;
+       background:  url("/images/gouxuan@2x.png") no-repeat right top;
+       background-size: 100%;
+     }
+   }
+   .item_timeout{
+     .img{
+       background-image: url("/images/bukeyong@2x.png");
+     }
+     .textbox{
+       .tip{
+         background: #B8B8B8;
+       }
+     }
+   }
+ }
+}
+
+
+.z-select{
+  width: 100%;
+
+  .z-input{
+    height: 35px;
+    line-height: 35px;
+    border: 1px solid #dcdfe6;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 10px;
+
+    input{
+      flex: 1;
+      height: 35px;
+      line-height: 35px;
+      border: none;
+      cursor: pointer;
+    }
+  }
+
+  .z-select-option{
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #606266;
+    text-align: center;
+  }
+  .z-select-option +
+  .z-select-option{
+    border-top: solid 1px #dcdfe6;
+  }
+  .z-select-option.active{
+    font-weight: bold;
+    color: #1a69c1;
+  }
+}
+.z-select.noborder{
+  .z-input{
+    border: none;
+  }
+}
+
+.z-popper{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 40;
+  max-height: 60%;
+  background: #ffffff;
+  border-radius: 5px;
+
+  .z-scrollbar{
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+.z-popper_bg{
+  position: fixed;
+  background: rgba(0,0,0,0.2);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+}
+.z-select-dropdown__list{
+  padding: 5px 0;
+}
+.z-select-dropdown{
+  .btnbox{
+    height: 35px;
+    line-height: 35px;
+    padding: 0 10px;
+    background: #F7F7F7;;
+    font-size: 14px;
+
+    .cancel{
+      color: #999999;
+    }
+    .ok{
+      color: #10A14C;
     }
   }
 }
