@@ -84,6 +84,11 @@ const routes = [
     name: 'imgupload',
     component: () => import('../components/imgupload')
   },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/componentstest')
+  },
 ]
 
 const router = new VueRouter({
