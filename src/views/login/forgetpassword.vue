@@ -35,6 +35,18 @@ export default {
   created: function () {
   },
   methods: {
+    // 提交
+    handlesubmit() {
+      if(this.formdata.textCode !== ''){
+        this.Toast("请输入验证码");
+        return false;
+      }
+      this.$http.post('/api/Account/UpdateAccountInfo', this.formdata).then((res) => {
+        if (res) {
+          console.log(res)
+        }
+      })
+    },
   }
 }
 </script>

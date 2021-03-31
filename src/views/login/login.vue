@@ -9,16 +9,16 @@
         <div class="img_ico">
           <img src="images/haoma@2x.png" alt="">
         </div>
-        <input type="text" class="col input" placeholder="请输入身份证号">
+        <input type="text" class="col input" placeholder="请输入身份证号" v-model="formdata.identityCard">
       </div>
       <div class="login_row row row-center">
         <div class="img_ico">
           <img src="images/mima@2x.png" alt="">
         </div>
-        <input type="password" class="col input" placeholder="请输入密码">
+        <input type="password" class="col input" placeholder="请输入密码" v-model="formdata.password">
       </div>
     </div>
-    <div class="login_btn">登陆</div>
+    <div class="login_btn" @click="login">登陆</div>
     <router-link :to="{name: 'forgetpassword'}" class="login_forget">忘记密码</router-link>
   </div>
 </template>
@@ -30,11 +30,34 @@ export default {
   name: 'Help',
   data() {
     return {
+      formdata: {
+        "identityCard": "",
+        "password": ""
+      }
     }
   },
   created: function () {
   },
   methods: {
+    login () {
+      if (this.formdata.identityCard !== '') {
+        this.Toast('请输入身份证号')
+        return
+      }
+      if(!(/\d{15}(\d\d[0-9xX])?/.test(this.formdata.identityCard))){
+        this.Toast("请输入正确的身份证号");
+        return false;
+      }
+      if (this.formdata.password !== '') {
+        this.Toast('请输入密码')
+        return
+      }
+      this.$http.post('/api/Account/Login', this.formdata).then((res) => {
+        if (res) {
+          console.log(res)
+        }
+      })
+    }
   }
 }
 </script>
