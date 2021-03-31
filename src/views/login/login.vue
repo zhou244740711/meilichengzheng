@@ -54,7 +54,7 @@ export default {
       }
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
         if (res) {
-          console.log(res)
+          console.log(res);
         }
       })
     }

@@ -108,7 +108,7 @@ export default {
       }
       this.$http.post('/api/Account/Regiester', this.formdata).then((res) => {
         if (res) {
-          console.log(res)
+          console.log(res);
         }
       })
     },
