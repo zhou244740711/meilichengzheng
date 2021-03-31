@@ -99,6 +99,16 @@ const routes = [
     ]
   },
   {
+    path: '/ConfirmOrder',
+    name: 'ConfirmOrder',
+    component: () => import('../views/xueyuan/Confirm_order')
+  },
+  {
+    path: '/Coupon',
+    name: 'Coupon',
+    component: () => import('../views/xueyuan/Coupon')
+  },
+  {
     path: '/imgupload',
     name: 'imgupload',
     component: () => import('../components/imgupload')

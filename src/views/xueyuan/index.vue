@@ -28,6 +28,26 @@
       <p>请选择课程</p>
     </div>
 
+    <div class="stydy_card">
+      <div class="card_header">
+        <span class="tip">课程包</span>
+        <span class="number">编号：202120200214</span>
+      </div>
+      <div class="card_main">
+        <p class="title">名称课程包名称…</p>
+        <div class="row"><span class="col t1">共 <b>4</b> 课时</span> <span class="t2">¥10</span></div>
+      </div>
+      <div class="card_footer">
+        <div class="row">
+          <div class="col">
+            <span class="tag">驻镇规划师</span>
+          </div>
+          <div class="z-button z-button-blue__kx" @click="join()">加入购物车</div>
+          <div class="z-button" @click="buy()">立即购买</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -59,6 +79,12 @@ export default {
   created: function () {
   },
   methods: {
+    join () {
+      this.Toast('加入购物车')
+    },
+    buy () {
+      this.$router.push({name: 'ConfirmOrder'})
+    }
   }
 }
 </script>
