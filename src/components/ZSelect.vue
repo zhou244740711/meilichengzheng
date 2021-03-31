@@ -12,7 +12,7 @@
       </div>
       <div class="z-scrollbar">
         <div class="z-scrollbar__view z-select-dropdown__list">
-          <picker :slots="slots" valueKey="value" @change="onValuesChange"></picker>
+          <picker :slots="slots" :valueKey="key" defaultIndex="defaultIndex" @change="onValuesChange"></picker>
         </div>
 <!--        <div class="z-select-option" v-for="item in options" :key="item.value" :class="{'active': item.value == value}" @click="select(item)">-->
 <!--          <span>{{ item.label }}</span>-->
@@ -33,7 +33,15 @@ export default{
   },
   props: {
     value: [String, Number],
-    options: Array
+    options: Array,
+    labelkey: {
+      type: [String, Number],
+      default: 'name'
+    },
+    valuekey: {
+      type: [String, Number],
+      default: 'value'
+    }
   },
   data () {
     return {
@@ -47,12 +55,28 @@ export default{
           className: 'slot1',
           textAlign: 'center'
         }
-      ]
+      ],
+      key: this.labelkey,
+      defaultIndex: 0
     }
   },
   watch: {
     value (newdata) {
       this.initvalue(newdata)
+    },
+    labelkey (newdata) {
+      this.key = newdata
+    },
+    options (newdata, olddata) {
+      console.log(newdata)
+      if (newdata !== olddata) {
+        if (newdata.length <= 0) {
+          this.selectvalue = ''
+          this.defaultIndex = 0
+          return
+        }
+        this.slots[0].values = newdata
+      }
     }
   },
   mounted () {
@@ -60,9 +84,10 @@ export default{
   },
   methods: {
     initvalue (newdata) {
-      this.options.forEach(e => {
+      this.options.forEach((e, i) => {
         if (e.value === newdata) {
-          this.selectvalue = e.label
+          this.selectvalue = e[this.key]
+          this.defaultIndex = i
         }
       })
     },
@@ -74,8 +99,9 @@ export default{
       }
     },
     select () {
-      this.selectvalue = this.changedata.label
+      this.selectvalue = this.changedata[this.key]
       this.$emit('input', this.changedata.value)
+      this.$emit('change', this.changedata)
       this.show = false
     },
     onValuesChange (picker, values) {

@@ -436,7 +436,7 @@
 
 .xueyuanindex{
   background: #f3f3f3;
-  min-height: 100vh;
+  min-height: calc(100vh - 44px);
 
   .xueyuanindex_header{
     img{
@@ -511,13 +511,10 @@
   }
 }
 
+.footer_box{
+  height: 44px;
+}
 .footer {
-  &:after{
-    display: block;
-    content: '';
-    height: 44px;
-  }
-
   .footer_view{
     position: fixed;
     bottom: 0;

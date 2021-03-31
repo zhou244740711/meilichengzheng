@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       formdata: {
-        "identityCard": "",
+        "identityCard": "331003199404240519",
         "password": ""
       }
     }
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     login () {
-      if (this.formdata.identityCard !== '') {
+      if (this.isnull(this.formdata.identityCard)) {
         this.Toast('请输入身份证号')
         return
       }
@@ -48,14 +48,13 @@ export default {
         this.Toast("请输入正确的身份证号");
         return false;
       }
-      if (this.formdata.password !== '') {
+      if (this.isnull(this.formdata.password)) {
         this.Toast('请输入密码')
         return
       }
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
-        if (res) {
-          console.log(res);
-        }
+        sessionStorage.token = res
+        this.$router.push({name: 'Stady'})
       })
     }
   }

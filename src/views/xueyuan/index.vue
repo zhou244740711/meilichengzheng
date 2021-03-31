@@ -9,41 +9,46 @@
 <!--          <option value="">2021年度课程</option>-->
 <!--          <option value="">2021年度课程2232244244</option>-->
 <!--        </select>-->
-        <z-select :options="classlist"></z-select>
+        <z-select :options="classlist" valuekey="id" @change="getlist2"></z-select>
       </div>
       <div class="row row-center xueyuan_header2_navbox">
         <div class="col navselect">
-          <z-select :options="selectoption"></z-select>
+          <z-select :options="selectoption" @change="getlist3(...arguments, 1)"></z-select>
         </div>
         <div class="col navselect">
-          <z-select :options="selectoption2"></z-select>
+          <z-select :options="selectoption2" @change="getlist3(...arguments, 2)"></z-select>
         </div>
         <div class="col navselect">
-          <z-select :options="selectoption3"></z-select>
+          <z-select :options="selectoption3" @change="getlist4"></z-select>
         </div>
       </div>
     </div>
-    <div class="noclass">
+    <div class="noclass" v-if="studylist.length <=0">
       <img src="images/wu1@2x.png" alt="">
       <p>请选择课程</p>
     </div>
-
-    <div class="stydy_card">
-      <div class="card_header">
-        <span class="tip">课程包</span>
-        <span class="number">编号：202120200214</span>
-      </div>
-      <div class="card_main">
-        <p class="title">名称课程包名称…</p>
-        <div class="row"><span class="col t1">共 <b>4</b> 课时</span> <span class="t2">¥10</span></div>
-      </div>
-      <div class="card_footer">
-        <div class="row">
-          <div class="col">
-            <span class="tag">驻镇规划师</span>
+    <div class="stady_list"
+         v-else
+         v-infinite-scroll="loadMore"
+         infinite-scroll-disabled="loading"
+         infinite-scroll-distance="10">
+      <div class="stydy_card" v-for="item in studylist" :key="item.id">
+        <div class="card_header">
+          <span class="tip" v-show="item.type === 2">课程包</span>
+          <span class="number">编号：{{ item.number }}</span>
+        </div>
+        <div class="card_main">
+          <p class="title">{{ item.name }}</p>
+          <div class="row"><span class="col t1">共 <b>{{item.period}}</b> 课时</span> <span class="t2">¥{{item.price}}</span></div>
+        </div>
+        <div class="card_footer">
+          <div class="row">
+            <div class="col">
+              <span class="tag">{{ item.categoryName }}</span>
+            </div>
+            <div class="z-button z-button-blue__kx" @click="join()">加入购物车</div>
+            <div class="z-button" @click="buy()">立即购买</div>
           </div>
-          <div class="z-button z-button-blue__kx" @click="join()">加入购物车</div>
-          <div class="z-button" @click="buy()">立即购买</div>
         </div>
       </div>
     </div>
@@ -61,24 +66,87 @@ export default {
   data() {
     return {
       selected: '',
-      classlist: [
-        {
-          value: '2021年度课程',
-          label: '2021年度课程'
-        },
-        {
-          value: '2022年度课程',
-          label: '2022年度课程'
-        }
-      ],
+      classlist: [],
       selectoption: [],
       selectoption2: [],
       selectoption3: [],
+      loading: false,
+      pageSize: 15,
+      page: 1,
+      pageCount: 1,
+      categoryId: 0,
+      studylist: [],
     }
   },
   created: function () {
+    this.GetCategoryTreeAll()
   },
   methods: {
+    loadMore() {
+      this.loading = true;
+      this.getstudylist(2)
+    },
+    GetCategoryTreeAll () {
+      this.$http.get('/api/Course/GetCategoryTreeAll').then((res) => {
+        this.classlist = res
+        this.selectoption = []
+        this.selectoption2 = []
+        this.selectoption3 = []
+      })
+    },
+    getlist2 (data) {
+      this.categoryId = data.id
+      if (data.list !== undefined && data.list !== null && data.list.length > 0) {
+        this.selectoption = data.list
+        this.selectoption2 = []
+        this.selectoption3 = []
+      }
+      this.getstudylist(1)
+    },
+    getlist3 (data, t) {
+      this.categoryId = data.id
+      this.$http.get(`/api/Course/GetCategory?ParentId=${data.id}`).then((res) => {
+        if (t === 1) {
+          this.selectoption2 = res
+          this.selectoption3 = []
+        } else {
+          this.selectoption3 = res
+        }
+      })
+      this.getstudylist(1)
+    },
+    getlist4 (data) {
+      this.categoryId = data.id
+      this.getstudylist(1)
+    },
+    getstudylist (ftype) {
+      if (ftype === 1) {
+        this.page = 1
+      } else {
+        if (this.page < this.pageCount) {
+          this.page++
+        } else {
+          this.loading = false;
+          return
+        }
+      }
+      this.$http.post(`/api/Course/GetCourseList`,{
+        "categoryId": this.categoryId,
+        "pageSize": this.pageSize,
+        "pageIndex": this.page,
+      }).then((res) => {
+        setTimeout(() => {
+          this.loading = false;
+        }, 2500);
+        if (res) {
+          this.studylist = res.data
+          this.pageCount = res.pageCount
+          this.page = res.page
+        } else {
+          this.Toast(res.msg)
+        }
+      })
+    },
     join () {
       this.Toast('加入购物车')
     },

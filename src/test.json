@@ -3,13 +3,36 @@
   "success": true,
   "msg": "",
   "data": {
-    "msName": "专业技术人才培养",
-    "title": "课程测试",
-    "msId": 9,
-    "sort": 0,
-    "coverImgs": "/images/2021/03/25/202103250757248218.jpeg",
-    "video": null,
-    "createDate": "2021-03-25T07:57:26",
-    "id": 2
+    "page": 1,
+    "pageCount": 1,
+    "dataCount": 2,
+    "pageSize": 15,
+    "isNext": false,
+    "data": [
+      {
+        "categoryName": "建筑工程管理",
+        "categoryId": 10,
+        "name": "建筑工程课程1",
+        "number": "20210002",
+        "period": 0.40,
+        "price": 1.10,
+        "status": 2,
+        "type": 2,
+        "sort": 0,
+        "id": 7
+      },
+      {
+        "categoryName": "行业公需科目",
+        "categoryId": 7,
+        "name": "行业供需科目课程1",
+        "number": "20210001",
+        "period": 1.00,
+        "price": 1.00,
+        "status": 2,
+        "type": 1,
+        "sort": 0,
+        "id": 6
+      }
+    ]
   }
 }

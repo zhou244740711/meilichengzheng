@@ -42,11 +42,11 @@ export default {
       codetext: '获取验证码',
       codetime: 60,
       formdata: {
-        // "name": "string",
-        // "identityCard": "string",
-        // "phone": "string",
-        // "textCode": "string",
-        // "invitationCode": "string"
+        "name": "周志成",
+        "identityCard": "331003199404240519",
+        "phone": "13957405454",
+        "textCode": "960110",
+        "invitationCode": ""
       }
     }
   },
@@ -57,7 +57,7 @@ export default {
       if (this.codetime > 0) {
         return
       }
-      if(this.formdata.phone !== ''){
+      if(this.isnull(this.formdata.phone)){
         this.Toast("请输入手机号");
         return false;
       }
@@ -82,19 +82,19 @@ export default {
     },
     // 提交
     handlesubmit() {
-      if(this.formdata.name !== ''){
+      if(this.formdata.name === ''){
         this.Toast("请输入姓名");
         return false;
       }
-      if(this.formdata.identityCard !== ''){
+      if(this.isnull(this.formdata.identityCard)){
         this.Toast("请输入身份证号");
         return false;
       }
-      if(this.formdata.phone !== ''){
+      if(this.isnull(this.formdata.phone)){
         this.Toast("请输入手机号");
         return false;
       }
-      if(this.formdata.textCode !== ''){
+      if(this.isnull(this.formdata.textCode)){
         this.Toast("请输入验证码");
         return false;
       }
@@ -108,7 +108,8 @@ export default {
       }
       this.$http.post('/api/Account/Regiester', this.formdata).then((res) => {
         if (res) {
-          console.log(res);
+          this.Toast("注册成功");
+          this.$router.push({name: 'login'})
         }
       })
     },
