@@ -20,7 +20,7 @@
       <div class="login_row row row-center">
         <span class="title">验证码</span>
         <input type="text" class="col input" placeholder="请输入验证码" v-model="formdata.textCode">
-        <div class="yzbtn" @click="gettextcode()">获取验证码</div>
+        <div class="yzbtn" @click="gettextcode()">{{ codetext }}</div>
       </div>
       <div class="login_row row row-center">
         <span class="title">邀请码选填</span>
@@ -67,17 +67,18 @@ export default {
       }
       let timeout;
       this.$http.post(`/api/Account/SendRegisterCode?Phone=${this.formdata.phone}`).then((res) => {
-        console.log(res)
-        this.codetime = 60
-        timeout = setInterval(() => {
-          this.codetext = this.codetime + 's'
-          this.codetime--
-          if (this.codetime == 0) {
-            this.codetext = '获取验证码'
-            this.codetime = 60
-            clearInterval(timeout)
-          }
-        }, 1000)
+        if (res) {
+          this.codetime = 60
+          timeout = setInterval(() => {
+            this.codetext = this.codetime + 's'
+            this.codetime--
+            if (this.codetime === 0) {
+              this.codetext = '获取验证码'
+              this.codetime = 60
+              clearInterval(timeout)
+            }
+          }, 1000)
+        }
       })
     },
     // 提交

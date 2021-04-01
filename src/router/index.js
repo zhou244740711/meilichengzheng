@@ -109,11 +109,6 @@ const routes = [
     component: () => import('../views/xueyuan/Coupon')
   },
   {
-    path: '/imgupload',
-    name: 'imgupload',
-    component: () => import('../components/imgupload')
-  },
-  {
     path: '/test',
     name: 'test',
     component: () => import('../views/componentstest')

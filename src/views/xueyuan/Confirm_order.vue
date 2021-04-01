@@ -87,9 +87,13 @@ export default {
   components: {Invoice},
   data() {
     return {
+      type: 1,
+      id: "",
     }
   },
   created: function () {
+    this.type = this.$route.params.type
+    this.id = this.$route.params.id
   },
   methods: {
     choseCoupon () {

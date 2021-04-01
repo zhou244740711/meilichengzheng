@@ -46,8 +46,8 @@
             <div class="col">
               <span class="tag">{{ item.categoryName }}</span>
             </div>
-            <div class="z-button z-button-blue__kx" @click="join()">加入购物车</div>
-            <div class="z-button" @click="buy()">立即购买</div>
+            <div class="z-button z-button-blue__kx" v-show="item.type !== 2" @click="join(item)">加入购物车</div>
+            <div class="z-button" @click="buy(item)">立即购买</div>
           </div>
         </div>
       </div>
@@ -147,11 +147,15 @@ export default {
         }
       })
     },
-    join () {
-      this.Toast('加入购物车')
+    join (item) {
+      this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then((res) => {
+        if (res) {
+          this.Toast('加入购物车')
+        }
+      })
     },
-    buy () {
-      this.$router.push({name: 'ConfirmOrder'})
+    buy (item) {
+      this.$router.push({name: 'ConfirmOrder', params: {id: item.id, type: item.type}})
     }
   }
 }

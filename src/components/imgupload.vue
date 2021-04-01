@@ -3,10 +3,10 @@
     <div class="z-upload" v-for="(item,index) in list" :key="index">
       <div class="box">
         <div class="z-upload-del" @click="del(item,index)"></div>
-        <div class="z-upload-img" :style="`background-image: url(${item})`"></div>
+        <div class="z-upload-img" :style="`background-image: url(${imgurl(item)})`"></div>
       </div>
     </div>
-    <div class="z-upload" ref="upload">
+    <div class="z-upload" ref="upload" v-show="list.length < maxlength">
       <div class="box">
         <label class="z-upload-img z-upload-addbox">
           <input hidden="hidden" v-on:change="change" id="fileImage" multiple="true" type="file" accept="image/*" class="file_btn01" name="fileselect[]"/>
@@ -17,11 +17,17 @@
 </template>
 
 <script>
+import { MessageBox } from 'mint-ui';
 export default{
-  name: 'textscroll',
+  name: 'ImgUpload',
+  props: {
+    imglist: [String,Array],
+    maxLength: Number
+  },
   data () {
     return {
       list: [],
+      maxlength: this.maxLength || '9',
       screenWidth: document.body.clientWidth,
       timer: false
     }
@@ -37,6 +43,17 @@ export default{
     })
   },
   watch: {
+    imglist (newdata) {
+      if (typeof newdata === "string"){
+        if (newdata.indexOf(',') !== -1) {
+          this.list = newdata.split(',')
+        } else {
+          this.list = [newdata]
+        }
+      } else if (typeof newdata === Array){
+        this.list = newdata
+      }
+    },
     screenWidth: {
       // eslint-disable-next-line no-unused-vars
       handler(newVal, oldVal) {
@@ -65,25 +82,31 @@ export default{
       }
     },
     change (e) {
-      var _this = this;
       var file = e.target.files;
-      if (Math.ceil(file[0].size / 1024 / 1024) > _this.limitSize) {
-        alert('文件太大');
-        return false;
+      if (file.length > this.maxlength) {
+        this.Toast('最大上传数' + this.maxlength)
+        return
       }
-      var reader = new FileReader();
-      reader.readAsDataURL(file[0]);
-      reader.onload = function (f) {
-        _this.upload(f.target.result);
-      };
-    },
-    upload: function(data){
-      var _this = this;
-      console.log(data)
-      _this.list.push(data);
-      this.$nextTick(() => {
-        this.contentWidthChange()
+      var formFile = new FormData();
+      formFile.append("action", "UploadVMKImagePath");
+      for (var i=0;i<file.length;i++) {
+        formFile.append("files", file[i]); //加入文件对象
+      }
+      this.$http.post('/api/Files/UploadImage', formFile).then((res) => {
+        this.list = res.map((item) => {
+          return item.filePath
+        })
+        this.$nextTick(() => {
+          this.contentWidthChange()
+        })
       })
+    },
+    del (item, index) {
+      MessageBox.confirm('是否确认删除?').then(action => {
+        if (action) {
+          this.list.splice(index, 1)
+        }
+      });
     }
   }
 }
@@ -106,6 +129,17 @@ export default{
     .box{
       border: solid 1px #333333;
       height: 100%;
+      position: relative;
+    }
+    .z-upload-del{
+      width: 30px;
+      height: 30px;
+      display: block;
+      background: url("/images/imgdel.png") no-repeat center center;
+      background-size: 80% auto;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
     .z-upload-img{
       width: 100%;

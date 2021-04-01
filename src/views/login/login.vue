@@ -54,7 +54,19 @@ export default {
       }
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
         sessionStorage.token = res
-        this.$router.push({name: 'Stady'})
+        this.getmsg()
+        // this.$router.push({name: 'Stady'})
+      })
+    },
+    getmsg () {
+      this.$http.get('/api/Account/GetCurrentAccount').then((res) => {
+        console.log(res)
+        if (this.isnull(res.birth) && this.isnull(res.sex)){
+          this.Toast('请完善信息')
+          this.$router.push({name: 'information'})
+        } else {
+          this.$router.push({name: 'Stady'})
+        }
       })
     }
   }

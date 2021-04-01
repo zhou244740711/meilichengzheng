@@ -2,37 +2,19 @@
   "code": 200,
   "success": true,
   "msg": "",
-  "data": {
-    "page": 1,
-    "pageCount": 1,
-    "dataCount": 2,
-    "pageSize": 15,
-    "isNext": false,
-    "data": [
-      {
-        "categoryName": "建筑工程管理",
-        "categoryId": 10,
-        "name": "建筑工程课程1",
-        "number": "20210002",
-        "period": 0.40,
-        "price": 1.10,
-        "status": 2,
-        "type": 2,
-        "sort": 0,
-        "id": 7
-      },
-      {
-        "categoryName": "行业公需科目",
-        "categoryId": 7,
-        "name": "行业供需科目课程1",
-        "number": "20210001",
-        "period": 1.00,
-        "price": 1.00,
-        "status": 2,
-        "type": 1,
-        "sort": 0,
-        "id": 6
-      }
-    ]
-  }
+  "data": [
+    {
+      "createTime": "2021-04-01 12:51:53",
+      "createUserId": -9999,
+      "createUserName": "超级管理员",
+      "description": null,
+      "extension": ".png",
+      "fileName": "contactus.png",
+      "filePath": "/images/2021/04/01/202104011251536155.png",
+      "fileSize": 347172,
+      "fileType": "image/png",
+      "sortCode": 0,
+      "id": 105
+    }
+  ]
 }
