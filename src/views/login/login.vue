@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       formdata: {
-        "identityCard": "331003199404240519",
+        "identityCard": "",
         "password": ""
       }
     }
@@ -52,15 +52,16 @@ export default {
         this.Toast('请输入密码')
         return
       }
+      localStorage.token = undefined
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
-        sessionStorage.token = res
-        this.getmsg()
-        // this.$router.push({name: 'Stady'})
+        if (res !== 500) {
+          localStorage.token = res
+          this.getmsg()
+        }
       })
     },
     getmsg () {
       this.$http.get('/api/Account/GetCurrentAccount').then((res) => {
-        console.log(res)
         if (this.isnull(res.birth) && this.isnull(res.sex)){
           this.Toast('请完善信息')
           this.$router.push({name: 'information'})

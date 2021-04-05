@@ -2,6 +2,7 @@
 import { Toast } from 'mint-ui';
 import axios from "axios";
 // import qs from 'qs'
+import router from '../router/index'
 
 let baseURL = "http://42.192.77.195:7020"
 
@@ -19,9 +20,11 @@ const http = axios.create({
 http.interceptors.request.use(
     config => {
         config.headers.sn = new Date().getTime();
-        config.headers["token"] = sessionStorage.token
-        // config.data.token = sessionStorage.token
-        // const token = sessionStorage.token
+        if (localStorage.token) {
+            config.headers["token"] = localStorage.token
+        }
+        // config.data.token = localStorage.token
+        // const token = localStorage.token
         // if(config.method==='post'){
         //     config.data=qs.stringify({
         //         token: token,
@@ -48,16 +51,17 @@ http.interceptors.response.use(
         if (response.data.code === 401) {
             Toast(response.data.msg);
             console.log('去登陆')
-            this.$router.push({name: 'login'})
-            return
+            router.replace({name: 'login'})
+            return 500
         }
         if (response.data.code && response.data.code !== 200) {
             if (response.data.code === 500) {
                 Toast('请求错误！');
-                return
+                return 500
             }
             let msg = response.data.msg;
             Toast(msg);
+            return 500
         }
         return response.data.data;
     },

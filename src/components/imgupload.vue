@@ -90,15 +90,24 @@ export default{
       var formFile = new FormData();
       formFile.append("action", "UploadVMKImagePath");
       for (var i=0;i<file.length;i++) {
+        if (file[i].size > 10*1024*1024) {
+          this.Toast('上传图片不能超过10M')
+          return;
+        }
         formFile.append("files", file[i]); //加入文件对象
       }
       this.$http.post('/api/Files/UploadImage', formFile).then((res) => {
-        this.list = res.map((item) => {
-          return item.filePath
-        })
-        this.$nextTick(() => {
-          this.contentWidthChange()
-        })
+        console.log(res)
+        if (res !== 500) {
+          this.list = res.map((item) => {
+            return item.filePath
+          })
+          this.$nextTick(() => {
+            this.contentWidthChange()
+          })
+        }
+      }).catch(() => {
+        this.Toast('图片上传错误')
       })
     },
     del (item, index) {

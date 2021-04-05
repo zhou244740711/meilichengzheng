@@ -20,7 +20,7 @@
       <div class="login_row row row-center">
         <span class="title">验证码</span>
         <input type="text" class="col input" placeholder="请输入验证码" v-model="formdata.textCode">
-        <div class="yzbtn" @click="gettextcode()">{{ codetext }}</div>
+        <div class="yzbtn" @click="gettextcode()" :class="{'disable':codetime < 60}">{{ codetext }}</div>
       </div>
       <div class="login_row row row-center">
         <span class="title">邀请码选填</span>
@@ -42,10 +42,10 @@ export default {
       codetext: '获取验证码',
       codetime: 60,
       formdata: {
-        "name": "周志成",
-        "identityCard": "331003199404240519",
-        "phone": "13957405454",
-        "textCode": "960110",
+        "name": "",
+        "identityCard": "",
+        "phone": "",
+        "textCode": "",
         "invitationCode": ""
       }
     }
@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     gettextcode () {
-      if (this.codetime > 0) {
+      if (this.codetime > 0 && this.codetime !== 60) {
         return
       }
       if(this.isnull(this.formdata.phone)){
@@ -66,9 +66,10 @@ export default {
         return false;
       }
       let timeout;
-      this.$http.post(`/api/Account/SendRegisterCode?Phone=${this.formdata.phone}`).then((res) => {
-        if (res) {
-          this.codetime = 60
+      this.$http.get(`/api/Account/SendRegisterCode?Phone=${this.formdata.phone}`).then((res) => {
+        if (res !== 500) {
+          this.Toast('已发送验证码')
+          this.codetime = 59
           timeout = setInterval(() => {
             this.codetext = this.codetime + 's'
             this.codetime--

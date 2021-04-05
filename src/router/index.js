@@ -89,13 +89,13 @@ const routes = [
       {
         path: '/Shopcar',
         name: 'Shopcar',
-        component: () => import('../views/xueyuan/index')
+        component: () => import('../views/xueyuan/ShopCar')
       },
       {
         path: '/Myself',
         name: 'Myself',
-        component: () => import('../views/xueyuan/index')
-      },
+        component: () => import('../views/xueyuan/Myself')
+      }
     ]
   },
   {

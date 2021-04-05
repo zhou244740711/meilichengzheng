@@ -5,8 +5,7 @@
     </div>
     <textscroll :list="newslist" @click="tonews()"></textscroll>
     <div class="index_navlink row row-center row-stretch">
-      <div class="col navimg"><img src="images/nav1.png" alt=""></div>
-      <div class="col navimg"><img src="images/nav2.png" alt=""></div>
+      <div class="col navimg" v-for="item in CategoryList" :key="item.id" @click="navclick(item)"><img :src="imgurl(item.coverImg)" alt=""></div>
     </div>
     <main class="index_main">
       <div class="index_title row row-center">
@@ -49,9 +48,11 @@ export default {
       classlist: [],
       zhengcelist: [],
       newslist: [],
+      CategoryList: []
     }
   },
   created: function () {
+    this.GetCategoryList()
     this.getclasslist()
     this.getzhengcelist()
     this.getzhengcelist2()
@@ -59,6 +60,22 @@ export default {
   methods: {
     tonews () {
       this.$router.push({name: 'newslist'})
+    },
+    navclick (item) {
+      location.href = item.url
+    },
+    GetCategoryList () {
+      this.$http.post('/api/Website/GetCategoryList',{
+        "parentId": 0,
+        "pageSize": 2,
+        "pageIndex": 1,
+        "orderby": "",
+        "key": ""
+      }).then((res) => {
+        if (res !== 500) {
+          this.CategoryList = res.data
+        }
+      })
     },
     // 获取课程列表
     getclasslist() {

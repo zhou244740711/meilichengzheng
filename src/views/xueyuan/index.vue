@@ -66,6 +66,12 @@ export default {
   data() {
     return {
       selected: '',
+      formdata: {
+        select1: '',
+        select2: '',
+        select3: '',
+        select4: '',
+      },
       classlist: [],
       selectoption: [],
       selectoption2: [],
@@ -89,9 +95,13 @@ export default {
     GetCategoryTreeAll () {
       this.$http.get('/api/Course/GetCategoryTreeAll').then((res) => {
         this.classlist = res
+        if (res.length > 0) {
+          this.categoryId = res[0].id
+        }
         this.selectoption = []
         this.selectoption2 = []
         this.selectoption3 = []
+        // this.getstudylist(1)
       })
     },
     getlist2 (data) {
@@ -148,14 +158,12 @@ export default {
       })
     },
     join (item) {
-      this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then((res) => {
-        if (res) {
-          this.Toast('加入购物车')
-        }
+      this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then(() => {
+        // this.Toast('已加入购物车')
       })
     },
     buy (item) {
-      this.$router.push({name: 'ConfirmOrder', params: {id: item.id, type: item.type}})
+      this.$router.push({name: 'ConfirmOrder', params: {list: [item], buytype: 1}})
     }
   }
 }

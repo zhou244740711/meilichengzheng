@@ -2,19 +2,14 @@
   "code": 200,
   "success": true,
   "msg": "",
-  "data": [
-    {
-      "createTime": "2021-04-01 12:51:53",
-      "createUserId": -9999,
-      "createUserName": "超级管理员",
-      "description": null,
-      "extension": ".png",
-      "fileName": "contactus.png",
-      "filePath": "/images/2021/04/01/202104011251536155.png",
-      "fileSize": 347172,
-      "fileType": "image/png",
-      "sortCode": 0,
-      "id": 105
-    }
-  ]
+  "data": {
+    "msName": "专业技术人员",
+    "title": "建筑装饰",
+    "msId": 13,
+    "sort": 2,
+    "coverImgs": "/images/2021/04/05/202104051141375931.png",
+    "video": "/videos/2021/04/05/202104051141429761.mp4",
+    "createDate": "2021-04-05 11:41:45",
+    "id": 4
+  }
 }

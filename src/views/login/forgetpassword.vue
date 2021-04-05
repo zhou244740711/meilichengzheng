@@ -11,7 +11,7 @@
       <div class="login_row row row-center">
         <span class="title">验证码</span>
         <input type="text" class="col input" v-model="fromdata.textCode" placeholder="请输入验证码">
-        <div class="yzbtn" @click="gettextcode()">{{ codetext }}</div>
+        <div class="yzbtn" @click="gettextcode()" :class="{'disable':codetime < 60}">{{ codetext }}</div>
       </div>
       <div class="login_row row row-center">
         <span class="title">新密码</span>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     gettextcode () {
-      if (this.codetime > 0) {
+      if (this.codetime > 0 && this.codetime !== 60) {
         return
       }
       if(this.isnull(this.formdata.phone)){
@@ -59,8 +59,9 @@ export default {
         return false;
       }
       let timeout;
-      this.$http.post(`/api/Account/SendForgetPwdCode?Phone=${this.formdata.phone}`).then((res) => {
-        if (res) {
+      this.$http.get(`/api/Account/SendForgetPwdCode?Phone=${this.formdata.phone}`).then((res) => {
+        if (res !== 500) {
+          this.Toast('已发送验证码')
           this.codetime = 60
           timeout = setInterval(() => {
             this.codetext = this.codetime + 's'

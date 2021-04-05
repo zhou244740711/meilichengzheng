@@ -6,30 +6,30 @@
         <div class="invoice_list">
           <div class="item row row-center">
             <span class="title">发票类型：</span>
-            <z-select class="col noborder" v-model="invoicedata.type" :options="typelist"></z-select>
+            <div class="col text">电子</div>
           </div>
           <div class="item">
             <mt-radio
                 class="list_radio"
-                v-model="invoicedata.stype"
+                v-model="invoicedata.invoiceType"
                 :options="slist">
             </mt-radio>
           </div>
           <div class="item row row-center">
             <span class="title">发票抬头*：</span>
-            <input type="text" class="col input">
+            <input type="text" class="col input" v-model="invoicedata.invoiceHeader" placeholder="请填写发票抬头">
           </div>
-          <div class="item row row-center">
+          <div class="item row row-center" v-show="invoicedata.invoiceType === '企业'">
             <span class="title">纳税人识别号：</span>
-            <input type="text" class="col input">
+            <input type="text" class="col input" v-model="invoicedata.invoiceTaxpayer" placeholder="请填写纳税人识别号">
           </div>
           <div class="item row row-center">
             <span class="title">发票内容：</span>
-            <input type="text" class="col input">
+            <input type="text" class="col input" v-model="invoicedata.invoiceContent" placeholder="请填写发票内容">
           </div>
         </div>
 
-        <div class="z-button">保存</div>
+        <div class="z-button" @click="save()">保存</div>
 
       </div>
     </div>
@@ -40,21 +40,26 @@
 <script>
 // @ is an alias to /src
 
-import ZSelect from "../../components/ZSelect";
 export default {
   name: 'invoice',
-  components: {ZSelect},
+  components: {},
   data() {
     return {
       show: false,
       invoicedata: {
-        type: '电子'
+        invoiceType: '个人',
+        invoiceHeader: '',
+        invoiceTaxpayer: '',
+        invoiceContent: ''
       },
-      slist: ['个人', '企业'],
-      typelist: [
+      slist: [
         {
-          label: '电子',
-          value: '电子'
+          label: '个人',
+          value: '1'
+        },
+        {
+          label: '企业',
+          value: '2'
         }
       ]
     }
@@ -64,6 +69,24 @@ export default {
   methods: {
     showModal () {
       this.show = true
+    },
+    save () {
+      if (this.isnull(this.invoicedata.invoiceHeader)) {
+        this.Toast('请填写发票抬头')
+        return
+      }
+      if (this.invoicedata.invoiceType === '企业') {
+        if (this.isnull(this.invoicedata.invoiceTaxpayer)) {
+          this.Toast('请填写纳税人识别号')
+          return
+        }
+      }
+      if (this.isnull(this.invoicedata.invoiceContent)) {
+        this.Toast('请填写发票内容')
+        return
+      }
+      this.$emit('save', this.invoicedata)
+      this.show = false
     }
   }
 }

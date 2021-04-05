@@ -181,11 +181,11 @@ export default {
       sexlist: [
         {
           label: '男',
-          value: 1
+          value: '1'
         },
         {
           label: '女',
-          value: 2
+          value: '2'
         }
       ]
     }
@@ -259,7 +259,7 @@ export default {
       }
       let paoto = this.$refs.imgupload.list
       if (paoto.length <= 0) {
-        this.Toast("请上传头像");
+        this.Toast("请上传图片");
         return false;
       }
       this.infodata.photo = paoto.join(',')
