@@ -1,7 +1,7 @@
 <template>
   <div class="xueyuanindex">
     <div class="xueyuanindex_header">
-      <img src="images/Mask@2x.png" alt="">
+      <img src="images/Mask2@2x.png" alt="">
     </div>
     <div class="xueyuan_header2">
       <div class="xueyuan_header2_select">
@@ -9,17 +9,17 @@
 <!--          <option value="">2021年度课程</option>-->
 <!--          <option value="">2021年度课程2232244244</option>-->
 <!--        </select>-->
-        <z-select :options="classlist" valuekey="id" @change="getlist2"></z-select>
+        <z-select :options="classlist" valuekey="id" v-model="formdata.select1" @change="getlist2"></z-select>
       </div>
       <div class="row row-center xueyuan_header2_navbox">
         <div class="col navselect">
-          <z-select :options="selectoption" @change="getlist3(...arguments, 1)"></z-select>
+          <z-select :options="selectoption" valuekey="id" v-model="formdata.select2" @change="getlist3(...arguments, 1)"></z-select>
         </div>
         <div class="col navselect">
-          <z-select :options="selectoption2" @change="getlist3(...arguments, 2)"></z-select>
+          <z-select :options="selectoption2" valuekey="id" v-model="formdata.select3" @change="getlist3(...arguments, 2)"></z-select>
         </div>
         <div class="col navselect">
-          <z-select :options="selectoption3" @change="getlist4"></z-select>
+          <z-select :options="selectoption3" valuekey="id" v-model="formdata.select4" @change="getlist4"></z-select>
         </div>
       </div>
     </div>
@@ -34,11 +34,11 @@
          infinite-scroll-distance="10">
       <div class="stydy_card" v-for="item in studylist" :key="item.id">
         <div class="card_header">
-          <span class="tip" v-show="item.type === 2">课程包</span>
+          <span class="tip" v-show="item.type == 2">课程包</span>
           <span class="number">编号：{{ item.number }}</span>
         </div>
         <div class="card_main">
-          <p class="title">{{ item.name }}</p>
+          <p class="title text-over">{{ item.name }}</p>
           <div class="row"><span class="col t1">共 <b>{{item.period}}</b> 课时</span> <span class="t2">¥{{item.price}}</span></div>
         </div>
         <div class="card_footer">
@@ -85,23 +85,66 @@ export default {
     }
   },
   created: function () {
-    this.GetCategoryTreeAll()
+    if (sessionStorage.indexdata) {
+      this.readformdata()
+    } else {
+      this.GetCategoryTreeAll()
+    }
   },
   methods: {
     loadMore() {
       this.loading = true;
       this.getstudylist(2)
     },
+    saveformdata () {
+      const data = {
+        selected: this.selected,
+        formdata: this.formdata,
+        classlist: this.classlist,
+        selectoption: this.selectoption,
+        selectoption2: this.selectoption2,
+        selectoption3: this.selectoption3,
+        loading: this.loading,
+        pageSize: this.pageSize,
+        page: this.page,
+        pageCount: this.pageCount,
+        categoryId: this.categoryId,
+        studylist: this.studylist,
+      }
+      sessionStorage.indexdata = JSON.stringify(data)
+    },
+    readformdata () {
+      const data = JSON.parse(sessionStorage.indexdata)
+      this.selected = data.selected
+      this.formdata = data.formdata
+      this.classlist = data.classlist
+      this.selectoption = data.selectoption
+      this.selectoption2 = data.selectoption2
+      this.selectoption3 = data.selectoption3
+      this.loading = data.loading
+      this.pageSize = data.pageSize
+      this.page = data.page
+      this.pageCount = data.pageCount
+      this.categoryId = data.categoryId
+      this.getstudylist(1)
+    },
     GetCategoryTreeAll () {
       this.$http.get('/api/Course/GetCategoryTreeAll').then((res) => {
         this.classlist = res
         if (res.length > 0) {
           this.categoryId = res[0].id
+          this.$set(this.formdata,'select1', res[0].id)
+          this.getlist2(res[0])
         }
-        this.selectoption = []
-        this.selectoption2 = []
-        this.selectoption3 = []
-        // this.getstudylist(1)
+        // if (localStorage.formdata) {
+        //   const formdata = JSON.parse(localStorage.formdata)
+        //   console.log(formdata)
+        //   this.$set(this.formdata,'select1', formdata.select1)
+        //   this.$set(this.formdata,'select2', formdata.select2)
+        //   this.$set(this.formdata,'select3', formdata.select3)
+        //   this.$set(this.formdata,'select4', formdata.select4)
+        // }
+        this.saveformdata()
       })
     },
     getlist2 (data) {
@@ -110,24 +153,38 @@ export default {
         this.selectoption = data.list
         this.selectoption2 = []
         this.selectoption3 = []
+        this.studylist = []
+        this.$set(this.formdata,'select2', '')
+        this.$set(this.formdata,'select3', '')
+        this.$set(this.formdata,'select4', '')
       }
-      this.getstudylist(1)
+      this.saveformdata()
     },
     getlist3 (data, t) {
       this.categoryId = data.id
+      if (t === 2) {
+        this.getstudylist(1)
+      }
       this.$http.get(`/api/Course/GetCategory?ParentId=${data.id}`).then((res) => {
-        if (t === 1) {
-          this.selectoption2 = res
-          this.selectoption3 = []
-        } else {
-          this.selectoption3 = res
+        if (res !== 500) {
+          if (t === 1) {
+            this.selectoption2 = res
+            this.selectoption3 = []
+            this.$set(this.formdata,'select3', '')
+            this.$set(this.formdata,'select4', '')
+            this.studylist = []
+          } else {
+            this.selectoption3 = res
+            this.$set(this.formdata,'select4', '')
+          }
         }
+        this.saveformdata()
       })
-      this.getstudylist(1)
     },
     getlist4 (data) {
       this.categoryId = data.id
       this.getstudylist(1)
+      this.saveformdata()
     },
     getstudylist (ftype) {
       if (ftype === 1) {
@@ -148,22 +205,40 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.studylist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
         } else {
           this.Toast(res.msg)
         }
+        this.saveformdata()
       })
     },
     join (item) {
-      this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then(() => {
-        // this.Toast('已加入购物车')
+      this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then((res) => {
+        if (res !== 500) {
+          this.Toast('加入购物车成功')
+        }
       })
     },
+    is_weixn () {
+      var ua = window.navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      }
+      return false;
+    },
     buy (item) {
-      this.$router.push({name: 'ConfirmOrder', params: {list: [item], buytype: 1}})
+      sessionStorage.buylist = JSON.stringify([item])
+      if (this.is_weixn()) {
+        const url = process.env.VUE_APP_BASE + '/ConfirmOrder?buytype=1'
+        this.$http.get(`/api/WxAuth/GetAuthorizeUrl?redirectUrl=${url}`).then((res) => {
+          location.href = res
+        })
+      } else {
+        this.$router.push({name: 'ConfirmOrder', query: {buytype: 1}})
+      }
     }
   }
 }

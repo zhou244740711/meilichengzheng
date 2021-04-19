@@ -3,7 +3,7 @@
     <i class="iconfont icon-tongzhi"></i>
     <div class="tongzhi_view z-col">
       <div class="tongzhi_list" ref="list" :style="`width: ${w}px; animation-duration:${s}s`">
-        <div class="tongzhi_item" v-for="(item, index) in newslist" :key="index">{{item.title}}</div>
+        <div class="tongzhi_item" v-for="(item, index) in newslist" :key="index" @click="handleclick(item)">{{item.title}}</div>
       </div>
     </div>
   </div>
@@ -32,10 +32,13 @@ export default{
     this.widthchange()
   },
   methods: {
+    handleclick () {
+      this.$router.push({name: 'newslist'})
+    },
     widthchange () {
       this.w = 0
       this.$refs.list.children.forEach((item) => {
-        this.w += item.clientWidth + 21
+        this.w += item.clientWidth + 50
       })
       this.s = this.w / 50
     }

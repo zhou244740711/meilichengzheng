@@ -4,12 +4,10 @@ import axios from "axios";
 // import qs from 'qs'
 import router from '../router/index'
 
-let baseURL = "http://42.192.77.195:7020"
-
 // 定义请求头及过期时间
 const http = axios.create({
   // 公共接口--这里注意后面会讲
-  baseURL: baseURL, //process.env.BASE_API,
+  baseURL: process.env.VUE_APP_BASE_API, //process.env.BASE_API,
   // 超时时间 单位是ms，这里设置了3s的超时时间
   timeout: 3 * 1000
 });
@@ -49,8 +47,10 @@ http.interceptors.request.use(
 http.interceptors.response.use(
     response => {
         if (response.data.code === 401) {
-            Toast(response.data.msg);
-            console.log('去登陆')
+            Toast('当前账号已在其他地方登陆');
+            sessionStorage.clear()
+            localStorage.removeItem('tokensavetime')
+            localStorage.removeItem('token')
             router.replace({name: 'login'})
             return 500
         }
@@ -73,7 +73,7 @@ http.interceptors.response.use(
  * 请求地址处理
  */
 http.adornUrl = actionName => {
-  return baseURL + actionName;
+  return process.env.VUE_APP_BASE_API + actionName;
 };
 
 export default http

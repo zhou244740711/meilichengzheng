@@ -57,12 +57,14 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
-          this.newslist = res.data
+        if (res !== 500) {
+          if (ftype === 1) {
+            this.newslist = res.data
+          } else {
+            this.newslist = [...this.newslist, ...res.data]
+          }
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       })
     }

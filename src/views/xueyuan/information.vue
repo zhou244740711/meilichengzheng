@@ -22,13 +22,13 @@
     <div class="item row row-center">
       <span class="title">身份证号</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入身份证号" v-model="infodata.identityCard">
+        <input class="input" type="text" placeholder="请输入身份证号" v-model="infodata.identityCard" disabled>
       </div>
     </div>
     <div class="item row row-center">
       <span class="title">手机号</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入手机号" v-model="infodata.phone">
+        <input class="input" type="text" placeholder="请输入手机号" v-model="infodata.phone" disabled>
       </div>
     </div>
     <div class="item row row-center">
@@ -170,7 +170,7 @@
 
 <script>
 // @ is an alias to /src
-
+import moment from 'moment'
 import ImgUpload from "../../components/imgupload";
 export default {
   name: 'Help',
@@ -197,6 +197,8 @@ export default {
     getmsg () {
       this.$http.get('/api/Account/GetCurrentAccount').then((res) => {
         this.infodata = res
+        this.infodata.sex = this.infodata.sex.toString()
+        this.infodata.birth = moment(this.infodata.birth).format('YYYY-MM-DD')
       })
     },
     // 提交

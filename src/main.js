@@ -18,6 +18,14 @@ Vue.config.productionTip = false
 Vue.use(Mint);
 Vue.use(moment)
 
+const nowtime = new Date().getTime();
+if (localStorage.tokensavetime && (parseInt(nowtime) - parseInt(localStorage.tokensavetime))/86400000 > 30){
+  // this.Toast('token时间已过期，请重新登陆')
+  // localStorage.clear()
+  localStorage.removeItem('tokensavetime')
+  localStorage.removeItem('token')
+}
+
 new Vue({
   router,
   render: h => h(App)

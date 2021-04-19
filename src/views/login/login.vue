@@ -37,6 +37,15 @@ export default {
     }
   },
   created: function () {
+    if (localStorage.token) {
+      this.$router.push({name: 'Stady'})
+    }
+    if (localStorage.admin) {
+      this.$set(this.formdata,'identityCard',localStorage.admin)
+    }
+    if (localStorage.password) {
+      this.$set(this.formdata,'password',localStorage.password)
+    }
   },
   methods: {
     login () {
@@ -56,6 +65,10 @@ export default {
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
         if (res !== 500) {
           localStorage.token = res
+          localStorage.tokensavetime = new Date().getTime()
+          localStorage.admin = this.formdata.identityCard
+          localStorage.password = this.formdata.password
+          sessionStorage.clear()
           this.getmsg()
         }
       })

@@ -50,16 +50,16 @@ export default {
       if (this.codetime > 0 && this.codetime !== 60) {
         return
       }
-      if(this.isnull(this.formdata.phone)){
+      if(this.isnull(this.fromdata.phone)){
         this.Toast("请输入手机号");
         return false;
       }
-      if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.formdata.phone))){
+      if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.fromdata.phone))){
         this.Toast("请输入正确的手机号");
         return false;
       }
       let timeout;
-      this.$http.get(`/api/Account/SendForgetPwdCode?Phone=${this.formdata.phone}`).then((res) => {
+      this.$http.get(`/api/Account/SendForgetPwdCode?Phone=${this.fromdata.phone}`).then((res) => {
         if (res !== 500) {
           this.Toast('已发送验证码')
           this.codetime = 60
@@ -77,25 +77,28 @@ export default {
     },
     // 提交
     handlesubmit() {
-      if(this.isnull(this.formdata.phone)){
+      if(this.isnull(this.fromdata.phone)){
         this.Toast("请输入手机号码");
         return false;
       }
-      if(this.isnull(this.formdata.textCode)){
+      if(this.isnull(this.fromdata.textCode)){
         this.Toast("请输入验证码");
         return false;
       }
-      if(this.isnull(this.formdata.password)){
+      if(this.isnull(this.fromdata.password)){
         this.Toast("请输入新密码");
         return false;
       }
-      if (this.formdata.password !== this.formdata.password2){
+      if (this.fromdata.password !== this.fromdata.password2){
         this.Toast("两次密码不一致");
         return false;
       }
-      this.$http.post('/api/Account/ForgetPwd', this.formdata).then((res) => {
-        if (res) {
-          console.log(res);
+      this.$http.post('/api/Account/ForgetPwd', this.fromdata).then((res) => {
+        if (res !== 500) {
+          this.Toast('密码修改成功')
+          localStorage.removeItem('tokensavetime')
+          localStorage.removeItem('token')
+          this.$router.push({name: 'login'})
         }
       })
     },

@@ -52,9 +52,9 @@ export default {
         // this.videlurl = this.imgurl(res.video)
         this.playerOptions.sources = [{
           type: 'video/mp4',
-          src: 'http://42.192.77.195:7010' + res.video
+          src: process.env.VUE_APP_IMG_API + res.video
         }]
-        this.playerOptions.poster = 'http://42.192.77.195:7010' + res.coverImgs
+        this.playerOptions.poster = process.env.VUE_APP_IMG_API + res.coverImgs
       })
     }
   }

@@ -3,7 +3,7 @@
     <div class="banner">
       <img src="images/banner.png" alt="">
     </div>
-    <textscroll :list="newslist" @click="tonews()"></textscroll>
+    <textscroll :list="newslist" @isclick="tonews()"></textscroll>
     <div class="index_navlink row row-center row-stretch">
       <div class="col navimg" v-for="item in CategoryList" :key="item.id" @click="navclick(item)"><img :src="imgurl(item.coverImg)" alt=""></div>
     </div>
@@ -58,11 +58,12 @@ export default {
     this.getzhengcelist2()
   },
   methods: {
-    tonews () {
-      this.$router.push({name: 'newslist'})
-    },
     navclick (item) {
-      location.href = item.url
+      if (item.url.indexOf('http') > -1 ) {
+        location.href = item.url
+      } else {
+        location.href = process.env.VUE_APP_BASE + item.url
+      }
     },
     GetCategoryList () {
       this.$http.post('/api/Website/GetCategoryList',{

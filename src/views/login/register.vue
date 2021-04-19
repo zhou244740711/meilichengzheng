@@ -111,6 +111,8 @@ export default {
       this.$http.post('/api/Account/Regiester', this.formdata).then((res) => {
         if (res) {
           this.Toast("注册成功");
+          localStorage.removeItem('tokensavetime')
+          localStorage.removeItem('token')
           this.$router.push({name: 'login'})
         }
       })

@@ -19,7 +19,7 @@
             <span class="title">发票抬头*：</span>
             <input type="text" class="col input" v-model="invoicedata.invoiceHeader" placeholder="请填写发票抬头">
           </div>
-          <div class="item row row-center" v-show="invoicedata.invoiceType === '企业'">
+          <div class="item row row-center" v-show="invoicedata.invoiceType == 2">
             <span class="title">纳税人识别号：</span>
             <input type="text" class="col input" v-model="invoicedata.invoiceTaxpayer" placeholder="请填写纳税人识别号">
           </div>
@@ -47,10 +47,10 @@ export default {
     return {
       show: false,
       invoicedata: {
-        invoiceType: '个人',
+        invoiceType: '1',
         invoiceHeader: '',
         invoiceTaxpayer: '',
-        invoiceContent: ''
+        invoiceContent: '培训费'
       },
       slist: [
         {
@@ -67,15 +67,19 @@ export default {
   created: function () {
   },
   methods: {
-    showModal () {
+    showModal (invoicedata) {
       this.show = true
+      if (localStorage.invoicedata) {
+        this.invoicedata = JSON.parse(localStorage.invoicedata)
+      }
+      this.invoicedata = Object.assign(this.invoicedata, invoicedata)
     },
     save () {
       if (this.isnull(this.invoicedata.invoiceHeader)) {
         this.Toast('请填写发票抬头')
         return
       }
-      if (this.invoicedata.invoiceType === '企业') {
+      if (this.invoicedata.invoiceType === '2') {
         if (this.isnull(this.invoicedata.invoiceTaxpayer)) {
           this.Toast('请填写纳税人识别号')
           return
@@ -85,6 +89,7 @@ export default {
         this.Toast('请填写发票内容')
         return
       }
+      localStorage.invoicedata = JSON.stringify(this.invoicedata)
       this.$emit('save', this.invoicedata)
       this.show = false
     }

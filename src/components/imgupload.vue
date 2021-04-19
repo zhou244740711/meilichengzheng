@@ -53,6 +53,9 @@ export default{
       } else if (typeof newdata === Array){
         this.list = newdata
       }
+      this.$nextTick(() => {
+        this.contentWidthChange()
+      })
     },
     screenWidth: {
       // eslint-disable-next-line no-unused-vars

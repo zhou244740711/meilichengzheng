@@ -2,7 +2,11 @@ import Vue from 'vue'
 import moment from 'moment'
 
 Vue.prototype.imgurl = function (url) {
-    return 'http://42.192.77.195:7010' + url
+    if (url !== undefined && url !== null && url !== '') {
+        return process.env.VUE_APP_IMG_API + url
+    } else {
+        return ''
+    }
 }
 Vue.prototype.isnull = function (t) {
     if (t === '' || t === undefined || t === null) {

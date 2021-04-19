@@ -23,7 +23,7 @@
     <div class="confirm_list">
       <div class="item row row-center">
         <span class="title">优惠劵</span>
-        <div class="col text" @click="choseCoupon()">9折</div>
+        <div class="col text" @click="choseCoupon()">{{ isnull(Coupon.discount)?'请选择优惠劵':Coupon.discount+'折' }}</div>
         <i class="iconfont icon-jiantou-you"></i>
       </div>
       <div class="item row row-center">
@@ -37,52 +37,123 @@
     <div style="height: 46px;"></div>
     <div class="confirm_footer row row-center">
       <div class="col text">
-        <p class="t1">实付金额：<span class="t3">¥{{heji}}</span></p>
-        <p class="t2">优惠金额：¥0</p>
+        <p class="t1">实付金额：<span class="t3">¥{{orderPayMoney}}</span></p>
+        <p class="t2">优惠金额：¥ {{orderDiscountMoney}}</p>
       </div>
       <div class="button" @click="handlepost()">确认支付</div>
     </div>
 
+    <div class="zhezhao" v-show="zhezhao"></div>
+
     <invoice ref="invoice" @save="getinvoice"></invoice>
 
+    <chose-coupon ref="couponlist" @chose="getcoupon"></chose-coupon>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
 import Invoice from "./invoice";
+import ChoseCoupon from "./ChoseCoupon";
 export default {
   name: 'ConfirmOrder',
-  components: {Invoice},
+  components: {ChoseCoupon, Invoice},
   data() {
     return {
       list: [],
+      code: '',
       buytype: 0, // 1 直接购买 2 购物车购买,
-      invoicedata: {}
+      invoicedata: {},
+      Coupon: {},
+      zhezhao: false,
+      orderPayMoney: 0,
+      orderTotalMoney: 0,
+      orderDiscountMoney: 0,
     }
   },
   computed: {
     // eslint-disable-next-line vue/return-in-computed-property
-    heji () {
-      let sum = 0
-      if (this.list !== undefined && this.list.length > 0){
-        this.list.forEach(e => {
-          sum = sum + parseFloat(e.price)
-        })
-      }
-      return sum
-    }
   },
   created: function () {
-    this.buytype = this.$route.params.buytype
-    this.list = this.$route.params.list
-    console.log(this.buytype)
-    console.log(this.list)
+    this.buytype = this.$route.query.buytype
+    if (sessionStorage.buylist) {
+      this.list = JSON.parse(sessionStorage.buylist)
+    }
+    if (localStorage.invoicedata) {
+      this.invoicedata = JSON.parse(localStorage.invoicedata)
+    }
+    this.SaveOpenId()
+    this.jisuan()
   },
   methods: {
+    jisuan () {
+      let discountsId = 0
+      if (this.Coupon.id !== '' ){
+        discountsId = this.Coupon.id
+      }
+      if (this.buytype == 1) {
+        const option = {
+          "courseId": this.list[0].id,
+          "discountsId": discountsId,
+        }
+        console.log(option)
+        this.$http.post(`/api/Order/BuyMoney`, option).then((res) => {
+          console.log(res)
+          if (res !== 500) {
+            this.orderPayMoney = res.orderPayMoney
+            this.orderTotalMoney = res.orderTotalMoney
+            this.orderDiscountMoney = res.orderDiscountMoney
+          }
+        })
+      } else if (this.buytype == 2){
+        let shopCarIds = []
+        this.list.forEach(e => {
+          shopCarIds.push(e.id)
+        })
+        const option = {
+          "shopCarIds": shopCarIds,
+          "discountsId": discountsId,
+        }
+        console.log(option)
+        this.$http.post(`/api/Order/ShopCarBuyMoney`,option).then((res) => {
+          console.log(res)
+          if (res !== 500) {
+            this.orderPayMoney = res.orderPayMoney
+            this.orderTotalMoney = res.orderTotalMoney
+            this.orderDiscountMoney = res.orderDiscountMoney
+          }
+        })
+      }
+    },
+    is_weixn() {
+      var ua = navigator.userAgent.toLowerCase();
+      if (ua.match(/MicroMessenger/i) == "micromessenger") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    SaveOpenId () {
+      if (this.is_weixn()) {
+        this.code = this.$route.query.code
+        this.$http.get(`/api/WxAuth/SaveOpenId?code=${this.code}`).then((res) => {
+          console.log(res)
+        })
+      }
+    },
     choseCoupon () {
-      this.$router.push({name: 'Coupon'})
+      this.popupVisible = true
+      let shopCarIds = []
+      if (this.list.length > 0) {
+        this.list.forEach(e => {
+          shopCarIds.push(e.id)
+        })
+      }
+      this.$refs.couponlist.showmodal(shopCarIds)
+    },
+    getcoupon (d) {
+      this.Coupon = d
+      this.jisuan()
     },
     showinvoice () {
       this.$refs.invoice.showModal()
@@ -95,30 +166,79 @@ export default {
         this.Toast('请填写发票信息')
         return false
       }
-      if (this.buytype === 1) {
+      this.zhezhao = true
+      let discountsId = 0
+      if (this.Coupon.id !== '' ){
+        discountsId = this.Coupon.id
+      }
+      if (this.buytype == 1) {
         const option = Object.assign({
           "courseId": this.list[0].id,
-          "discountsId": 0,
+          "discountsId": discountsId,
+          code: this.code
         }, this.invoicedata)
-        this.$http.post(`/api/Order/Buy`,option).then(() => {
-          this.Toast("购买成功")
+        this.$http.post(`/api/Order/Buy`,option).then((res) => {
+          setTimeout(() => {
+            this.zhezhao = false
+          }, 1000)
+          if (res !== 500) {
+            if (res.isWxBrowser) {
+              console.log(res)
+              this.weixinpay(res)
+            } else {
+              location.href = res.mWebUrl;
+            }
+          }
         })
-      } else if (this.buytype === 2){
+      } else if (this.buytype == 2){
         let shopCarIds = []
         this.list.forEach(e => {
           shopCarIds.push(e.id)
         })
         const option = Object.assign({
           "shopCarIds": shopCarIds,
-          "discountsId": 0,
+          "discountsId": discountsId,
+          code: this.code
         }, this.invoicedata)
         this.$http.post(`/api/Order/ShopCarBuy`,option).then((res) => {
+          setTimeout(() => {
+            this.zhezhao = false
+          }, 1000)
           if (res !== 500) {
-            this.Toast('购买成功')
-            this.$router.push({name: 'xueyuanindex'})
+            if (res.isWxBrowser) {
+              this.weixinpay(res)
+            } else {
+              location.href = res.mWebUrl;
+            }
           }
         })
       }
+    },
+    weixinpay (result) {
+      console.log(result)
+      const _this = this
+      // eslint-disable-next-line no-undef
+      WeixinJSBridge.invoke(
+          "getBrandWCPayRequest",
+          {
+            appId: result.appId, //公众号名称，由商户传入
+            timeStamp: result.timeStamp, //时间戳
+            nonceStr: result.nonceStr, //随机串
+            package: result.package, //扩展包
+            signType: result.signType, //微信签名方式:MD5
+            paySign: result.paySign, //微信签名
+          },
+          function (res) {
+            console.log(res)
+            if (res.err_msg == "get_brand_wcpay_request:ok") {
+              // 跳转到订单已支付
+              _this.$router.push({name: 'MyOrder', query: {nav: 2}})
+            }
+            else {
+              _this.$router.push({name: 'MyOrder', query: {nav: 1}})
+            }
+          }
+      );
     }
   }
 }

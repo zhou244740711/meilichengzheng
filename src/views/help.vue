@@ -1,7 +1,7 @@
 <template>
   <main class="index_main detailsmain">
     <div class="title">{{ helpdata.name }}</div>
-    <div class="subtitle">{{ helpdata.updateDate }}</div>
+    <div class="subtitle">{{ helpdata.updateDate | dateformat }}</div>
     <div v-html="helpdata.textContent"></div>
   </main>
 </template>
