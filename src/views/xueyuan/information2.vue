@@ -267,7 +267,7 @@ export default {
       this.infodata.photo = paoto.join(',')
 
       this.$http.post('/api/Account/UpdateAccountInfo', this.infodata).then((res) => {
-        if (res) {
+        if (res !== 500) {
           this.Toast("修改成功");
           this.$router.push({name: 'Myself'})
         }

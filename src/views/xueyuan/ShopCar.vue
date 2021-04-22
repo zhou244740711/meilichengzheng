@@ -31,6 +31,7 @@
       </div>
     </div>
 
+    <div style="height: 50px;"></div>
     <div class="shopcar_footer row row-stretch row-center">
       <div class="col text">合计：<span class="hejiprice">￥{{ heji }}</span></div>
       <div class="btn" :class="{'buybtn': heji > 0}" @click="buypost()">确认购买</div>

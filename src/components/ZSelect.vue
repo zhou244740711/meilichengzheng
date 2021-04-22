@@ -6,7 +6,7 @@
     </div>
     <div class="z-select-dropdown z-popper" v-if="show">
       <div class="btnbox row row-center">
-        <span class="cancel" @click="show = false">取消</span>
+        <span class="cancel" @click="scrControl(1);show = false">取消</span>
         <div class="col"></div>
         <span class="ok" @click="select()">确认</span>
       </div>

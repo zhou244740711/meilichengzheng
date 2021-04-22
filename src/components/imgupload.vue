@@ -109,8 +109,8 @@ export default{
             this.contentWidthChange()
           })
         }
-      }).catch(() => {
-        this.Toast('图片上传错误')
+      }).catch((e) => {
+        this.Toast('图片上传错误，请重试' + e)
       })
     },
     del (item, index) {

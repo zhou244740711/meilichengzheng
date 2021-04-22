@@ -126,7 +126,9 @@ export default {
       this.page = data.page
       this.pageCount = data.pageCount
       this.categoryId = data.categoryId
-      this.getstudylist(1)
+      if (!this.isnull(this.formdata.select3) || !this.isnull(this.formdata.select4)) {
+        this.getstudylist(1)
+      }
     },
     GetCategoryTreeAll () {
       this.$http.get('/api/Course/GetCategoryTreeAll').then((res) => {
