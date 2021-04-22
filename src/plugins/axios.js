@@ -18,8 +18,8 @@ const http = axios.create({
 http.interceptors.request.use(
     config => {
         config.headers.sn = new Date().getTime();
-        if (localStorage.token) {
-            config.headers["token"] = localStorage.token
+        if (localStorage.getItem('token')) {
+            config.headers["token"] = localStorage.getItem('token')
         }
         // config.data.token = localStorage.token
         // const token = localStorage.token
@@ -48,7 +48,7 @@ http.interceptors.response.use(
     response => {
         if (response.data.code === 401) {
             Toast('当前账号已在其他地方登陆');
-            sessionStorage.clear()
+            localStorage.removeItem('indexdata')
             localStorage.removeItem('tokensavetime')
             localStorage.removeItem('token')
             router.replace({name: 'login'})

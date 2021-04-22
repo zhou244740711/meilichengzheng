@@ -76,11 +76,11 @@ export default {
   },
   created: function () {
     this.buytype = this.$route.query.buytype
-    if (sessionStorage.buylist) {
-      this.list = JSON.parse(sessionStorage.buylist)
+    if (sessionStorage.getItem('buylist')) {
+      this.list = JSON.parse(sessionStorage.getItem('buylist'))
     }
-    if (localStorage.invoicedata) {
-      this.invoicedata = JSON.parse(localStorage.invoicedata)
+    if (localStorage.getItem('invoicedata')) {
+      this.invoicedata = JSON.parse(localStorage.getItem('invoicedata'))
     }
     this.SaveOpenId()
     this.jisuan()

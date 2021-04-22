@@ -1,7 +1,7 @@
 <template>
   <div class="xueyuanindex clearfix">
 
-    <div class="noshopcar" v-if="shopcarlist.length <= 0" v-cloak>
+    <div class="noshopcar" v-if="shopcarlist.length <= 0 && !isreqursting" v-cloak>
       <img src="/images/kong@2x.png" alt="">
       <p>购物车暂无课程</p>
     </div>
@@ -54,7 +54,8 @@ export default {
       page: 1,
       pageCount: 1,
       shopcarlist: [],
-      zhezhao: false
+      zhezhao: false,
+      isreqursting: false
     }
   },
   created: function () {
@@ -97,6 +98,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/ShopCar`,{
         "pageSize": this.pageSize,
         "pageIndex": this.page,
@@ -104,13 +106,13 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.shopcarlist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
     select (item, index) {
@@ -128,7 +130,7 @@ export default {
             list.push(e)
           }
         })
-        sessionStorage.buylist = JSON.stringify(list)
+        sessionStorage.setItem('buylist', JSON.stringify(list))
         if (this.is_weixn()) {
           const url = process.env.VUE_APP_BASE + '/ConfirmOrder?buytype=2'
           this.$http.get(`/api/WxAuth/GetAuthorizeUrl?redirectUrl=${url}`).then((res) => {

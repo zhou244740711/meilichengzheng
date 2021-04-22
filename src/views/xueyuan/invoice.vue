@@ -69,8 +69,8 @@ export default {
   methods: {
     showModal (invoicedata) {
       this.show = true
-      if (localStorage.invoicedata) {
-        this.invoicedata = JSON.parse(localStorage.invoicedata)
+      if (localStorage.getItem('invoicedata')) {
+        this.invoicedata = JSON.parse(localStorage.getItem('invoicedata'))
       }
       this.invoicedata = Object.assign(this.invoicedata, invoicedata)
     },
@@ -89,7 +89,7 @@ export default {
         this.Toast('请填写发票内容')
         return
       }
-      localStorage.invoicedata = JSON.stringify(this.invoicedata)
+      localStorage.setItem('invoicedata', JSON.stringify(this.invoicedata))
       this.$emit('save', this.invoicedata)
       this.show = false
     }

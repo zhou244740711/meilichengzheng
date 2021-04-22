@@ -19,7 +19,7 @@ Vue.use(Mint);
 Vue.use(moment)
 
 const nowtime = new Date().getTime();
-if (localStorage.tokensavetime && (parseInt(nowtime) - parseInt(localStorage.tokensavetime))/86400000 > 30){
+if (localStorage.getItem('tokensavetime') && (parseInt(nowtime) - parseInt(localStorage.getItem('tokensavetime')))/86400000 > 30){
   // this.Toast('token时间已过期，请重新登陆')
   // localStorage.clear()
   localStorage.removeItem('tokensavetime')

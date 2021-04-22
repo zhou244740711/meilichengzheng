@@ -37,14 +37,14 @@ export default {
     }
   },
   created: function () {
-    if (localStorage.token) {
+    if (localStorage.getItem('token')) {
       this.$router.push({name: 'Stady'})
     }
-    if (localStorage.admin) {
-      this.$set(this.formdata,'identityCard',localStorage.admin)
+    if (localStorage.getItem('admin')) {
+      this.$set(this.formdata,'identityCard',localStorage.getItem('admin'))
     }
-    if (localStorage.password) {
-      this.$set(this.formdata,'password',localStorage.password)
+    if (localStorage.getItem('password')) {
+      this.$set(this.formdata,'password',localStorage.getItem('password'))
     }
   },
   methods: {
@@ -61,14 +61,14 @@ export default {
         this.Toast('请输入密码')
         return
       }
-      localStorage.token = undefined
+      localStorage.removeItem('token')
       this.$http.post('/api/Account/Login', this.formdata).then((res) => {
         if (res !== 500) {
-          localStorage.token = res
-          localStorage.tokensavetime = new Date().getTime()
-          localStorage.admin = this.formdata.identityCard
-          localStorage.password = this.formdata.password
-          sessionStorage.clear()
+          localStorage.setItem('token', res)
+          localStorage.setItem('tokensavetime', new Date().getTime())
+          localStorage.setItem('admin', this.formdata.identityCard)
+          localStorage.setItem('password', this.formdata.password)
+          localStorage.removeItem('indexdata')
           this.getmsg()
         }
       })

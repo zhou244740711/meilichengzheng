@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <div class="noclass" v-if="studylist.length <=0">
+    <div class="noclass" v-if="studylist.length <=0 && !isreqursting">
       <img src="images/wu1@2x.png" alt="">
       <p>请选择课程</p>
     </div>
@@ -82,10 +82,11 @@ export default {
       pageCount: 1,
       categoryId: 0,
       studylist: [],
+      isreqursting: false
     }
   },
   created: function () {
-    if (sessionStorage.indexdata) {
+    if (localStorage.getItem('indexdata')) {
       this.readformdata()
     } else {
       this.GetCategoryTreeAll()
@@ -111,10 +112,11 @@ export default {
         categoryId: this.categoryId,
         studylist: this.studylist,
       }
-      sessionStorage.indexdata = JSON.stringify(data)
+      localStorage.setItem('indexdata', JSON.stringify(data))
     },
     readformdata () {
-      const data = JSON.parse(sessionStorage.indexdata)
+      alert('读取缓存')
+      const data = JSON.parse(localStorage.getItem('indexdata'))
       this.selected = data.selected
       this.formdata = data.formdata
       this.classlist = data.classlist
@@ -138,14 +140,6 @@ export default {
           this.$set(this.formdata,'select1', res[0].id)
           this.getlist2(res[0])
         }
-        // if (localStorage.formdata) {
-        //   const formdata = JSON.parse(localStorage.formdata)
-        //   console.log(formdata)
-        //   this.$set(this.formdata,'select1', formdata.select1)
-        //   this.$set(this.formdata,'select2', formdata.select2)
-        //   this.$set(this.formdata,'select3', formdata.select3)
-        //   this.$set(this.formdata,'select4', formdata.select4)
-        // }
         this.saveformdata()
       })
     },
@@ -199,6 +193,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/Course/GetCourseList`,{
         "categoryId": this.categoryId,
         "pageSize": this.pageSize,
@@ -215,6 +210,8 @@ export default {
           this.Toast(res.msg)
         }
         this.saveformdata()
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
     join (item) {
@@ -232,7 +229,7 @@ export default {
       return false;
     },
     buy (item) {
-      sessionStorage.buylist = JSON.stringify([item])
+      sessionStorage.setItem('buylist', JSON.stringify([item]))
       if (this.is_weixn()) {
         const url = process.env.VUE_APP_BASE + '/ConfirmOrder?buytype=1'
         this.$http.get(`/api/WxAuth/GetAuthorizeUrl?redirectUrl=${url}`).then((res) => {
