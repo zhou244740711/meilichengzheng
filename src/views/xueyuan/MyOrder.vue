@@ -14,6 +14,10 @@
     </div>
     <div style="height: 40px;"></div>
 
+    <div class="noclass" v-if="Myorderlist.length <=0 && !isreqursting">
+      <img src="images/kecheng-kong@2x.png" alt="">
+      <p>请选择课程</p>
+    </div>
     <div class="MyOrder_main"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
@@ -29,7 +33,7 @@
             <div class="MyOrder_item" v-for="(li, lindex) in item.orderDetail" :key="lindex">
               <span class="tip" v-show="li.type == 2">课程包</span>
               <span class="number">编号：{{ li.number }}</span>
-              <p class="title text-over">{{ li.name }}</p>
+              <p class="title">{{ li.name }}</p>
               <div class="row"><span class="col t1">共 <b>{{li.period}}</b> 课时 <span class="tag">{{ li.categoryName }}</span></span></div>
             </div>
           </div>
@@ -59,7 +63,8 @@ export default {
       pageSize: 15,
       page: 1,
       pageCount: 1,
-      Myorderlist: []
+      Myorderlist: [],
+      isreqursting: false
     }
   },
   created: function () {
@@ -125,6 +130,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/OrderList`,{
         "orderStatus": this.nav,
         "orderby": "",
@@ -142,6 +148,8 @@ export default {
         } else {
           this.Toast(res.msg)
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
     is_weixn () {

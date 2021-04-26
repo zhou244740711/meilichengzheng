@@ -1,12 +1,19 @@
 <template>
   <div class="xueyuanindex clearfix">
 
+    <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting">
+      <img src="images/quan-kong@2x.png" alt="">
+      <p>暂无优惠券</p>
+    </div>
+
     <div class="Coupon"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="10">
       <div class="Coupon_list">
         <div class="item row" :class="{'select': item.id === choseid,'item_timeout': item.status !== 1}" v-for="(item, index) in Couponlist" :key="index">
+          <div class="shiyong" v-show="item.status == 2"><img src="images/yishiyong@2x.png" alt=""></div>
+          <div class="guoqi" v-show="item.status == 3"><img src="images/guoqi@2x.png" alt=""></div>
           <div class="img row">
             <p class="t1">{{ item.discount }}折</p>
             <p class="t2">优惠券</p>
@@ -57,7 +64,8 @@ export default {
       page: 1,
       pageCount: 1,
       Couponlist: [],
-      choseid: ''
+      choseid: '',
+      isreqursting: false
     }
   },
   created: function () {
@@ -85,6 +93,7 @@ export default {
         "orderby": "",
         "key": ""
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/CouponList`,option).then((res) => {
         if (res !== 500) {
           if (ftype === 1) {
@@ -95,6 +104,8 @@ export default {
           this.pageCount = res.pageCount
           this.page = res.page
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
   }

@@ -1,5 +1,11 @@
 <template>
   <div class="address" style="background: #f7f7f7">
+
+    <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting">
+      <img src="images/wei-kong@2x.png" alt="">
+      <p>暂无优惠券</p>
+    </div>
+
     <div class="address_list"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
@@ -33,7 +39,8 @@ export default {
   components: {},
   data() {
     return {
-      Addresslist: []
+      Addresslist: [],
+      isreqursting: false
     }
   },
   created: function () {
@@ -64,6 +71,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/AddressList`,{
         "pageSize": this.pageSize,
         "pageIndex": this.page,
@@ -80,6 +88,8 @@ export default {
         } else {
           this.Toast(res.msg)
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
     del (item) {

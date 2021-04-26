@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="noclass" v-if="studylist.length <=0 && !isreqursting">
-      <img src="images/wu1@2x.png" alt="">
+      <img src="images/kecheng-kong@2x.png" alt="">
       <p>请选择课程</p>
     </div>
     <div class="stady_list"
@@ -38,7 +38,7 @@
           <span class="number">编号：{{ item.number }}</span>
         </div>
         <div class="card_main">
-          <p class="title text-over">{{ item.name }}</p>
+          <p class="title">{{ item.name }}</p>
           <div class="row"><span class="col t1">共 <b>{{item.period}}</b> 课时</span> <span class="t2">¥{{item.price}}</span></div>
         </div>
         <div class="card_footer">
@@ -115,7 +115,6 @@ export default {
       localStorage.setItem('indexdata', JSON.stringify(data))
     },
     readformdata () {
-      alert('读取缓存')
       const data = JSON.parse(localStorage.getItem('indexdata'))
       this.selected = data.selected
       this.formdata = data.formdata
@@ -230,6 +229,7 @@ export default {
     },
     buy (item) {
       sessionStorage.setItem('buylist', JSON.stringify([item]))
+      // this.$router.push({name: 'ConfirmOrder2', query: {buytype: 1}})
       if (this.is_weixn()) {
         const url = process.env.VUE_APP_BASE + '/ConfirmOrder?buytype=1'
         this.$http.get(`/api/WxAuth/GetAuthorizeUrl?redirectUrl=${url}`).then((res) => {

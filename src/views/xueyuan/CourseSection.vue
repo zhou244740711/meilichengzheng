@@ -1,6 +1,10 @@
 <template>
   <div class="xueyuanindex clearfix">
 
+    <div class="noclass" v-if="CourseSectionList.length <=0 && !isreqursting">
+      <img src="images/kecheng-kong@2x.png" alt="">
+      <p>请选择课程</p>
+    </div>
     <div class="MyClass_main"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
@@ -45,7 +49,8 @@ export default {
       page: 1,
       pageCount: 1,
       CourseSectionList: [],
-      courseName: ''
+      courseName: '',
+      isreqursting: false
     }
   },
   created: function () {
@@ -71,6 +76,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/CourseSectionList`,{
         "courseId": this.$route.query.courseId,
         "pageSize": this.pageSize,
@@ -88,6 +94,8 @@ export default {
         } else {
           this.Toast(res.msg)
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
     start (item) {

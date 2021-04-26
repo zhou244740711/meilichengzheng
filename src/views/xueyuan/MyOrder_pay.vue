@@ -5,8 +5,8 @@
       <p class="t1">{{ orderstatus(order.orderStatus) }}</p>
       <p class="t2" v-if="order.orderStatus == 1">创建时间：{{ order.orderCreateTime }}</p>
       <p class="t2" v-if="order.orderStatus == 2">支付时间：{{ order.orderPayTime }}</p>
-      <p class="t2" v-if="order.orderStatus == 3">客服正在处理中</p>
-      <p class="t2" v-if="order.orderStatus == 4">退款时间：{{ order.orderRefundTime }}</p>
+      <p class="t2" v-if="order.orderStatus == 3">退款时间：{{ order.orderRefundTime }}</p>
+      <p class="t2" v-if="order.orderStatus == 4">客服正在处理中</p>
     </div>
     <div class="MyOrder_card">
       <div class="MyOrder_card_main">
@@ -14,7 +14,7 @@
           <div class="MyOrder_item" v-for="(item, index) in order.orderDetail" :key="index">
             <span class="tip" v-show="item.type == 2">课程包</span>
             <span class="number">编号：{{ item.number }}</span>
-            <p class="title text-over">{{ item.name }}</p>
+            <p class="title">{{ item.name }}</p>
             <div class="row">
               <span class="col t1">共 <b>{{ item.period }}</b> 课时</span>
               <span class="price">¥{{item.price}}</span>
@@ -42,10 +42,6 @@
       </div>
     </div>
 
-    <div class="zhezhao" v-show="zhezhao"></div>
-
-    <invoice ref="invoice" @save="getinvoice"></invoice>
-
     <div style="height: 60px;"></div>
     <div class="MyOrder_pay_footer">
       <template v-if="order.orderStatus == 1">
@@ -56,7 +52,16 @@
         <div class="btn_cancel" @click="look()">查看发票</div>
         <div class="btn_cancel" @click="tuikuan()" style="margin-left: 20px;">申请退款</div>
       </template>
+      <template v-if="order.orderStatus == 3 || order.orderStatus == 4 || order.orderStatus == 5">
+        <div class="btn_cancel" @click="look()">查看发票</div>
+        <div class="btn_cancel" @click="tuikuan()" style="margin-left: 20px;">退款详情</div>
+      </template>
     </div>
+
+    <div class="zhezhao" v-show="zhezhao"></div>
+
+    <invoice ref="invoice" @save="getinvoice"></invoice>
+    <lookpdf ref="lookpdf"></lookpdf>
   </div>
 </template>
 
@@ -64,10 +69,11 @@
 // @ is an alias to /src
 import Invoice from "./invoice";
 import { MessageBox } from 'mint-ui';
+import Lookpdf from "./lookpdf";
 
 export default {
   name: 'ShopCar',
-  components: {Invoice},
+  components: {Lookpdf, Invoice},
   data() {
     return {
       pid: '',
@@ -141,7 +147,7 @@ export default {
     },
     getinvoice (data) {
       this.order = Object.assign(this.order, data)
-      if (this.order.orderStatus == 2) {
+      // if (this.order.orderStatus == 2) {
         const option = Object.assign(data, {
           "id": this.pid
         })
@@ -150,7 +156,7 @@ export default {
             this.Toast('发票修改成功')
           }
         })
-      }
+      // }
     },
     cancel () {
       MessageBox.confirm('确认取消订单?').then(action => {
@@ -213,8 +219,17 @@ export default {
           }
       );
     },
-    look () {},
-    tuikuan () {},
+    look () {
+      this.$http.get(`/api/My/OrderInvoiceDetail?Id=${this.pid}`).then((res) => {
+        if (res !== 500) {
+          this.$refs.lookpdf.showpdf(res.invoiceImageList[0].filePath)
+        }
+      })
+    },
+    tuikuan () {
+      const id = this.$route.query.id
+      this.$router.push({name: 'MyOrderRefund', query: {id: id} })
+    },
   }
 }
 </script>

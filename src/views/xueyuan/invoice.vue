@@ -16,6 +16,10 @@
             </mt-radio>
           </div>
           <div class="item row row-center">
+            <span class="title">邮箱*：</span>
+            <input type="text" class="col input" v-model="invoicedata.email" placeholder="请填写邮箱">
+          </div>
+          <div class="item row row-center">
             <span class="title">发票抬头*：</span>
             <input type="text" class="col input" v-model="invoicedata.invoiceHeader" placeholder="请填写发票抬头">
           </div>
@@ -47,10 +51,11 @@ export default {
     return {
       show: false,
       invoicedata: {
+        email: '',
         invoiceType: '1',
-        invoiceHeader: '',
+        invoiceHeader: '个人',
         invoiceTaxpayer: '',
-        invoiceContent: '培训费'
+        invoiceContent: '*现代服务*培训费'
       },
       slist: [
         {
@@ -75,6 +80,14 @@ export default {
       this.invoicedata = Object.assign(this.invoicedata, invoicedata)
     },
     save () {
+      if (this.isnull(this.invoicedata.email)) {
+        this.Toast('请填写邮箱')
+        return
+      }
+      if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.invoicedata.email)) {
+        this.Toast('邮件格式不正确')
+        return
+      }
       if (this.isnull(this.invoicedata.invoiceHeader)) {
         this.Toast('请填写发票抬头')
         return

@@ -71,7 +71,7 @@ const routes = [
         name: 'ClassDetails',
         component: () => import('../views/ClassDetails'),
         meta: {
-          title: '课程详情'
+          title: '待定'
         }
       }
     ],
@@ -92,7 +92,7 @@ const routes = [
     name: 'address',
     component: () => import('../views/xueyuan/address'),
     meta: {
-      title: '美丽城镇'
+      title: '收件地址'
     }
   },
   {
@@ -100,7 +100,7 @@ const routes = [
     name: 'addressAdd',
     component: () => import('../views/xueyuan/address_edit'),
     meta: {
-      title: '美丽城镇'
+      title: '地址编辑'
     }
   },
   {
@@ -203,6 +203,22 @@ const routes = [
     }
   },
   {
+    path: '/Stadyend',
+    name: 'Stadyend',
+    component: () => import('../views/xueyuan/Stadyend'),
+    meta: {
+      title: '已完成学时'
+    }
+  },
+  {
+    path: '/kaoshi',
+    name: 'kaoshi',
+    component: () => import('../views/xueyuan/kaoshi'),
+    meta: {
+      title: '考试中'
+    }
+  },
+  {
     path: '/MyClass',
     name: 'MyClass',
     component: () => import('../views/xueyuan/MyClass'),
@@ -251,11 +267,35 @@ const routes = [
     }
   },
   {
+    path: '/MyOrderRefund',
+    name: 'MyOrderRefund',
+    component: () => import('../views/xueyuan/MyOrder_Refund'),
+    meta: {
+      title: '申请退款'
+    }
+  },
+  {
     path: '/ConfirmOrder',
     name: 'ConfirmOrder',
     component: () => import('../views/xueyuan/Confirm_order'),
     meta: {
       title: '确认订单'
+    }
+  },
+  {
+    path: '/ConfirmOrder2',
+    name: 'ConfirmOrder2',
+    component: () => import('../views/xueyuan/Confirm_order2'),
+    meta: {
+      title: '确认订单2'
+    }
+  },
+  {
+    path: '/paysuccess',
+    name: 'paysuccess',
+    component: () => import('../views/xueyuan/Confirm_order_success'),
+    meta: {
+      title: '支付成功'
     }
   },
   {

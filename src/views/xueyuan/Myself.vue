@@ -37,11 +37,11 @@
         <div class="title col">我的课程</div>
         <i class="iconfont icon-jiantou-you"></i>
       </router-link>
-      <div class="item row row-center">
+      <router-link :to="{ name: 'Stadyend'}" class="item row row-center">
         <div class="ico"><img src="/images/xueshi@2x.png" alt=""></div>
         <div class="title col">已完成学时</div>
         <i class="iconfont icon-jiantou-you"></i>
-      </div>
+      </router-link>
       <div class="item row row-center">
         <div class="ico"><img src="/images/moni@2x.png" alt=""></div>
         <div class="title col">模拟考试</div>
@@ -61,7 +61,7 @@
       </router-link>
       <router-link :to="{ name: 'address'}" class="item row row-center">
         <div class="ico"><img src="/images/dizhi@2x.png" alt=""></div>
-        <div class="title col">收货地址</div>
+        <div class="title col">收件地址</div>
         <i class="iconfont icon-jiantou-you"></i>
       </router-link>
       <router-link :to="{ name: 'Yaoqing', query: {code: info.invitationUserCode}}" class="item row row-center">
@@ -96,7 +96,7 @@ export default {
   methods: {
     touxiang (img) {
       if (this.isnull(img)) {
-        return '/images/touxiang.jpeg'
+        return '/images/touxiang.png'
       } else {
         return this.imgurl(img)
       }

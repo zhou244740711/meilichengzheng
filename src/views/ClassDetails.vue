@@ -1,5 +1,5 @@
 <template>
-  <main class="index_main detailsmain">
+  <main class="index_main detailsmain" v-show="!isreqursting">
     <video-player class="video-player vjs-custom-skin"
                   ref="videoPlayer"
                   :playsinline="true"
@@ -39,7 +39,8 @@ export default {
           remainingTimeDisplay: false, // 是否显示剩余时间功能
           fullscreenToggle: true // 是否显示全屏按钮
         }
-      }
+      },
+      isreqursting: false
     }
   },
   created: function () {
@@ -47,6 +48,7 @@ export default {
   },
   methods: {
     gethelp() {
+      this.isreqursting = true
       this.$http.get('/api/Website/DetailCourseShow?Id=' + this.$route.query.id).then((res) => {
         // this.helpdata = res
         // this.videlurl = this.imgurl(res.video)
@@ -55,6 +57,8 @@ export default {
           src: process.env.VUE_APP_IMG_API + res.video
         }]
         this.playerOptions.poster = process.env.VUE_APP_IMG_API + res.coverImgs
+      }).finally(() => {
+        this.isreqursting = false
       })
     }
   }

@@ -6,12 +6,20 @@
       popup-transition="popup-fade"
       style="width: 100%;height: 100%;">
     <div style="overflow:auto; height: 100%;">
+
+      <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting">
+        <img src="images/quan-kong@2x.png" alt="">
+        <p>暂无优惠券</p>
+      </div>
+
       <div class="Coupon"
            v-infinite-scroll="loadMore"
            infinite-scroll-disabled="loading"
            infinite-scroll-distance="10">
         <div class="Coupon_list">
           <div class="item row" :class="{'select': item.id === choseitem.id,'item_timeout': item.status !== 1}" v-for="(item, index) in Couponlist" :key="index" @click="handleselect(item,index)">
+            <div class="shiyong" v-show="item.status == 2"><img src="images/yishiyong@2x.png" alt=""></div>
+            <div class="guoqi" v-show="item.status == 3"><img src="images/guoqi@2x.png" alt=""></div>
             <div class="img row">
               <p class="t1">{{ item.discount }}折</p>
               <p class="t2">优惠券</p>
@@ -70,7 +78,8 @@ export default {
       pageCount: 1,
       Couponlist: [],
       shopCarIds: [],
-      choseitem: {}
+      choseitem: {},
+      isreqursting: false
     }
   },
   created: function () {
@@ -108,12 +117,15 @@ export default {
       const option = {
         "courseIds": this.shopCarIds
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/PayCouponList`,option).then((res) => {
         if (ftype === 1) {
           this.Couponlist = res
         } else {
           this.Couponlist = [...this.Couponlist, ...res]
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
     },
   }

@@ -1,6 +1,11 @@
 <template>
   <div class="xueyuanindex clearfix">
 
+    <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting">
+      <img src="images/kecheng-kong@2x.png" alt="">
+      <p>请选择课程</p>
+    </div>
+
     <div class="MyOrder_main"
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
@@ -29,9 +34,10 @@
           <mt-button type="primary" size="small" plain @click="lookclass(item)">查看课程</mt-button>
           <template v-if="item.status == 1 && item.period > item.finishPeriod">
             <mt-button size="small" disabled>开始考试</mt-button>
+            <mt-button size="small" type="primary" @click="kaoshi(item)">开始考试</mt-button>
           </template>
           <template v-if="item.status == 1 && item.period <= item.finishPeriod">
-            <mt-button size="small" type="primary">开始考试</mt-button>
+            <mt-button size="small" type="primary" @click="kaoshi(item)">开始考试</mt-button>
           </template>
           <template v-if="item.status == 2">
             <mt-button type="danger" size="small">补考</mt-button>
@@ -55,7 +61,8 @@ export default {
       pageSize: 15,
       page: 1,
       pageCount: 1,
-      MyClasslist: []
+      MyClasslist: [],
+      isreqursting: false
     }
   },
   created: function () {
@@ -85,6 +92,7 @@ export default {
           return
         }
       }
+      this.isreqursting = true
       this.$http.post(`/api/My/CourseList`,{
         "pageSize": this.pageSize,
         "pageIndex": this.page,
@@ -101,7 +109,12 @@ export default {
         } else {
           this.Toast(res.msg)
         }
+      }).finally(() => {
+        this.isreqursting = false
       })
+    },
+    kaoshi (item) {
+      this.$router.push({name: 'kaoshi', query: {courseId: item.courseId, type: 1}})
     },
     lookclass (item) {
       if (item.courseType == 1) {
