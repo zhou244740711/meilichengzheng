@@ -25,22 +25,33 @@
                 <p class="title">{{ item.courseName }}</p>
                 <p class="t1">已购 <b>{{ item.period }}</b> 学时/完成 <b>{{ item.finishPeriod }}</b> 学时</p>
               </div>
-              <div class="fenshu" :class="{'hong': item.score < 60}" v-show="item.status == 2">{{item.score}}分</div>
+              <div class="fenshu" :class="{'hong': item.score < 60}" v-show="item.status > 1">{{item.score}}分</div>
             </div>
           </div>
         </div>
         <div class="MyOrder_footer">
-          <span class="text">{{ item.period > item.finishPeriod ? "未开始学习": "已完成学习" }}</span>
+<!--          <span class="text">{{ item.period > item.finishPeriod ? "未开始学习": "已完成学习" }}</span>-->
           <mt-button type="primary" size="small" plain @click="lookclass(item)">查看课程</mt-button>
           <template v-if="item.status == 1 && item.period > item.finishPeriod">
             <mt-button size="small" disabled>开始考试</mt-button>
-            <mt-button size="small" type="primary" @click="kaoshi(item)">开始考试</mt-button>
           </template>
           <template v-if="item.status == 1 && item.period <= item.finishPeriod">
-            <mt-button size="small" type="primary" @click="kaoshi(item)">开始考试</mt-button>
+            <mt-button size="small" type="primary" @click="kaoshi(item, 1)">开始考试</mt-button>
           </template>
+          <!--已经考完(通过)-->
           <template v-if="item.status == 2">
-            <mt-button type="danger" size="small">补考</mt-button>
+            <mt-button type="danger" size="small" v-show="item.courseType == 2" @click="dizhi(item)">收件地址</mt-button>
+            <mt-button type="primary" size="small" @click="kaoshilog(item)">考试记录</mt-button>
+            <mt-button type="primary" size="small" @click="zhengshu(item)">证书</mt-button>
+          </template>
+          <!--拥有补考机会-->
+          <template v-if="item.status == 3">
+            <mt-button type="primary" size="small" @click="kaoshilog(item)">考试记录</mt-button>
+            <mt-button type="danger" size="small" @click="kaoshi(item, 2)">补考</mt-button>
+          </template>
+          <!--已经考完(不通过) -->
+          <template v-if="item.status == 4">
+            <mt-button type="primary" size="small" @click="kaoshilog(item)">考试记录</mt-button>
           </template>
         </div>
       </div>
@@ -58,7 +69,7 @@ export default {
   data() {
     return {
       loading: false,
-      pageSize: 15,
+      pageSize: 10,
       page: 1,
       pageCount: 1,
       MyClasslist: [],
@@ -113,8 +124,8 @@ export default {
         this.isreqursting = false
       })
     },
-    kaoshi (item) {
-      this.$router.push({name: 'kaoshi', query: {courseId: item.courseId, type: 1}})
+    kaoshi (item, bukao) {
+      this.$router.push({name: 'kaoshi', query: {courseId: item.courseId, type: bukao}})
     },
     lookclass (item) {
       if (item.courseType == 1) {
@@ -122,7 +133,16 @@ export default {
       } else {
         this.$router.push({name: 'MyClassList', query: {courseId: item.courseId, courseName: item.courseName}})
       }
-    }
+    },
+    kaoshilog (item) {
+      this.$router.push({name: 'kaoshilog', query: {courseId: item.courseId}})
+    },
+    dizhi (item) {
+      console.log(item)
+    },
+    zhengshu (item) {
+      this.$router.push({name: 'zhengshu', query: {courseId: item.courseId}})
+    },
   }
 }
 </script>

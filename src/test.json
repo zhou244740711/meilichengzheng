@@ -3,21 +3,144 @@
   "success": true,
   "msg": "",
   "data": {
-    "photo": "/images/2021/04/05/202104051235101250.png",
-    "name": "周志成",
-    "sex": 1,
-    "birth": "2021-04-16 00:00:00",
-    "identityCard": "331003199404240519",
-    "phone": "13957405454",
-    "creditCode": "3523",
-    "orgs": "测试13",
-    "politicsStatus": "中共预备党员",
-    "maxEducation": "博士研究生结业",
-    "professionalSeries": "城乡规划",
-    "positionLevel": "教授级高级工程师",
-    "position": null,
-    "duty": "测试",
-    "invitationUserCode": "yTaG9p",
-    "id": 7
+    "totalScore": 20,
+    "passScore": 0,
+    "score": 10,
+    "status": 2,
+    "log": [
+      {
+        "name": "<p>单选题77</p>",
+        "score": 5,
+        "type": 1,
+        "option": [
+          {
+            "lable": "A",
+            "content": "<p>a选项，单选题77</p>"
+          },
+          {
+            "lable": "B",
+            "content": "<p>b选项，单选题77（正确答案）<br /></p>"
+          },
+          {
+            "lable": "C",
+            "content": "<p>c选项，单选题77<br /></p>"
+          },
+          {
+            "lable": "D",
+            "content": "<p>d选项，单选题77<br /></p>"
+          }
+        ],
+        "answer": [
+          {
+            "answerOption": "B"
+          }
+        ],
+        "selectAnswer": [
+          {
+            "answerOption": "B"
+          }
+        ]
+      },
+      {
+        "name": "<p>单选题44<br /></p>",
+        "score": 5,
+        "type": 1,
+        "option": [
+          {
+            "lable": "A",
+            "content": "<p>a选项单选题44（正确答案）<br /></p>"
+          },
+          {
+            "lable": "B",
+            "content": "<p>b选项单选题44<br /></p>"
+          },
+          {
+            "lable": "C",
+            "content": "<p>ca选项单选题44</p>"
+          },
+          {
+            "lable": "D",
+            "content": "<p>d选项单选题44<br /></p>"
+          }
+        ],
+        "answer": [
+          {
+            "answerOption": "A"
+          }
+        ],
+        "selectAnswer": [
+          {
+            "answerOption": "A"
+          }
+        ]
+      },
+      {
+        "name": "<p>多选题22<br /></p>",
+        "score": 5,
+        "type": 2,
+        "option": [
+          {
+            "lable": "A",
+            "content": "<p>a选项多选题22（正确答案）<br /></p>"
+          },
+          {
+            "lable": "B",
+            "content": "<p>b选项多选题22（正确答案）<br /></p>"
+          },
+          {
+            "lable": "C",
+            "content": "<p>c选项多选题22（正确答案）<br /></p>"
+          },
+          {
+            "lable": "D",
+            "content": "<p>d选项多选题22<br /></p>"
+          }
+        ],
+        "answer": [
+          {
+            "answerOption": "A"
+          },
+          {
+            "answerOption": "B"
+          },
+          {
+            "answerOption": "C"
+          }
+        ],
+        "selectAnswer": [
+          {
+            "answerOption": "A"
+          },
+          {
+            "answerOption": "B"
+          }
+        ]
+      },
+      {
+        "name": "<p>判断题11（答案是正确）</p>",
+        "score": 5,
+        "type": 3,
+        "option": [
+          {
+            "lable": "正确",
+            "content": "正确"
+          },
+          {
+            "lable": "错误",
+            "content": "错误"
+          }
+        ],
+        "answer": [
+          {
+            "answerOption": "正确"
+          }
+        ],
+        "selectAnswer": [
+          {
+            "answerOption": "错误"
+          }
+        ]
+      }
+    ]
   }
 }

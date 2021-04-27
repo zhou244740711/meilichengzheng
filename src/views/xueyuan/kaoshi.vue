@@ -55,146 +55,23 @@ export default {
     RadioList},
   data() {
     return {
+      bukao: 1,
       courseId: '',
       type: '',
       loading: false,
       pageSize: 15,
       page: 1,
       pageCount: 1,
-      radioList: [
-        {
-          id: 1,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'A',
-              content: '答案答案',
-            },
-            {
-              lable: 'B',
-              content: '答案答案',
-            },
-            {
-              lable: 'C',
-              content: '答案答案',
-            },
-            {
-              lable: 'D',
-              content: '答案答案',
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'A',
-              content: '答案答案',
-            },
-            {
-              lable: 'B',
-              content: '答案答案',
-            },
-            {
-              lable: 'C',
-              content: '答案答案',
-            },
-            {
-              lable: 'D',
-              content: '答案答案',
-            }
-          ]
-        }
-      ],
-      multipleList: [
-        {
-          id: 1,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'A',
-              content: '答案答案',
-            },
-            {
-              lable: 'B',
-              content: '答案答案',
-            },
-            {
-              lable: 'C',
-              content: '答案答案',
-            },
-            {
-              lable: 'D',
-              content: '答案答案',
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'A',
-              content: '答案答案',
-            },
-            {
-              lable: 'B',
-              content: '答案答案',
-            },
-            {
-              lable: 'C',
-              content: '答案答案',
-            },
-            {
-              lable: 'D',
-              content: '答案答案',
-            }
-          ]
-        }
-      ],
-      estimateList: [
-        {
-          id: 1,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'true',
-              content: '正确',
-            },
-            {
-              lable: 'false',
-              content: '错误',
-            },
-          ]
-        },
-        {
-          id: 2,
-          name: '题目题目题目题目题目',
-          score: '3',
-          option: [
-            {
-              lable: 'true',
-              content: '正确',
-            },
-            {
-              lable: 'false',
-              content: '错误',
-            },
-          ]
-        }
-      ],
+      radioList: [],
+      multipleList: [],
+      estimateList: [],
       timeobj: '',
       now: moment(),
       endDate: '',
     }
   },
   created: function () {
+    this.bukao = this.$route.query.bukao
     this.courseId = this.$route.query.courseId
     this.type = this.$route.query.type
     this.endDate = moment().add(30, 'm')
@@ -298,13 +175,16 @@ export default {
               message = `<p>很遗憾您考试未及格</p><p>您的成绩是:${res.score}分</p>`
             }
           }
+          if (this.bukao === 2) {
+            message += `<p style="margin-top: 20px;">请联系平台负责人</p><p>电话：18403485236</p><p>微信：18403485236</p>`
+          }
           MessageBox({
             message: message,
             confirmButtonText: '考试记录',
             showCancelButton: true
           }).then(action => {
             if (action === 'confirm') {
-              this.$router.push({name: ''})
+              this.$router.push({name: 'kaoshilog', query: {courseId: this.courseId}})
             } else if(action === 'cancel') {
               this.$router.go(-1)
             }

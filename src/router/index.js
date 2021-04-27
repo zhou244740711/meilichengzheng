@@ -223,7 +223,15 @@ const routes = [
     name: 'kaoshilog',
     component: () => import('../views/xueyuan/kaoshi_log'),
     meta: {
-      title: '考试中'
+      title: '考试记录'
+    }
+  },
+  {
+    path: '/zhengshu',
+    name: 'zhengshu',
+    component: () => import('../views/xueyuan/zhnegshu'),
+    meta: {
+      title: '证书'
     }
   },
   {

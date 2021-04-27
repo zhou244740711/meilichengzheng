@@ -1,7 +1,7 @@
 <template>
   <div class="radiolist">
     <label class="radio row" v-for="(item, index) in options" :key="index">
-      <input class="input-checked" v-model="datavalue" type="checkbox" :value="item.lable">
+      <input class="input-checked" v-model="datavalue" type="checkbox" :value="item.lable" :disabled="disabled">
       <i class="checked"></i>
       <div class="col text row"><span>{{item.lable}}.</span> <div class="col" v-html="item.content"></div></div>
     </label>
@@ -15,6 +15,7 @@ export default{
   components: {
   },
   props: {
+    disabled: [String,Boolean],
     value: {
       type: Array,
       default: () => {

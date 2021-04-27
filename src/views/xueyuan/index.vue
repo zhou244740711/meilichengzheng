@@ -92,6 +92,17 @@ export default {
       this.GetCategoryTreeAll()
     }
   },
+  //页面加载完成后调用
+  activated() {
+    var _this = this;
+    _this.uuid = _this.$route.query.uuid;
+    var shareUrl = process.env.VUE_APP_BASE + '/login?uuid=' + _this.uuid;
+    this.$wxShare.updateWxShareConfig({
+      title: document.title,
+      desc: '打造新时代美丽城镇建设人才培养体系！',
+      link: shareUrl
+    });
+  },
   methods: {
     loadMore() {
       this.loading = true;
