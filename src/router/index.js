@@ -219,6 +219,14 @@ const routes = [
     }
   },
   {
+    path: '/kaoshilog',
+    name: 'kaoshilog',
+    component: () => import('../views/xueyuan/kaoshi_log'),
+    meta: {
+      title: '考试中'
+    }
+  },
+  {
     path: '/MyClass',
     name: 'MyClass',
     component: () => import('../views/xueyuan/MyClass'),
