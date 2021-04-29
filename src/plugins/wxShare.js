@@ -1,8 +1,9 @@
 /* eslint-disable */
 import Vue from 'vue';
 import wx from 'weixin-js-sdk';
+import httpRequest from "./axios";
 //存储服务器授权链接
-const jsSDKAuth = 'XXX/wx_jssign_package.json';
+const jsSDKAuth = '/api/WxAuth/Jssdk';
 //存储各个链接的签名信息
 const signMap = new Map();
 // 设置默认的分享信息，因为如分享图、请求授权项、隐藏授权项等基本不变，此处设置直接引用，避免使用时繁琐设置
@@ -10,7 +11,7 @@ const defaultWxShareConfig = {
     title: "美丽城镇",
     desc: '打造新时代美丽城镇建设人才培养体系！',
     link: location.href,
-    imgUrl: '/images/logofx.png',
+    imgUrl: process.env.VUE_APP_BASE + '/images/logofx.png',
     jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideMenuItems', 'closeWindow'],
     hideMenuList: ['menuItem:editTag', 'menuItem:delete', 'menuItem:originPage', 'menuItem:readMode','menuItem:openWithQQBrowser', 'menuItem:openWithSafari', 'menuItem:share:email', 'menuItem:share:brand']
 }
@@ -37,18 +38,17 @@ const wxShare = {
         } else {
             this._wxShareAuth(authUrl);
         }
-
     },
 
     //从服务器获取某分享链接的签名信息，并存储起来
     _wxShareAuth(authUrl) {
         //此处我使用的是自己封装的网络请求方法
-        const promise = Vue.$http.get(jsSDKAuth + "?url=" + encodeURIComponent(authUrl));
+        const promise = httpRequest.get(jsSDKAuth + "?url=" + encodeURIComponent(authUrl));
         promise.then(res => {
             //此处请根据各自的服务器返回数据文档进行操作
-            if (res.data.code == 200) {
+            if (res !== 500) {
                 //分享链接授权签名信息
-                const sign = res.data.data;
+                const sign = res;
                 signMap.set(authUrl, sign);
                 this._wxConfigJSSDK(sign);
             }

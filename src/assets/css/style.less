@@ -1504,6 +1504,24 @@
     background: #FFFFFF;
     margin-bottom: 15px;
 
+    .input-checked{
+      display: none;
+    }
+    .input-checked + .checked{
+      width: 13px;
+      height: 13px;
+      border: 1px solid #999999;
+      border-radius: 50%;
+      margin-top: 4px;
+      margin-right: 10px;
+    }
+    .input-checked:checked + .checked{
+      width: 13px;
+      height: 13px;
+      background: #10A14C;
+      border: 1px solid #10A14C;
+    }
+
     .name{
       font-size: 14px;
       color: #333333;
@@ -1834,5 +1852,59 @@
     color: #B4B2B2;
     text-align: center;
     line-height: 2;
+  }
+}
+
+.monilist{
+  padding: 5px;
+  .box{
+    float: left;
+    padding: 5px;
+    width: 50%;
+    .item{
+      height: 165px;
+      background: #EEEEEE url("/images/shijuan_b2@2x.png") no-repeat bottom center;
+      background-size: 100% auto;
+      position: relative;
+      padding: 20px 5px;
+      margin-bottom: 5px;
+      border-radius: 5px;
+
+      .title{
+        font-size: 16px;
+        color: #5D5D5D;
+        text-align: center;
+        font-weight: bold;
+      }
+      .textbox{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: #FFFFFF;
+        font-size: 11px;
+        padding: 5px;
+        line-height: 1.6;
+      }
+    }
+    .textbox2{
+      text-align: center;
+      color: #686868;
+      font-size: 11px;
+      .t1{
+        font-size: 13px;
+        color: #333333;
+      }
+    }
+  }
+  .active.box{
+    .item{
+      background-color: #EEFFF5;
+      background-image: url("/images/shijuan_b@2x.png");
+      .title{
+        color: #10A14C;
+      }
+    }
   }
 }

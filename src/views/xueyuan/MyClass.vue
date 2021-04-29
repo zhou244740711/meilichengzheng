@@ -3,7 +3,7 @@
 
     <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting">
       <img src="images/kecheng-kong@2x.png" alt="">
-      <p>请选择课程</p>
+      <p>暂无订单</p>
     </div>
 
     <div class="MyOrder_main"
@@ -30,7 +30,7 @@
           </div>
         </div>
         <div class="MyOrder_footer">
-<!--          <span class="text">{{ item.period > item.finishPeriod ? "未开始学习": "已完成学习" }}</span>-->
+          <!-- <span class="text">{{ item.period > item.finishPeriod ? "未开始学习": "已完成学习" }}</span>-->
           <mt-button type="primary" size="small" plain @click="lookclass(item)">查看课程</mt-button>
           <template v-if="item.status == 1 && item.period > item.finishPeriod">
             <mt-button size="small" disabled>开始考试</mt-button>
@@ -41,8 +41,9 @@
           <!--已经考完(通过)-->
           <template v-if="item.status == 2">
             <mt-button type="danger" size="small" v-show="item.courseType == 2" @click="dizhi(item)">收件地址</mt-button>
+            <!-- <mt-button type="danger" size="small" @click="dizhi(item)">收件地址</mt-button>-->
             <mt-button type="primary" size="small" @click="kaoshilog(item)">考试记录</mt-button>
-            <mt-button type="primary" size="small" @click="zhengshu(item)">证书</mt-button>
+            <mt-button type="primary" size="small" v-show="item.passStatus" @click="zhengshu(item)">证书</mt-button>
           </template>
           <!--拥有补考机会-->
           <template v-if="item.status == 3">
@@ -138,10 +139,21 @@ export default {
       this.$router.push({name: 'kaoshilog', query: {courseId: item.courseId}})
     },
     dizhi (item) {
-      console.log(item)
+      this.$http.post(`/api/My/AddressList`,{
+        "pageSize": 10,
+        "pageIndex": 1,
+      }).then((res) => {
+        if (res !== 500) {
+          if (res.data.length > 0) {
+            this.$router.push({name: 'choseaddress', query: {courseId: item.courseId}})
+          } else {
+            this.$router.push({name: 'addressAdd', query: {courseId: item.courseId}})
+          }
+        }
+      })
     },
     zhengshu (item) {
-      this.$router.push({name: 'zhengshu', query: {courseId: item.courseId}})
+      this.$router.push({name: 'zhengshu', query: {passId: item.passId}})
     },
   }
 }

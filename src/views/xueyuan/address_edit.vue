@@ -49,10 +49,14 @@ export default {
   data() {
     return {
       isadd: true,
+      courseId: '',
       infodata: {}
     }
   },
   created: function () {
+    if (this.$route.query.courseId) {
+      this.courseId = this.$route.query.courseId
+    }
     if (this.$route.query.id) {
       this.isadd = false
       this.getAddressDetail(this.$route.query.id)
@@ -90,6 +94,11 @@ export default {
           } else {
             this.Toast('地址修改成功')
           }
+        }
+      }).finally(() => {
+        if (this.courseId !== '') {
+          this.$router.push({name: 'choseaddress', query: {courseId: this.courseId}})
+        } else {
           this.$router.go(-1)
         }
       })

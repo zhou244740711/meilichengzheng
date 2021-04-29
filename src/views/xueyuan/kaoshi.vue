@@ -3,7 +3,7 @@
     <div class="kaoshi_tip"><img src="images/daojishi.png" alt="">考试倒计时 {{countDown(endDate)}}</div>
     <div style="height: 37px;"></div>
 
-    <div class="kaoshi_main">
+    <div class="kaoshi_main" v-show="isreqursting">
       <div class="kaoshi_title">单选题</div>
 
       <div class="kaoshi_list">
@@ -33,7 +33,6 @@
       </div>
 
       <div class="bottombtn" @click="handlepost()">提交</div>
-      <div class="bottombtn" @click="GetQuestionLog()">查看</div>
     </div>
 
   </div>
@@ -68,6 +67,7 @@ export default {
       timeobj: '',
       now: moment(),
       endDate: '',
+      isreqursting: false
     }
   },
   created: function () {
@@ -117,6 +117,8 @@ export default {
           this.multipleList = res.multipleList
           this.estimateList = res.estimateList
         }
+      }).finally(() => {
+        this.isreqursting = true
       })
     },
     handlepost (t) {

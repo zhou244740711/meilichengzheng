@@ -16,7 +16,7 @@
 
     <div class="noclass" v-if="Myorderlist.length <=0 && !isreqursting">
       <img src="images/kecheng-kong@2x.png" alt="">
-      <p>请选择课程</p>
+      <p>暂无订单</p>
     </div>
     <div class="MyOrder_main"
          v-infinite-scroll="loadMore"

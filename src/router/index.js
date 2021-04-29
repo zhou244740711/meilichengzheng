@@ -104,6 +104,14 @@ const routes = [
     }
   },
   {
+    path: '/choseaddress',
+    name: 'choseaddress',
+    component: () => import('../views/xueyuan/choseaddress'),
+    meta: {
+      title: '收件地址'
+    }
+  },
+  {
     path: '/register',
     name: 'register',
     component: () => import('../views/login/register'),
@@ -184,6 +192,14 @@ const routes = [
     ],
     meta: {
       title: '美丽城镇'
+    }
+  },
+  {
+    path: '/moni',
+    name: 'moni',
+    component: () => import('../views/xueyuan/moni'),
+    meta: {
+      title: '模拟考试'
     }
   },
   {

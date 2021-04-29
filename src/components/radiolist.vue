@@ -3,7 +3,7 @@
     <label class="radio row" v-for="(item, index) in options" :key="index">
       <input class="input-checked" v-model="datavalue" type="radio" :value="item.lable" :disabled="disabled">
       <i class="checked"></i>
-      <div class="col text row row-center"><span>{{item.lable}}.</span> <div class="col" v-html="item.content"></div></div>
+      <div class="col text row"><span>{{item.lable}}.</span> <div class="col" v-html="item.content"></div></div>
     </label>
   </div>
 </template>

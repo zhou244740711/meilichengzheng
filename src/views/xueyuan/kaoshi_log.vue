@@ -3,7 +3,7 @@
     <div class="kaoshi_tip" style="text-align: left">满分 {{ logdata.totalScore}} 分，我的得分{{logdata.score}}分 </div>
     <div style="height: 37px;"></div>
 
-    <div class="kaoshi_main">
+    <div class="kaoshi_main" v-show="isreqursting">
       <div class="kaoshi_title">单选题</div>
 
       <div class="kaoshi_list">
@@ -61,7 +61,8 @@ export default {
       radioList: [],
       multipleList: [],
       estimateList: [],
-      logdata: {}
+      logdata: {},
+      isreqursting: false
     }
   },
   created: function () {
@@ -123,6 +124,8 @@ export default {
             }
           })
         }
+      }).finally(() => {
+        this.isreqursting = true
       })
     },
   }

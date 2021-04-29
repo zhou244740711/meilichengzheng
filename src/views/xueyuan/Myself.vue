@@ -42,11 +42,11 @@
         <div class="title col">已完成学时</div>
         <i class="iconfont icon-jiantou-you"></i>
       </router-link>
-      <div class="item row row-center">
+      <router-link :to="{ name: 'moni' }" class="item row row-center">
         <div class="ico"><img src="/images/moni@2x.png" alt=""></div>
         <div class="title col">模拟考试</div>
         <i class="iconfont icon-jiantou-you"></i>
-      </div>
+      </router-link>
     </div>
     <div class="Myself_list">
       <router-link :to="{ name: 'information2'}" class="item row row-center">

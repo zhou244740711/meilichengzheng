@@ -37,9 +37,9 @@ export default {
     }
   },
   created: function () {
-    if (localStorage.getItem('token')) {
-      this.$router.push({name: 'Stady'})
-    }
+    // if (localStorage.getItem('token')) {
+    //   this.$router.push({name: 'Stady'})
+    // }
     if (localStorage.getItem('admin')) {
       this.$set(this.formdata,'identityCard',localStorage.getItem('admin'))
     }

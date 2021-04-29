@@ -10,22 +10,23 @@
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="10">
-
-      <div class="item row row-center" v-for="item in Addresslist" :key="item.id">
+      <label class="item row row-center" v-for="item in Addresslist" :key="item.id">
+        <input type="radio" class="input-checked" name="check" v-model="AddressId" :value="item.id">
+        <i class="checked"></i>
         <div class="col box">
           <div class="row row-center">
             <span class="name">{{ item.name }}</span>
             <span class="phone">{{ item.phone }}</span>
-            <div class="moren" v-show="item.isDefault">默认</div>
+            <div class="moren" v-show="morenid == item.id">默认</div>
           </div>
           <p class="place">{{item.provinces}}{{ item.address }}</p>
         </div>
         <img class="ico-edit" @click="handleEdit(item)" src="/images/bainji@2x.png" alt="">
         <img class="ico-del" @click.stop="del(item)" src="/images/shanchu@2x.png" alt="">
-      </div>
+      </label>
 
     </div>
-    <div class="login_btn" @click="handleAdd()">新增地址</div>
+    <div class="login_btn" @click="handlePost()">选择地址</div>
 
   </div>
 </template>
@@ -39,23 +40,26 @@ export default {
   components: {},
   data() {
     return {
+      courseId: '',
       Addresslist: [],
-      isreqursting: false
+      isreqursting: false,
+      morenid: '',
+      AddressId: ''
     }
   },
   created: function () {
+    if (this.$route.query.courseId) {
+      this.courseId = this.$route.query.courseId
+    }
     this.getOrder(1)
   },
   computed: {
 
   },
   methods: {
-    handleAdd () {
-      this.$router.push({name: 'addressAdd'})
-    },
-    handleEdit (item) {
-      this.$router.push({name: 'addressAdd', query: {id: item.id}})
-    },
+    // handleAdd () {
+    //   this.$router.push({name: 'addressAdd'})
+    // },
     loadMore() {
       this.loading = true;
       this.getOrder(2)
@@ -90,6 +94,15 @@ export default {
         }
       }).finally(() => {
         this.isreqursting = false
+        this.getchose()
+      })
+    },
+    getchose () {
+      this.$http.get(`/api/My/GetCourseAddress?CourseId=${this.courseId}`).then((res) => {
+        if (res !== 500) {
+          this.morenid = res
+          this.AddressId = res
+        }
       })
     },
     del (item) {
@@ -103,6 +116,17 @@ export default {
           })
         }
       });
+    },
+    handlePost () {
+      if (this.isnull(this.AddressId)) {
+        this.Toast('请选择地址')
+        return
+      }
+      this.$http.get(`/api/My/AddCourseAddress?AddressId=${this.AddressId}&CourseId=${this.courseId}`).then((res) => {
+        if (res !== 500) {
+          this.Toast('课程地址添加成功')
+        }
+      })
     },
   }
 }
