@@ -1,16 +1,16 @@
 <template>
   <div class="xueyuanindex clearfix">
 
-    <div class="noshopcar" v-if="shopcarlist.length <= 0 && !isreqursting" v-cloak>
+    <div class="noshopcar" v-if="shopcarlist.length <= 0 && !isreqursting">
       <img src="/images/kong@2x.png" alt="">
       <p>购物车暂无课程</p>
     </div>
 
     <div class="ShopCarlist"
-         v-else
-         v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="loading"
-         infinite-scroll-distance="10">
+       v-else
+       v-infinite-scroll="loadMore"
+       infinite-scroll-disabled="loading"
+       infinite-scroll-distance="10">
       <div class="stydy_card" :class="{'select': item.chose}" v-for="(item, index) in shopcarlist" :key="item.id" @click="select(item,index)" v-cloak>
         <div class="card_main row row-center">
           <i class="check"></i>

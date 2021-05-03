@@ -54,9 +54,7 @@ export default {
     RadioList},
   data() {
     return {
-      bukao: 1,
-      courseId: '',
-      type: '',
+      id: '',
       loading: false,
       pageSize: 15,
       page: 1,
@@ -71,9 +69,7 @@ export default {
     }
   },
   created: function () {
-    this.bukao = this.$route.query.bukao
-    this.courseId = this.$route.query.courseId
-    this.type = this.$route.query.type
+    this.id = this.$route.query.id
     this.endDate = moment().add(30, 'm')
     this.getClass()
     this.timeobj = setInterval(()=>{
@@ -111,7 +107,7 @@ export default {
       return (Array(n).join(0) + num).slice(-n);
     },
     getClass () {
-      this.$http.get(`/api/Question/GetCourseQuestionList?CourseId=${this.courseId}`).then((res) => {
+      this.$http.get(`/api/MockExam/GetCourseQuestionList?EId=${this.id}`).then((res) => {
         if (res !== 500) {
           this.radioList = res.radioList
           this.multipleList = res.multipleList
@@ -148,11 +144,10 @@ export default {
           })
 
           const option = {
-            courseId: this.courseId,
-            type: this.type,
+            eId: this.id,
             answer: answer
           }
-          this.$http.post(`/api/Question/SaveQuestion`, option).then((res) => {
+          this.$http.post(`/api/MockExam/SaveQuestion`, option).then((res) => {
             if (res !== 500) {
               this.GetQuestionLog(t)
             }
@@ -161,7 +156,7 @@ export default {
       });
     },
     GetQuestionLog (t) {
-      this.$http.get(`/api/Question/GetQuestionLog?CourseId=${this.courseId}`).then((res) => {
+      this.$http.get(`/api/MockExam/GetQuestionLog?EId=${this.id}`).then((res) => {
         if (res !== 500) {
           let message = ''
           if (t === 2) {
@@ -176,9 +171,6 @@ export default {
             } else {
               message = `<p>很遗憾您考试未及格</p><p>您的成绩是:${res.score}分</p>`
             }
-          }
-          if (this.bukao === 2) {
-            message += `<p style="margin-top: 20px;">请联系平台负责人</p><p>电话：18403485236</p><p>微信：18403485236</p>`
           }
           MessageBox({
             message: message,

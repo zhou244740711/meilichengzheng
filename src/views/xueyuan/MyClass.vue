@@ -1,9 +1,9 @@
 <template>
   <div class="xueyuanindex clearfix">
 
-    <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting">
+    <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/kecheng-kong@2x.png" alt="">
-      <p>暂无订单</p>
+      <p>暂无课程</p>
     </div>
 
     <div class="MyOrder_main"

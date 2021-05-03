@@ -112,8 +112,8 @@ export default {
         this.isreqursting = false
       })
     },
-    zhengming (item){
-      this.$router.push({name: 'addressAdd', query: {courseId: item.courseId}})
+    zhengming (){
+      this.$router.push({name: 'zhengming', query: {year: this.year}})
     }
   }
 }

@@ -47,11 +47,10 @@
 }
 
 .tongzhi{
-  height: 50px;
-  line-height: 50px;
   display: flex;
   width: 100%;
   padding: 0 10px;
+  margin-bottom: 15px;
   .iconfont{
     font-size: 16px;
     color: #f78977;
@@ -60,9 +59,8 @@
     flex: 1;
     display: block;
     width: calc(100vw - 80px);
-    overflow: hidden;
     .tongzhi_list{
-      animation: mymove 15s linear infinite;
+      //animation: mymove 15s linear infinite;
       //animation-duration: 15s;
       width: auto;
       clear: both;
@@ -77,7 +75,19 @@
         white-space: nowrap;
         margin-right: 20px;
         float: left;
-        font-size: 12px;
+        font-size: 14px;
+        height: 35px;
+        line-height: 35px;
+
+        &:before{
+          display: block;
+          content: '';
+          width: 7px;
+          height: 7px;
+          background: #1EAD5B;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -125,7 +135,7 @@
 }
 
 .index_navlink{
-  padding: 0 10px;
+  margin-bottom: 20px;
   .navimg{
     img{
       width: 100%;
@@ -139,13 +149,18 @@
   height: 20px;
   line-height: 20px;
   font-size: 14px;
-  border-left: solid 3px @color-base;
-  padding-left: 10px;
   margin: 10px auto;
   .title{
     font-size: 16px;
     color: @gery333;
     font-weight: bold;
+
+    .ico{
+      position: relative;
+      top: 2px;
+      width: 18px;
+      margin-right: 5px;
+    }
   }
   .more{
     font-size: 12px;
@@ -171,11 +186,11 @@
           line-height: 2;
         }
         .title{
-          font-size: 16px;
+          font-size: 14px;
           color: @gery333;
         }
         .subtitle{
-          font-size: 14px;
+          font-size: 12px;
           color: @gery999;
         }
       }
@@ -189,6 +204,38 @@
   }
 }
 
+.index_classlist{
+  .item{
+    .box{
+      .img{
+        width: 95px;
+        height: 95px;
+        margin-right: 10px;
+      }
+      .text{
+        flex-direction: column;
+        justify-content: space-between;
+
+        p{
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+          line-height: 2;
+        }
+        .title{
+          font-size: 14px;
+          color: @gery333;
+        }
+        .subtitle{
+          font-size: 12px;
+          color: @gery999;
+          line-height: 2;
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
 /* 政策法规 */
 .index_zhengcelist{
   .item{
@@ -198,12 +245,12 @@
     border-bottom: solid 1px #e4e4e4;
     padding: 10px 0;
     .title{
-      font-size: 16px;
+      font-size: 14px;
       color: @gery333;
       margin-bottom: 10px;
     }
     time{
-      font-size: 14px;
+      font-size: 12px;
       color: @gery999;
     }
   }
@@ -259,7 +306,7 @@
     margin-bottom: 10px;
   }
   .subtitle{
-    font-size: 14px;
+    font-size: 12px;
     color: @gery999;
     text-align: center;
     margin-bottom: 10px;
@@ -268,7 +315,7 @@
     font-size: 14px;
     color: #666;
     margin-bottom: 10px;
-    text-indent: 2em;
+    //text-indent: 2em;
   }
   img{
     max-width: 100%;
@@ -303,9 +350,9 @@
   padding: 0 20px;
   margin-bottom: 10vh;
   .login_row{
-    margin-bottom: 5vh;
     border-bottom: solid 1px #eeeeee;
-    padding-bottom: 10px;
+    height: 60px;
+    line-height: 60px;
     .img_ico{
       width: 20px;
       margin-right: 5px;
@@ -315,12 +362,12 @@
       }
     }
     .input{
-      font-size: 16px;
+      font-size: 14px;
       height: 20px;
       line-height: 20px;
     }
     .title{
-      font-size: 16px;
+      font-size: 14px;
       color: #333333;
       width: 6em;
       font-weight: bold;
@@ -350,7 +397,7 @@
   text-align: center;
   color: #ffffff;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 20px;
   margin: 0 auto;
 }
 .login_forget{
@@ -385,12 +432,13 @@
   padding: 10px 20px;
   background: #FFFFFF;
   .item{
-    line-height: 25px;
-    margin-bottom: 5px;
-    padding: 5px 0;
+    height: 52px;
+    line-height: 52px;
+
     .title{
       color: #333333;
       font-size: 14px;
+      font-weight: bold;
     }
     .col{
       text-align: right;
@@ -402,10 +450,15 @@
       }
     }
     .list_radio{
+      height: 52px;
       text-align: right;
       .mint-radio-label{
         font-size: 14px;
         color: #333333;
+      }
+      .mint-radiolist-label{
+        height: 52px;
+        line-height: 52px;
       }
     }
     .iconfont{
@@ -1870,6 +1923,15 @@
       margin-bottom: 5px;
       border-radius: 5px;
 
+      .button{
+        text-align: center;
+        font-size: 18px;
+        color: #5D5D5D;
+        font-weight: bold;
+        height: 30px;
+        line-height: 30px;
+        margin-top: 10px;
+      }
       .title{
         font-size: 16px;
         color: #5D5D5D;
@@ -1902,6 +1964,7 @@
     .item{
       background-color: #EEFFF5;
       background-image: url("/images/shijuan_b@2x.png");
+      .button,
       .title{
         color: #10A14C;
       }

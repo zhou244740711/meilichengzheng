@@ -1,7 +1,7 @@
 <template>
   <div class="address" style="background: #f7f7f7">
 
-    <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting">
+    <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting" style="margin-top: 30vh;margin-bottom: 20vh;">
       <img src="images/wei-kong@2x.png" alt="">
       <p>暂无地址</p>
     </div>

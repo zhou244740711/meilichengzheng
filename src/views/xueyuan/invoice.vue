@@ -15,7 +15,7 @@
                 :options="slist">
             </mt-radio>
           </div>
-          <div class="item row row-center">
+          <div class="item row row-center" v-show="invoicedata.invoiceType == 1">
             <span class="title">邮箱*：</span>
             <input type="text" class="col input" v-model="invoicedata.email" placeholder="请填写邮箱">
           </div>

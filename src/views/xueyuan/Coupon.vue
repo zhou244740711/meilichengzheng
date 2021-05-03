@@ -1,7 +1,7 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="xueyuanindex clearfix" style="background: #FFFFFF">
 
-    <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting">
+    <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/quan-kong@2x.png" alt="">
       <p>暂无优惠券</p>
     </div>

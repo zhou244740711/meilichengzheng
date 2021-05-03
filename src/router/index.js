@@ -195,14 +195,6 @@ const routes = [
     }
   },
   {
-    path: '/moni',
-    name: 'moni',
-    component: () => import('../views/xueyuan/moni'),
-    meta: {
-      title: '模拟考试'
-    }
-  },
-  {
     path: '/Setting',
     name: 'Setting',
     component: () => import('../views/xueyuan/Setting'),
@@ -243,11 +235,43 @@ const routes = [
     }
   },
   {
+    path: '/kaoshimonilog',
+    name: 'kaoshimonilog',
+    component: () => import('../views/xueyuan/kaoshimoni_log'),
+    meta: {
+      title: '考试记录'
+    }
+  },
+  {
+    path: '/moni',
+    name: 'moni',
+    component: () => import('../views/xueyuan/moni'),
+    meta: {
+      title: '模拟考试'
+    }
+  },
+  {
+    path: '/kaoshimoni',
+    name: 'kaoshimoni',
+    component: () => import('../views/xueyuan/kaoshimoni'),
+    meta: {
+      title: '模拟考试中'
+    }
+  },
+  {
     path: '/zhengshu',
     name: 'zhengshu',
     component: () => import('../views/xueyuan/zhnegshu'),
     meta: {
       title: '证书'
+    }
+  },
+  {
+    path: '/zhengming',
+    name: 'zhengming',
+    component: () => import('../views/xueyuan/zhengming'),
+    meta: {
+      title: '学时证明'
     }
   },
   {

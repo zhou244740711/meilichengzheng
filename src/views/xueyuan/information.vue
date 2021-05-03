@@ -160,7 +160,7 @@
         <input class="input" type="text" placeholder="请输入工作单位" v-model="infodata.orgs">
       </div>
     </div>
-    <div class="item">
+    <div class="item" style="height: auto;">
       <span class="title">上传照片</span>
       <img-upload ref="imgupload" :imglist="infodata.photo" :max-length="1"></img-upload>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="xueyuanindex clearfix" style="background: #FFFFFF">
 
-    <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting">
+    <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/kecheng-kong@2x.png" alt="">
       <p>暂无模拟考试</p>
     </div>
@@ -12,98 +12,23 @@
          infinite-scroll-distance="10">
 
       <div class="monilist clearfix">
-        <div class="box active">
+        <div class="box" :class="{'active': item.status}" v-for="(item, index) in MyClasslist" :key="index" @click="tokaoshi(item)">
           <div class="item">
-            <div class="title">试卷名称</div>
+            <div class="title">{{ item.name }}</div>
+            <div class="button" v-show="item.count > 0" @click.stop="kaoshilog(item)">考试记录</div>
             <div class="textbox">
-              <p>已考：0次</p>
-              <p>上次得分：0分</p>
+              <p>已考：{{item.count}}次</p>
+              <p>上次得分：{{item.lastScore}}分</p>
             </div>
           </div>
           <div class="textbox2">
             <p class="t1">考试时间</p>
             <p>
-              2020.10.10 13:20
+              {{ item.startDate }}
               <br>
               至
               <br>
-              2020.10.10 13:20
-            </p>
-          </div>
-        </div>
-        <div class="box active">
-          <div class="item">
-            <div class="title">试卷名称</div>
-            <div class="textbox">
-              <p>已考：0次</p>
-              <p>上次得分：0分</p>
-            </div>
-          </div>
-          <div class="textbox2">
-            <p class="t1">考试时间</p>
-            <p>
-              2020.10.10 13:20
-              <br>
-              至
-              <br>
-              2020.10.10 13:20
-            </p>
-          </div>
-        </div>
-        <div class="box">
-          <div class="item">
-            <div class="title">试卷名称</div>
-            <div class="textbox">
-              <p>已考：0次</p>
-              <p>上次得分：0分</p>
-            </div>
-          </div>
-          <div class="textbox2">
-            <p class="t1">考试时间</p>
-            <p>
-              2020.10.10 13:20
-              <br>
-              至
-              <br>
-              2020.10.10 13:20
-            </p>
-          </div>
-        </div>
-        <div class="box">
-          <div class="item">
-            <div class="title">试卷名称</div>
-            <div class="textbox">
-              <p>已考：0次</p>
-              <p>上次得分：0分</p>
-            </div>
-          </div>
-          <div class="textbox2">
-            <p class="t1">考试时间</p>
-            <p>
-              2020.10.10 13:20
-              <br>
-              至
-              <br>
-              2020.10.10 13:20
-            </p>
-          </div>
-        </div>
-        <div class="box">
-          <div class="item">
-            <div class="title">试卷名称</div>
-            <div class="textbox">
-              <p>已考：0次</p>
-              <p>上次得分：0分</p>
-            </div>
-          </div>
-          <div class="textbox2">
-            <p class="t1">考试时间</p>
-            <p>
-              2020.10.10 13:20
-              <br>
-              至
-              <br>
-              2020.10.10 13:20
+              {{ item.endDate }}
             </p>
           </div>
         </div>
@@ -136,11 +61,6 @@ export default {
 
   },
   methods: {
-    btntype (item, t) {
-      if (t == 1) {
-        return item.status == 1 && item.period < item.finishPeriod
-      }
-    },
     loadMore() {
       this.loading = true;
       this.getClass(2)
@@ -157,7 +77,7 @@ export default {
         }
       }
       this.isreqursting = true
-      this.$http.post(`/api/My/CourseList`,{
+      this.$http.post(`/api/MockExam/GetExamQuestion`,{
         "pageSize": this.pageSize,
         "pageIndex": this.page,
         "orderby": "",
@@ -177,35 +97,13 @@ export default {
         this.isreqursting = false
       })
     },
-    kaoshi (item, bukao) {
-      this.$router.push({name: 'kaoshi', query: {courseId: item.courseId, type: bukao}})
-    },
-    lookclass (item) {
-      if (item.courseType == 1) {
-        this.$router.push({name: 'CourseSection', query: {courseId: item.courseId, courseName: item.courseName}})
-      } else {
-        this.$router.push({name: 'MyClassList', query: {courseId: item.courseId, courseName: item.courseName}})
+    tokaoshi (item) {
+      if (item.status) {
+        this.$router.push({name: 'kaoshimoni', query: {id: item.id}})
       }
     },
     kaoshilog (item) {
-      this.$router.push({name: 'kaoshilog', query: {courseId: item.courseId}})
-    },
-    dizhi (item) {
-      this.$http.post(`/api/My/AddressList`,{
-        "pageSize": 10,
-        "pageIndex": 1,
-      }).then((res) => {
-        if (res !== 500) {
-          if (res.data.length > 0) {
-            this.$router.push({name: 'choseaddress', query: {courseId: item.courseId}})
-          } else {
-            this.$router.push({name: 'addressAdd', query: {courseId: item.courseId}})
-          }
-        }
-      })
-    },
-    zhengshu (item) {
-      this.$router.push({name: 'zhengshu', query: {courseId: item.courseId}})
+      this.$router.push({name: 'kaoshimonilog', query: {id: item.id}})
     },
   }
 }

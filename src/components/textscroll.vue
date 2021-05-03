@@ -1,9 +1,11 @@
 <template>
   <div class="tongzhi z-row">
-    <i class="iconfont icon-tongzhi"></i>
     <div class="tongzhi_view z-col">
-      <div class="tongzhi_list" ref="list" :style="`width: ${w}px; animation-duration:${s}s`">
-        <div class="tongzhi_item" v-for="(item, index) in newslist" :key="index" @click="handleclick(item)">{{item.title}}</div>
+      <div class="tongzhi_list" ref="list">
+        <div class="tongzhi_item row row-center"  v-for="(item, index) in newslist" :key="index" @click="handleclick(item)">
+<!--          <div class="col" :style="`animation-duration:${s}s`">{{item.title}}</div>-->
+          <div class="col text-over">{{item.title}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,11 +27,11 @@ export default{
   watch: {
     list (newsdata) {
       this.newslist = newsdata
-      this.widthchange()
+      // this.widthchange()
     }
   },
   mounted () {
-    this.widthchange()
+    // this.widthchange()
   },
   methods: {
     handleclick () {

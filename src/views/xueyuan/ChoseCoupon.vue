@@ -7,7 +7,7 @@
       style="width: 100%;height: 100%;">
     <div style="overflow:auto; height: 100%;">
 
-      <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting">
+      <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting" style="margin-top: 30vh;">
         <img src="images/quan-kong@2x.png" alt="">
         <p>暂无优惠券</p>
       </div>
