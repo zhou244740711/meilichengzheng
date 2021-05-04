@@ -3,7 +3,7 @@
     <div class="item row row-center">
       <span class="title">姓名</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入姓名" v-model="infodata.name">
+        <input class="input" type="text" placeholder="请输入姓名" v-model="infodata.name" @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item row row-center">
@@ -15,26 +15,26 @@
     <div class="item row row-center">
       <span class="title">出生年月</span>
       <div class="col">
-        <input class="input" type="date" placeholder="请选择出生年月" v-model="infodata.birth">
+        <input class="input" type="date" placeholder="请选择出生年月" v-model="infodata.birth" @blur.prevent="checkValue">
       </div>
       <i class="iconfont icon-jiantou-you"></i>
     </div>
     <div class="item row row-center">
       <span class="title">身份证号</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入身份证号" v-model="infodata.identityCard" disabled>
+        <input class="input" type="text" placeholder="请输入身份证号" v-model="infodata.identityCard" disabled @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item row row-center">
       <span class="title">手机号</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入手机号" v-model="infodata.phone" disabled>
+        <input class="input" type="text" placeholder="请输入手机号" v-model="infodata.phone" disabled @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item row row-center">
       <span class="title">政治面貌</span>
       <div class="col">
-        <select class="input" dir="rtl" v-model="infodata.politicsStatus">
+        <select class="input" dir="rtl" v-model="infodata.politicsStatus" @blur.prevent="checkValue">
           <option value="">未选择</option>
           <option value="中共党员" selected="">中共党员</option>
           <option value="中共预备党员">中共预备党员</option>
@@ -57,7 +57,7 @@
     <div class="item row row-center">
       <span class="title">最高学历</span>
       <div class="col">
-        <select class="input" dir="rtl" v-model="infodata.maxEducation">
+        <select class="input" dir="rtl" v-model="infodata.maxEducation" @blur.prevent="checkValue">
           <option value="">未选择</option>
           <option value="研究生教育" selected="">研究生教育</option>
           <option value="博士研究生毕业">博士研究生毕业</option>
@@ -104,7 +104,7 @@
     <div class="item row row-center">
       <span class="title">专业系列</span>
       <div class="col">
-        <select class="input" dir="rtl" v-model="infodata.professionalSeries">
+        <select class="input" dir="rtl" v-model="infodata.professionalSeries" @blur.prevent="checkValue">
           <option value="">未选择</option>
           <option value="工程勘察（测量）" selected="">工程勘察（测量）</option>
           <option value="建筑设计">建筑设计</option>
@@ -131,7 +131,7 @@
     <div class="item row row-center">
       <span class="title">职称级别</span>
       <div class="col">
-        <select class="input" dir="rtl" v-model="infodata.positionLevel">
+        <select class="input" dir="rtl" v-model="infodata.positionLevel" @blur.prevent="checkValue">
           <option value="">未选择</option>
           <option value="教授级高级工程师">教授级高级工程师</option>
           <option value="高级工程师" selected="">高级工程师</option>
@@ -145,19 +145,19 @@
     <div class="item row row-center">
       <span class="title">职务</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入职务" v-model="infodata.duty">
+        <input class="input" type="text" placeholder="请输入职务" v-model="infodata.duty" @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item row row-center">
       <span class="title">社会信用代码</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入社会信用代码" v-model="infodata.creditCode">
+        <input class="input" type="text" placeholder="请输入社会信用代码" v-model="infodata.creditCode" @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item row row-center">
       <span class="title">工作单位</span>
       <div class="col">
-        <input class="input" type="text" placeholder="请输入工作单位" v-model="infodata.orgs">
+        <input class="input" type="text" placeholder="请输入工作单位" v-model="infodata.orgs" @blur.prevent="checkValue">
       </div>
     </div>
     <div class="item" style="height: auto;">
@@ -192,8 +192,15 @@ export default {
   },
   created: function () {
     this.getmsg()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    checkValue () {
+      this.inputBlur()
+      this.$emit('checkValue')
+    },
     getmsg () {
       this.$http.get('/api/Account/GetCurrentAccount').then((res) => {
         this.infodata = res
@@ -204,71 +211,120 @@ export default {
     // 提交
     handlesubmit() {
       if(this.infodata.name === ''){
-        this.Toast("请输入姓名");
+
+        this.Toast({
+          message: "请输入姓名",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.sex)){
-        this.Toast("请选择性别");
+        this.Toast({
+          message: "请选择性别",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.birth)){
-        this.Toast("请选择出生年月");
+        this.Toast({
+          message: "请选择出生年月",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.identityCard)){
-        this.Toast("请输入身份证号");
+        this.Toast({
+          message: "请输入身份证号",
+          duration: 2000
+        });
         return false;
       }
       if(!(/\d{15}(\d\d[0-9xX])?/.test(this.infodata.identityCard))){
-        this.Toast("请输入正确的身份证号");
+        this.Toast({
+          message: "请输入正确的身份证号",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.phone)){
-        this.Toast("请输入手机号");
+        this.Toast({
+          message: "请输入手机号",
+          duration: 2000
+        });
         return false;
       }
       if(!(/^1(3|4|5|6|7|8|9)\d{9}$/.test(this.infodata.phone))){
-        this.Toast("请输入正确的手机号");
+        this.Toast({
+          message: "请输入正确的手机号",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.politicsStatus)){
-        this.Toast("请选择政治面貌");
+        this.Toast({
+          message: "请选择政治面貌",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.maxEducation)){
-        this.Toast("请选择最高学历");
+        this.Toast({
+          message: "请选择最高学历",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.professionalSeries)){
-        this.Toast("请选择专业系列");
+        this.Toast({
+          message: "请选择专业系列",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.positionLevel)){
-        this.Toast("请选择职称级别");
+        this.Toast({
+          message: "请选择职称级别",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.duty)){
-        this.Toast("请输入职务");
+        this.Toast({
+          message: "请输入职务",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.creditCode)){
-        this.Toast("请输入社会信用代码");
+        this.Toast({
+          message: "请输入社会信用代码",
+          duration: 2000
+        });
         return false;
       }
       if(this.isnull(this.infodata.orgs)){
-        this.Toast("请输入工作单位");
+        this.Toast({
+          message: "请输入工作单位",
+          duration: 2000
+        });
         return false;
       }
       let paoto = this.$refs.imgupload.list
       if (paoto.length <= 0) {
-        this.Toast("请上传图片");
+        this.Toast({
+          message: "请上传图片",
+          duration: 2000
+        });
         return false;
       }
       this.infodata.photo = paoto.join(',')
 
       this.$http.post('/api/Account/UpdateAccountInfo', this.infodata).then((res) => {
         if (res !== 500) {
-          this.Toast("修改成功");
+          this.Toast({
+            message: "修改成功",
+            duration: 2000
+          });
           this.$router.push({name: 'Myself'})
         }
       })

@@ -21,6 +21,9 @@ export default {
   created: function () {
     this.year = this.$route.query.year
     this.getzhengshu()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
   },

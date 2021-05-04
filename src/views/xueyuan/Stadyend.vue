@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
 
     <div class="Stadyend_header">
       <z-select :options="option" v-model="year" @change="handleselect"></z-select>
@@ -17,7 +17,7 @@
       <div class="stadyendcard" v-for="(item, index) in MyClasslist" :key="index">
         <div class="stadyendcard_header row row-center">
           <div class="name col">{{ item.categoryName }}</div>
-          <div class="btn" @click="zhengming">学时证明</div>
+          <div class="btn" v-show="item.successPeriod > 0" @click="zhengming">学时证明</div>
         </div>
         <div class="stadyendcard_main">
           <div class="stadyendcard_list">
@@ -68,6 +68,9 @@ export default {
   },
   created: function () {
     this.getselect()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 

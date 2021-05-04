@@ -1,7 +1,8 @@
 <template>
   <div class="z-select">
     <div class="z-input" @click="showpopper">
-      <input type="text" placeholder="请选择" v-model="selectvalue" readonly autocomplete="off">
+<!--      <input type="text" placeholder="请选择" v-model="selectvalue" readonly autocomplete="off">-->
+      <div class="text" :class="isnull(selectvalue)?'null':''">{{isnull(selectvalue)?'请选择':selectvalue}}</div>
       <i class="iconfont icon-jiantou-xia"></i>
     </div>
     <div class="z-select-dropdown z-popper" v-if="show">
@@ -111,7 +112,10 @@ export default{
         this.show = true
         this.scrControl(0)
       } else {
-        this.Toast('暂无数据')
+        this.Toast({
+          message: '暂无数据',
+          duration: 2000
+        })
       }
     },
     select () {

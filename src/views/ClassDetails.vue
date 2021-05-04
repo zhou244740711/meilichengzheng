@@ -1,10 +1,12 @@
 <template>
-  <main class="index_main detailsmain" v-show="!isreqursting">
-    <video-player class="video-player vjs-custom-skin"
-                  ref="videoPlayer"
-                  :playsinline="true"
-                  :options="playerOptions">
-    </video-player>
+  <main class="videomain" v-show="!isreqursting">
+    <div class="col">
+      <video-player class="video-player vjs-custom-skin"
+                    ref="videoPlayer"
+                    :playsinline="true"
+                    :options="playerOptions">
+      </video-player>
+    </div>
   </main>
 </template>
 
@@ -45,6 +47,11 @@ export default {
   },
   created: function () {
     this.gethelp()
+  },
+  mounted () {
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     gethelp() {

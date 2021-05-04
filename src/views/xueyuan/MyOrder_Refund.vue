@@ -1,10 +1,10 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
 
     <div class="MyOrder_Refund_box">
       <div class="title">退款原因</div>
-      <textarea v-model="refundRemark" v-show="order.orderStatus == 2" placeholder="请输入退款原因"></textarea>
-      <div v-show="order.orderStatus == 3" class="text">{{order.orderRefundRemark}}</div>
+      <textarea v-model="refundRemark" v-show="order.orderStatus == 2" placeholder="请输入退款原因" @blur.prevent="checkValue"></textarea>
+      <div v-show="order.orderStatus == 3 || order.orderStatus == 4 || order.orderStatus == 5" class="text">{{order.orderRefundRemark}}</div>
     </div>
 
     <div class="MyOrder_Refund_count">
@@ -55,8 +55,15 @@ export default {
   created: function () {
     this.pid = this.$route.query.id
     this.getorderdetails()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    checkValue () {
+      this.inputBlur()
+      this.$emit('checkValue')
+    },
     getorderdetails () {
       this.$http.get(`/api/My/OrderDetail?Id=${this.pid}`).then((res) => {
         if (res !== 500) {
@@ -66,7 +73,7 @@ export default {
     },
     handlepost () {
       if (this.isnull(this.refundRemark)) {
-        this.Toast('请填写退款原因')
+        this.Toast({ message: '请填写退款原因',  duration: 2000})
         return
       }
       this.$http.post(`/api/My/RefundOrder`,{
@@ -74,7 +81,8 @@ export default {
         "refundRemark": this.refundRemark
       }).then((res) => {
         if (res !== 500) {
-          this.Toast('退款成功')
+          this.Toast({ message: '提交成功',  duration: 2000})
+          this.$router.go(-1)
         }
       })
     },

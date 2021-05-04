@@ -10,7 +10,7 @@ const signMap = new Map();
 const defaultWxShareConfig = {
     title: "美丽城镇",
     desc: '打造新时代美丽城镇建设人才培养体系！',
-    link: location.href,
+    link: process.env.VUE_APP_BASE + '/login',
     imgUrl: process.env.VUE_APP_BASE + '/images/logofx.png',
     jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'hideMenuItems', 'closeWindow'],
     hideMenuList: ['menuItem:editTag', 'menuItem:delete', 'menuItem:originPage', 'menuItem:readMode','menuItem:openWithQQBrowser', 'menuItem:openWithSafari', 'menuItem:share:email', 'menuItem:share:brand']
@@ -29,9 +29,10 @@ const wxShare = {
         wxShareConfig.imgUrl = config.imgUrl || defaultWxShareConfig.imgUrl;
         wxShareConfig.jsApiList = config.jsApiList || defaultWxShareConfig.jsApiList;
         wxShareConfig.hideMenuList = config.hideMenuList || defaultWxShareConfig.hideMenuList;
+        // alert(wxShareConfig.link)
         //微信中二次分享的处理，截取到有效的分享链接
         var authUrl = wxShareConfig.link.split("#")[0];
-        authUrl = authUrl.split("?")[0];
+        // authUrl = authUrl.split("?")[0];
         //判断是否已经签名了
         if (signMap.has(authUrl)) {
             this._wxConfigJSSDK(signMap.get(authUrl), wxShareConfig);

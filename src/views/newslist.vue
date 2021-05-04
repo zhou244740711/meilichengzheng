@@ -31,6 +31,9 @@ export default {
   },
   created: function () {
     this.getnewslist(1)
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     loadMore() {

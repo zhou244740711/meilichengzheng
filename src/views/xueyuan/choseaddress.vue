@@ -52,6 +52,9 @@ export default {
       this.courseId = this.$route.query.courseId
     }
     this.getOrder(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 
@@ -85,12 +88,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.Addresslist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       }).finally(() => {
         this.isreqursting = false
@@ -110,7 +111,10 @@ export default {
         if (action) {
           this.$http.get(`/api/My/AddressDelete?Id=${item.id}`).then((res) => {
             if (res !== 500) {
-              this.Toast('删除成功')
+              this.Toast({
+                message: "删除成功",
+                duration: 2000
+              });
               this.getOrder(1)
             }
           })
@@ -119,12 +123,18 @@ export default {
     },
     handlePost () {
       if (this.isnull(this.AddressId)) {
-        this.Toast('请选择地址')
+        this.Toast({
+          message: "请选择地址",
+          duration: 2000
+        });
         return
       }
       this.$http.get(`/api/My/AddCourseAddress?AddressId=${this.AddressId}&CourseId=${this.courseId}`).then((res) => {
         if (res !== 500) {
-          this.Toast('课程地址添加成功')
+          this.Toast({
+            message: "课程地址添加成功",
+            duration: 2000
+          });
         }
       })
     },

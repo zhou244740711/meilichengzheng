@@ -34,8 +34,8 @@ export default{
     // this.widthchange()
   },
   methods: {
-    handleclick () {
-      this.$router.push({name: 'newslist'})
+    handleclick (item) {
+      this.$router.push({name: 'NewsDetails', query: { id: item.id}})
     },
     widthchange () {
       this.w = 0

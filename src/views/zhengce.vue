@@ -6,7 +6,7 @@
          v-infinite-scroll="loadMore"
          infinite-scroll-disabled="loading"
          infinite-scroll-distance="10">
-      <router-link class="item" v-for="item in newslist" :key="item.id" :to="{ name: 'NewsDetails', query: { id: item.id}}">
+      <router-link class="item" v-for="item in newslist" :key="item.id" :to="{ name: 'zhengceDetails', query: { id: item.id}}">
         <p class="title">{{ item.title }}</p>
         <time>{{ item.releaseTime | dateformat }}</time>
       </router-link>
@@ -32,6 +32,9 @@ export default {
   },
   created: function () {
     this.getnewslist(1)
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     loadMore() {
@@ -58,12 +61,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.newslist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       })
     }

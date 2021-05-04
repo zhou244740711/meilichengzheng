@@ -4,7 +4,7 @@
       <div class="invoice_header">填写发票</div>
       <div class="invoice_main">
         <div class="invoice_list">
-          <div class="item row row-center">
+          <div class="item row row-center" style="border-bottom: none;">
             <span class="title">发票类型：</span>
             <div class="col text">电子</div>
           </div>
@@ -15,21 +15,21 @@
                 :options="slist">
             </mt-radio>
           </div>
-          <div class="item row row-center" v-show="invoicedata.invoiceType == 1">
+          <div class="item row row-center">
             <span class="title">邮箱*：</span>
-            <input type="text" class="col input" v-model="invoicedata.email" placeholder="请填写邮箱">
+            <input type="text" class="col input" v-model="invoicedata.email" placeholder="请填写邮箱" @blur.prevent="checkValue">
           </div>
           <div class="item row row-center">
             <span class="title">发票抬头*：</span>
-            <input type="text" class="col input" v-model="invoicedata.invoiceHeader" placeholder="请填写发票抬头">
+            <input type="text" class="col input" v-model="invoicedata.invoiceHeader" placeholder="请填写发票抬头" @blur.prevent="checkValue">
           </div>
           <div class="item row row-center" v-show="invoicedata.invoiceType == 2">
             <span class="title">纳税人识别号：</span>
-            <input type="text" class="col input" v-model="invoicedata.invoiceTaxpayer" placeholder="请填写纳税人识别号">
+            <input type="text" class="col input" v-model="invoicedata.invoiceTaxpayer" placeholder="请填写纳税人识别号" @blur.prevent="checkValue">
           </div>
           <div class="item row row-center">
             <span class="title">发票内容：</span>
-            <input type="text" class="col input" v-model="invoicedata.invoiceContent" placeholder="请填写发票内容">
+            <input type="text" class="col input" v-model="invoicedata.invoiceContent" placeholder="请填写发票内容" @blur.prevent="checkValue">
           </div>
         </div>
 
@@ -53,7 +53,7 @@ export default {
       invoicedata: {
         email: '',
         invoiceType: '1',
-        invoiceHeader: '个人',
+        invoiceHeader: '',
         invoiceTaxpayer: '',
         invoiceContent: '*现代服务*培训费'
       },
@@ -70,8 +70,15 @@ export default {
     }
   },
   created: function () {
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    checkValue () {
+      this.inputBlur()
+      this.$emit('checkValue')
+    },
     showModal (invoicedata) {
       this.show = true
       if (localStorage.getItem('invoicedata')) {
@@ -81,25 +88,25 @@ export default {
     },
     save () {
       if (this.isnull(this.invoicedata.email)) {
-        this.Toast('请填写邮箱')
+        this.Toast({ message: '请填写邮箱',  duration: 2000})
         return
       }
       if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(this.invoicedata.email)) {
-        this.Toast('邮件格式不正确')
+        this.Toast({ message: '邮件格式不正确',  duration: 2000})
         return
       }
       if (this.isnull(this.invoicedata.invoiceHeader)) {
-        this.Toast('请填写发票抬头')
+        this.Toast({ message: '请填写发票抬头',  duration: 2000})
         return
       }
       if (this.invoicedata.invoiceType === '2') {
         if (this.isnull(this.invoicedata.invoiceTaxpayer)) {
-          this.Toast('请填写纳税人识别号')
+          this.Toast({ message: '请填写纳税人识别号',  duration: 2000})
           return
         }
       }
       if (this.isnull(this.invoicedata.invoiceContent)) {
-        this.Toast('请填写发票内容')
+        this.Toast({ message: '请填写发票内容',  duration: 2000})
         return
       }
       localStorage.setItem('invoicedata', JSON.stringify(this.invoicedata))
@@ -133,6 +140,9 @@ export default {
       .invoice_list{
         .item{
           border-bottom: solid 1px #EEEEEE;
+          height: 40px;
+          line-height: 40px;
+          overflow: hidden;
 
           .title{
             white-space: nowrap;
@@ -143,7 +153,13 @@ export default {
             width: auto;
           }
           .list_radio{
-            padding: 10px 0;
+            height: 40px;
+            padding: 0;
+
+            .mint-cell-wrapper{
+              height: 40px;
+              line-height: 40px;
+            }
           }
         }
       }

@@ -1,7 +1,7 @@
 <template>
-  <div class="address" style="background: #f7f7f7">
+  <div class="address">
 
-    <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting" style="margin-top: 30vh;margin-bottom: 20vh;">
+    <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting" style="margin-top: 20vh;margin-bottom: 20vh;">
       <img src="images/wei-kong@2x.png" alt="">
       <p>暂无地址</p>
     </div>
@@ -44,7 +44,10 @@ export default {
     }
   },
   created: function () {
-    this.getOrder(1)
+    // this.getOrder(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 
@@ -81,12 +84,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.Addresslist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       }).finally(() => {
         this.isreqursting = false
@@ -97,7 +98,10 @@ export default {
         if (action) {
           this.$http.get(`/api/My/AddressDelete?Id=${item.id}`).then((res) => {
             if (res !== 500) {
-              this.Toast('删除成功')
+              this.Toast({
+                message: "删除成功",
+                duration: 2000
+              });
               this.getOrder(1)
             }
           })

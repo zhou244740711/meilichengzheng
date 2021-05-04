@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <video ref="video" :src="sectionVideo" controls @loadedmetadata="loadedmetadata" @ended="ended" @playing="playing" @timeupdate="timeupdate">
-      <p>视频无法播放</p>
-    </video>
-  </div>
+  <main class="videomain">
+    <div class="col">
+      <video ref="video" :src="sectionVideo" controls @loadedmetadata="loadedmetadata" @ended="ended" @playing="playing" @timeupdate="timeupdate">
+        <p>视频无法播放</p>
+      </video>
+    </div>
+  </main>
 </template>
 
 <script>
@@ -23,6 +25,9 @@ export default {
   },
   created: function () {
     this.sectionVideo = process.env.VUE_APP_IMG_API + this.$route.params.sectionVideo
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   mounted () {
   },

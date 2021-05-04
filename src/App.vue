@@ -16,13 +16,19 @@ export default {
     this.$wxShare.updateWxShareConfig();
   },
   watch: {
-    // $route(to, from){
+    // eslint-disable-next-line no-unused-vars
+    $route(to, from){
       // console.log(to.path);
+      // console.log(to.meta.title)
       // console.log(from.path);
+      // console.log(from.meta.title)
       // this.$wxShare.updateWxShareConfig({
       //   link: location.href,
       // });
-    // }
+      if (to.meta.title) {
+        document.title = to.meta.title
+      }
+    }
   },
   methods: {
   },

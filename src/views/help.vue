@@ -18,6 +18,9 @@ export default {
   },
   created: function () {
     this.gethelp()
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     gethelp() {

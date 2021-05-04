@@ -4,13 +4,13 @@
       <div class="item row row-center">
         <span class="title">收货人</span>
         <div class="col">
-          <input class="input" type="text" placeholder="请输入收货人姓名" v-model="infodata.name">
+          <input class="input" type="text" placeholder="请输入收货人姓名" v-model="infodata.name" @blur.prevent="checkValue">
         </div>
       </div>
       <div class="item row row-center">
         <span class="title">手机号码</span>
         <div class="col">
-          <input class="input" type="text" placeholder="请输入收货人手机号" v-model="infodata.phone">
+          <input class="input" type="text" placeholder="请输入收货人手机号" v-model="infodata.phone" @blur.prevent="checkValue">
         </div>
       </div>
       <div class="item row row-center">
@@ -23,7 +23,7 @@
       <div class="item row row-center">
         <span class="title">详细地址</span>
         <div class="col">
-          <input class="input" type="text" placeholder="街道、楼牌号等" v-model="infodata.address">
+          <input class="input" type="text" placeholder="街道、楼牌号等" v-model="infodata.address" @blur.prevent="checkValue">
         </div>
       </div>
     </div>
@@ -61,8 +61,15 @@ export default {
       this.isadd = false
       this.getAddressDetail(this.$route.query.id)
     }
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    checkValue () {
+      this.inputBlur()
+      this.$emit('checkValue')
+    },
     getAddressDetail (id) {
       this.$http.get(`/api/My/AddressDetail?Id=${id}`).then((res) => {
         if (res !== 500) {
@@ -72,27 +79,45 @@ export default {
     },
     handlesubmit () {
       if (this.isnull(this.infodata.name)) {
-        this.Toast('请填写收货人姓名')
+        this.Toast({
+          message: "请填写收货人姓名",
+          duration: 2000
+        });
         return
       }
       if (this.isnull(this.infodata.phone)) {
-        this.Toast('请填写收货人手机号')
+        this.Toast({
+          message: "请填写收货人手机号",
+          duration: 2000
+        });
         return
       }
       if (this.isnull(this.infodata.provinces)) {
-        this.Toast('请选择地址')
+        this.Toast({
+          message: "请选择地址",
+          duration: 2000
+        });
         return
       }
       if (this.isnull(this.infodata.address)) {
-        this.Toast('请填写详细地址')
+        this.Toast({
+          message: "请填写详细地址",
+          duration: 2000
+        });
         return
       }
       this.$http.post(`/api/My/AddOrEditAddress`, this.infodata).then((res) => {
         if (res !== 500) {
           if (this.isadd) {
-            this.Toast('地址新增成功')
+            this.Toast({
+              message: "地址新增成功",
+              duration: 2000
+            });
           } else {
-            this.Toast('地址修改成功')
+            this.Toast({
+              message: "地址修改成功",
+              duration: 2000
+            });
           }
         }
       }).finally(() => {

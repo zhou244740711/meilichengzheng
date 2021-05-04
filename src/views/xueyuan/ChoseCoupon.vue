@@ -26,7 +26,7 @@
             </div>
             <div class="col textbox">
               <span class="tip">{{ item.useConditions === 1?'无门槛使用':'满'+item.useMoney+'元使用' }}</span>
-              <p class="t1">有效期至：<br>{{ item.endDate | dateformat }}</p>
+              <p class="t1">有效期至：{{ item.endDate | dateformat }}</p>
               <p class="t2">指定课程：{{ item.courseName }}</p>
             </div>
           </div>
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div style="height: 60px;"></div>
+      <div style="height: 60px; background: transparent"></div>
       <div class="Coupon_footer row row-center">
         <div class="login_btn col" @click="chose">确定</div>
         <div class="btn_cancel col" @click="popupVisible=false">取消</div>
@@ -83,6 +83,9 @@ export default {
     }
   },
   created: function () {
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
     loadMore() {
@@ -119,10 +122,14 @@ export default {
       }
       this.isreqursting = true
       this.$http.post(`/api/My/PayCouponList`,option).then((res) => {
-        if (ftype === 1) {
-          this.Couponlist = res
-        } else {
-          this.Couponlist = [...this.Couponlist, ...res]
+        if (res !== 500) {
+          if (!this.isnull(res)) {
+            if (ftype === 1) {
+              this.Couponlist = res
+            } else {
+              this.Couponlist = [...this.Couponlist, ...res]
+            }
+          }
         }
       }).finally(() => {
         this.isreqursting = false

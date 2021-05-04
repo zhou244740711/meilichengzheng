@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
 
     <div class="MyOrder_headernav row row-center">
       <div class="nav col" :class="{'active':nav == 1}" @click="navclick(1)">
@@ -12,7 +12,7 @@
         <span>退款</span>
       </div>
     </div>
-    <div style="height: 40px;"></div>
+    <div style="height: 40px; background: transparent"></div>
 
     <div class="noclass" v-if="Myorderlist.length <=0 && !isreqursting" style="margin-top: 25vh;">
       <img src="images/kecheng-kong@2x.png" alt="">
@@ -71,8 +71,10 @@ export default {
     if (this.$route.query.nav){
       this.nav = this.$route.query.nav
     }
-
     this.getOrder(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 
@@ -141,12 +143,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.Myorderlist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       }).finally(() => {
         this.isreqursting = false
@@ -174,7 +174,7 @@ export default {
         if (action) {
           this.$http.get(`/api/My/CancellationOrder?Id=${item.id}`).then((res) => {
             if (res !== 500) {
-              this.Toast('取消成功')
+              this.Toast({ message: '取消成功',  duration: 2000})
               this.getOrder(1)
             }
           })

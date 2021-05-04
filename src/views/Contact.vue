@@ -22,3 +22,22 @@
     <div class="t3">关注微信公众号</div>
   </main>
 </template>
+
+<script>
+// @ is an alias to /src
+
+export default {
+  name: 'Contact',
+  data() {
+    return {
+    }
+  },
+  created: function () {
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
+  },
+  methods: {
+  }
+}
+</script>

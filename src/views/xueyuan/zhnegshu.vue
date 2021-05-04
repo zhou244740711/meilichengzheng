@@ -20,7 +20,9 @@ export default {
   },
   created: function () {
     this.passId = this.$route.query.passId
-
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   mounted () {
     this.getzhengshu()

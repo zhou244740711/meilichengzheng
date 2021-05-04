@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
 
     <div class="pay_header">
       <p class="t1">{{ orderstatus(order.orderStatus) }}</p>
@@ -33,7 +33,7 @@
     <div class="confirm_list">
       <div class="item row row-center">
         <span class="title">发票</span>
-        <div class="col text" @click="showinvoice()">{{ order.invoiceContent }}</div>
+        <div class="col text" @click="showinvoice()">{{ fapiao() }}</div>
         <i class="iconfont icon-jiantou-you"></i>
       </div>
       <div class="item row row-center">
@@ -42,18 +42,18 @@
       </div>
     </div>
 
-    <div style="height: 60px;"></div>
+    <div style="height: 60px; background: transparent"></div>
     <div class="MyOrder_pay_footer">
       <template v-if="order.orderStatus == 1">
         <div class="btn_cancel" @click="cancel()">取消</div>
         <div class="btn_pay" @click="handlepost()">立即支付</div>
       </template>
       <template v-if="order.orderStatus == 2">
-        <div class="btn_cancel" @click="look()">查看发票</div>
+        <div class="btn_cancel" @click="look()" v-show="!isnull(pdfurl)">查看发票</div>
         <div class="btn_cancel" @click="tuikuan()" style="margin-left: 20px;">申请退款</div>
       </template>
       <template v-if="order.orderStatus == 3 || order.orderStatus == 4 || order.orderStatus == 5">
-        <div class="btn_cancel" @click="look()">查看发票</div>
+        <div class="btn_cancel" @click="look()" v-show="!isnull(pdfurl)">查看发票</div>
         <div class="btn_cancel" @click="tuikuan()" style="margin-left: 20px;">退款详情</div>
       </template>
     </div>
@@ -79,15 +79,30 @@ export default {
       pid: '',
       code: '',
       order: {},
-      zhezhao: false
+      zhezhao: false,
+      pdfurl: ''
     }
   },
   created: function () {
     this.pid = this.$route.query.id
     this.getorderdetails()
     this.SaveOpenId()
+    this.getpdf()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    fapiao (){
+      if (!this.isnull(this.order.invoiceHeader)) {
+        if (this.order.invoiceType == 1) {
+          return '个人（' + this.order.invoiceHeader + '）'
+        } else {
+          return '企业（' + this.order.invoiceHeader + '）'
+        }
+      }
+      return '填写发票'
+    },
     is_weixn() {
       var ua = navigator.userAgent.toLowerCase();
       if (ua.match(/MicroMessenger/i) == "micromessenger") {
@@ -153,7 +168,7 @@ export default {
         })
         this.$http.post(`/api/My/UpdateInvoice`, option).then((res) => {
           if (res !== 500) {
-            this.Toast('发票修改成功')
+            this.Toast({ message: '发票修改成功',  duration: 2000})
           }
         })
       // }
@@ -164,7 +179,7 @@ export default {
           const id = this.$route.query.id
           this.$http.get(`/api/My/CancellationOrder?Id=${id}`).then((res) => {
             if (res !== 500) {
-              this.Toast('取消成功')
+              this.Toast({ message: '取消成功',  duration: 2000})
               this.$router.go(-1)
             }
           })
@@ -173,7 +188,7 @@ export default {
     },
     handlepost () {
       if (this.isnull(this.order.invoiceType)) {
-        this.Toast('请填写发票信息')
+        this.Toast({ message: '请填写发票信息',  duration: 2000})
         return false
       }
       this.zhezhao = true
@@ -219,12 +234,15 @@ export default {
           }
       );
     },
-    look () {
+    getpdf (){
       this.$http.get(`/api/My/OrderInvoiceDetail?Id=${this.pid}`).then((res) => {
         if (res !== 500) {
-          this.$refs.lookpdf.showpdf(res.invoiceImageList[0].filePath)
+          this.pdfurl = res.invoiceImageList[0].filePath
         }
       })
+    },
+    look () {
+      this.$refs.lookpdf.showpdf(this.pdfurl)
     },
     tuikuan () {
       const id = this.$route.query.id

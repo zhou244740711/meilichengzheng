@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myself clearfix">
     <div class="Myself_header row">
       <div class="tx" :style="{'background-image': 'url(' + touxiang(info.photo) + ')'}"></div>
       <div class="col">
@@ -89,6 +89,9 @@ export default {
   },
   created: function () {
     this.getmsg()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 
@@ -113,7 +116,10 @@ export default {
       clipboard.on("error", e => {
         console.log(e)
         // 不支持复制
-        this.Toast('该浏览器不支持自动复制')
+        this.Toast({
+          message: "该浏览器不支持自动复制",
+          duration: 2000
+        });
         // 释放内存
         clipboard.destroy();
       });

@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix" style="background: #FFFFFF">
+  <div class="myorder clearfix" style="background: #FFFFFF">
 
     <div class="noclass" v-if="Couponlist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/quan-kong@2x.png" alt="">
@@ -20,7 +20,7 @@
           </div>
           <div class="col textbox">
             <span class="tip">{{ item.useConditions === 1?'无门槛使用':'满'+item.useMoney+'元使用' }}</span>
-            <p class="t1">有效期至：<br>{{ item.endDate | dateformat }}</p>
+            <p class="t1">有效期至：{{ item.endDate | dateformat }}</p>
             <p class="t2">指定课程：{{ item.courseName }}</p>
           </div>
         </div>
@@ -70,6 +70,9 @@ export default {
   },
   created: function () {
     this.getCoupon(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
     loadMore() {
@@ -96,13 +99,15 @@ export default {
       this.isreqursting = true
       this.$http.post(`/api/My/CouponList`,option).then((res) => {
         if (res !== 500) {
-          if (ftype === 1) {
-            this.Couponlist = res.data
-          } else {
-            this.Couponlist = [...this.Couponlist, ...res.data]
+          if (!this.isnull(res.data)) {
+            if (ftype === 1) {
+              this.Couponlist = res.data
+            } else {
+              this.Couponlist = [...this.Couponlist, ...res.data]
+            }
+            this.pageCount = res.pageCount
+            this.page = res.page
           }
-          this.pageCount = res.pageCount
-          this.page = res.page
         }
       }).finally(() => {
         this.isreqursting = false

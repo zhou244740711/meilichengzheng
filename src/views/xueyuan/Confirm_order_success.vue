@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
     <p>订单支付中，确认支付成功后 <a href="#">点击刷新</a></p>
   </div>
 </template>
@@ -17,6 +17,9 @@ export default {
   created: function () {
     this.buytype = this.$route.query.buytype
     this.SaveOpenId()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
     is_weixn() {

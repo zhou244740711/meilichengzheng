@@ -1,53 +1,58 @@
 <template>
-  <div class="xueyuanindex">
+  <div class="xueyuanindex" @scroll="handlescroll">
     <div class="xueyuanindex_header">
-      <img src="images/Mask2@2x.png" alt="">
-    </div>
-    <div class="xueyuan_header2">
-      <div class="xueyuan_header2_select">
-<!--        <select>-->
-<!--          <option value="">2021年度课程</option>-->
-<!--          <option value="">2021年度课程2232244244</option>-->
-<!--        </select>-->
-        <z-select :options="classlist" valuekey="id" v-model="formdata.select1" @change="getlist2"></z-select>
+<!--      <img src="images/Mask2@2x.png" alt="">-->
+      <div class="xueyuan_header2">
+        <div class="xueyuan_header2_select">
+          <!--        <select>-->
+          <!--          <option value="">2021年度课程</option>-->
+          <!--          <option value="">2021年度课程2232244244</option>-->
+          <!--        </select>-->
+          <z-select :options="classlist" valuekey="id" v-model="formdata.select1" @change="getlist2"></z-select>
+        </div>
+        <div class="row row-center xueyuan_header2_navbox">
+          <div class="col navselect">
+            <z-select :options="selectoption" valuekey="id" v-model="formdata.select2" @change="getlist3(...arguments, 1)"></z-select>
+          </div>
+          <div class="col navselect">
+            <z-select :options="selectoption2" valuekey="id" v-model="formdata.select3" @change="getlist3(...arguments, 2)"></z-select>
+          </div>
+          <div class="col navselect">
+            <z-select :options="selectoption3" valuekey="id" v-model="formdata.select4" @change="getlist4"></z-select>
+          </div>
+        </div>
       </div>
-      <div class="row row-center xueyuan_header2_navbox">
-        <div class="col navselect">
-          <z-select :options="selectoption" valuekey="id" v-model="formdata.select2" @change="getlist3(...arguments, 1)"></z-select>
-        </div>
-        <div class="col navselect">
-          <z-select :options="selectoption2" valuekey="id" v-model="formdata.select3" @change="getlist3(...arguments, 2)"></z-select>
-        </div>
-        <div class="col navselect">
-          <z-select :options="selectoption3" valuekey="id" v-model="formdata.select4" @change="getlist4"></z-select>
-        </div>
+    </div>
+
+    <div class="xueyuan_scroll">
+
+      <div class="noclass" v-if="studylist.length <=0 && !isreqursting">
+        <img src="images/kecheng-kong@2x.png" alt="">
+        <p>请选择课程</p>
       </div>
-    </div>
-    <div class="noclass" v-if="studylist.length <=0 && !isreqursting">
-      <img src="images/kecheng-kong@2x.png" alt="">
-      <p>请选择课程</p>
-    </div>
-    <div class="stady_list"
-         v-else
-         v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="loading"
-         infinite-scroll-distance="10">
-      <div class="stydy_card" v-for="item in studylist" :key="item.id">
-        <div class="card_header">
-          <span class="tip" v-show="item.type == 2">课程包</span>
-          <span class="number">编号：{{ item.number }}</span>
-        </div>
-        <div class="card_main">
-          <p class="title">{{ item.name }}</p>
-          <div class="row"><span class="col t1">共 <b>{{item.period}}</b> 课时</span> <span class="t2">¥{{item.price}}</span></div>
-        </div>
-        <div class="card_footer">
-          <div class="row">
-            <div class="col">
-              <span class="tag">{{ item.categoryName }}</span>
+      <div
+          class="xueyuan_main"
+          v-else
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10">
+        <div class="stydy_card" v-for="item in studylist" :key="item.id">
+          <div class="card_header">
+            <span class="tip" v-show="item.type == 2">课程包</span>
+            <span class="number">编号：{{ item.number }}</span>
+          </div>
+          <div class="card_main">
+            <p class="title">{{ item.name }}</p>
+            <div class="row"><span class="col t1">共 <b>{{item.period}}</b> 课时</span> <span class="t2">¥{{item.price}}</span></div>
+          </div>
+          <div class="card_footer">
+            <div class="row">
+              <div class="col">
+                <span class="tag">{{ item.categoryName }}</span>
+              </div>
+              <div class="z-button z-button-blue__kx" v-show="item.type !== 2" @click="join(item)">加入购物车</div>
+              <div class="z-button" @click="buy(item)">立即购买</div>
             </div>
-            <div class="z-button z-button-blue__kx" v-show="item.type !== 2" @click="join(item)">加入购物车</div>
-            <div class="z-button" @click="buy(item)">立即购买</div>
           </div>
         </div>
       </div>
@@ -91,11 +96,17 @@ export default {
     } else {
       this.GetCategoryTreeAll()
     }
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   //页面加载完成后调用
   mounted () {
   },
   methods: {
+    handlescroll (e) {
+      console.log(e.target.scrollTop)
+    },
     loadMore() {
       this.loading = true;
       this.getstudylist(2)
@@ -209,7 +220,10 @@ export default {
           this.pageCount = res.pageCount
           this.page = res.page
         } else {
-          this.Toast(res.msg)
+          this.Toast({
+            message: res.msg,
+            duration: 2000
+          });
         }
         this.saveformdata()
       }).finally(() => {
@@ -219,7 +233,10 @@ export default {
     join (item) {
       this.$http.get(`/api/Order/AddShopCar?CourseId=${item.id}`).then((res) => {
         if (res !== 500) {
-          this.Toast('加入购物车成功')
+          this.Toast({
+            message: '加入购物车成功',
+            duration: 2000
+          });
         }
       })
     },

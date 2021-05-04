@@ -33,6 +33,9 @@ export default {
   },
   created: function () {
     this.getnewslist(1)
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     loadMore() {
@@ -57,12 +60,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.newslist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       })
     }

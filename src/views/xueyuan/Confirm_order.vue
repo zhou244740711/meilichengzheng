@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="Confimorder clearfix">
 
     <div class="confirm_order_card_list">
       <div class="stydy_card confirm_order_card" v-for="(item, index) in list" :key="index">
@@ -28,13 +28,13 @@
       </div>
       <div class="item row row-center">
         <span class="title">发票</span>
-        <div class="col text" :class="{'greg9':isnull(invoicedata.invoiceHeader)}" @click="showinvoice()">{{ !isnull(invoicedata.invoiceHeader)?invoicedata.invoiceHeader:'填写发票'}}</div>
+        <div class="col text" :class="{'greg9':isnull(invoicedata.invoiceHeader)}" @click="showinvoice()">{{ fapiao() }}</div>
         <i class="iconfont icon-jiantou-you"></i>
       </div>
     </div>
     <div class="confirm_tip">提示：请谨慎购买，购买课程进行了课程学习，将不予退费。</div>
 
-    <div style="height: 46px;"></div>
+    <div style="height: 46px; background: transparent"></div>
     <div class="confirm_footer row row-center">
       <div class="col text">
         <p class="t1">实付金额：<span class="t3">¥{{orderPayMoney}}</span></p>
@@ -84,8 +84,21 @@ export default {
     }
     this.SaveOpenId()
     this.jisuan()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   methods: {
+    fapiao (){
+      if (!this.isnull(this.invoicedata.invoiceHeader)) {
+        if (this.invoicedata.invoiceType == 1) {
+          return '个人（' + this.invoicedata.invoiceHeader + '）'
+        } else {
+          return '企业（' + this.invoicedata.invoiceHeader + '）'
+        }
+      }
+      return '填写发票'
+    },
     jisuan () {
       let discountsId = 0
       if (this.Coupon.id !== '' ){
@@ -163,7 +176,10 @@ export default {
     },
     handlepost () {
       if (this.isnull(this.invoicedata.invoiceType)) {
-        this.Toast('请填写发票信息')
+        this.Toast({
+          message: "请填写发票信息",
+          duration: 2000
+        });
         return false
       }
       this.zhezhao = true

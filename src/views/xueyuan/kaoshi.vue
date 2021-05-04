@@ -1,7 +1,7 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
     <div class="kaoshi_tip"><img src="images/daojishi.png" alt="">考试倒计时 {{countDown(endDate)}}</div>
-    <div style="height: 37px;"></div>
+    <div style="height: 37px; background: transparent"></div>
 
     <div class="kaoshi_main" v-show="isreqursting">
       <div class="kaoshi_title">单选题</div>
@@ -79,6 +79,9 @@ export default {
     this.timeobj = setInterval(()=>{
       this.now = moment()
     },1000)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
     //计算属性，返回剩余时间

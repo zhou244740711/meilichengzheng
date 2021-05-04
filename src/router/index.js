@@ -17,6 +17,9 @@ const routes = [
         path: '/Home',
         name: 'Home',
         component: Home,
+        meta: {
+          title: '官网首页'
+        }
       },
       {
         path: '/classshow',
@@ -43,6 +46,14 @@ const routes = [
         }
       },
       {
+        path: '/zhengceDetails',
+        name: 'zhengceDetails',
+        component: () => import('../views/zhengceDetails.vue'),
+        meta: {
+          title: '政策法规详情'
+        }
+      },
+      {
         path: '/help',
         name: 'help',
         component: () => import('../views/help.vue'),
@@ -66,17 +77,17 @@ const routes = [
           title: '新闻详情'
         }
       },
-      {
-        path: '/ClassDetails',
-        name: 'ClassDetails',
-        component: () => import('../views/ClassDetails'),
-        meta: {
-          title: '待定'
-        }
-      }
     ],
     meta: {
       title: '官网首页'
+    }
+  },
+  {
+    path: '/ClassDetails',
+    name: 'ClassDetails',
+    component: () => import('../views/ClassDetails'),
+    meta: {
+      title: '课程视频'
     }
   },
   {
@@ -132,7 +143,7 @@ const routes = [
     name: 'changepassword',
     component: () => import('../views/login/changepassword'),
     meta: {
-      title: '忘记密码'
+      title: '修改密码'
     }
   },
   {
@@ -388,9 +399,11 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
-  if (to.meta.title) {
-    document.title = to.meta.title
-  }
+  // console.log(to.meta.title)
+  // console.log(from.meta.title)
+  // if (to.meta.title) {
+  //   document.title = to.meta.title
+  // }
   next()
 })
 

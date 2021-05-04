@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="Shopcar clearfix">
 
     <div class="noshopcar" v-if="shopcarlist.length <= 0 && !isreqursting">
       <img src="/images/kong@2x.png" alt="">
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div style="height: 50px;"></div>
+    <div style="height: 86px; background: transparent"></div>
     <div class="shopcar_footer row row-stretch row-center">
       <div class="col text">合计：<span class="hejiprice">￥{{ heji }}</span></div>
       <div class="btn" :class="{'buybtn': heji > 0}" @click="buypost()">确认购买</div>
@@ -60,6 +60,9 @@ export default {
   },
   created: function () {
     this.getshopcar(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
     // eslint-disable-next-line vue/return-in-computed-property
@@ -146,7 +149,10 @@ export default {
         if (action) {
           this.$http.get(`/api/My/DelShopCar?Id=${item.id}`).then((res) => {
             if (res !== 500) {
-              this.Toast('删除成功')
+              this.Toast({
+                message: '删除成功',
+                duration: 2000
+              })
               this.getshopcar(1)
             }
           })

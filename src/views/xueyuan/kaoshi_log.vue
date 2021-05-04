@@ -1,7 +1,7 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
     <div class="kaoshi_tip" style="text-align: left">满分 {{ logdata.totalScore}} 分，我的得分{{logdata.score}}分 </div>
-    <div style="height: 37px;"></div>
+    <div style="height: 37px; background: transparent"></div>
 
     <div class="kaoshi_main" v-show="isreqursting">
       <div class="kaoshi_title">单选题</div>
@@ -69,6 +69,9 @@ export default {
     this.courseId = this.$route.query.courseId
     this.type = this.$route.query.type
     this.GetQuestionLog()
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
   },

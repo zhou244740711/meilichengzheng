@@ -1,43 +1,53 @@
 <template>
-  <div>
+  <div style="background: #f8f8f8">
     <div class="banner">
       <img src="images/banner.png" alt="">
     </div>
     <main class="index_main">
-      <div class="index_title row row-center">
-        <div class="title col"><img class="ico" src="images/laba@2x.png" alt="">最新消息</div>
-        <router-link :to="{ name: 'newslist'}" class="more">更多></router-link>
+
+      <div class="index_card">
+        <div class="index_title row row-center">
+          <div class="title col"><img class="ico" src="images/laba@2x.png" alt="">最新消息</div>
+          <router-link :to="{ name: 'newslist'}" class="more">更多></router-link>
+        </div>
+        <textscroll :list="newslist"></textscroll>
       </div>
-      <textscroll :list="newslist"></textscroll>
+
       <div class="index_navlink row row-center row-stretch">
         <div class="col navimg" v-for="item in CategoryList" :key="item.id" @click="navclick(item)">
           <img :src="imgurl(item.coverImg)" alt="">
         </div>
       </div>
-      <div class="index_title row row-center">
-        <div class="title col"><img class="ico" src="images/ico-kecheng@2x.png" alt="">课程展示</div>
-        <router-link :to="{ name: 'classshow'}" class="more">更多></router-link>
-      </div>
-      <div class="index_classlist clearfix">
-        <router-link class="item" v-for="item in classlist" :key="item.id" :to="{ name: 'ClassDetails', query: { id: item.id}}">
-          <div class="box row row-stretch">
-            <div class="img"><img :src="imgurl(item.coverImgs)" alt=""></div>
-            <div class="text col row row-stretch">
-              <p class="title">{{ item.title }}</p>
-              <p class="subtitle">{{ item.msName }}</p>
+
+      <div class="index_card">
+        <div class="index_title row row-center">
+          <div class="title col"><img class="ico" src="images/ico-kecheng@2x.png" alt="">课程展示</div>
+          <router-link :to="{ name: 'classshow'}" class="more">更多></router-link>
+        </div>
+        <div class="index_classlist clearfix">
+          <router-link class="item" v-for="item in classlist" :key="item.id" :to="{ name: 'ClassDetails', query: { id: item.id}}">
+            <div class="box row row-stretch">
+              <div class="img"><img :src="imgurl(item.coverImgs)" alt=""></div>
+              <div class="text col row row-stretch">
+                <p class="title">{{ item.title }}</p>
+                <p class="subtitle">{{ item.msName }}</p>
+              </div>
             </div>
-          </div>
-        </router-link>
+          </router-link>
+        </div>
       </div>
-      <div class="index_title row row-center">
-        <div class="title col"><img class="ico" src="images/ico-zhengce@2x.png" alt="">政策法规</div>
-        <router-link :to="{ name: 'zhengce'}" class="more">更多></router-link>
-      </div>
-      <div class="index_zhengcelist">
-        <router-link class="item" v-for="item in zhengcelist" :key="item.id" :to="{ name: 'NewsDetails', query: { id: item.id}}">
-          <p class="title text-over">{{ item.title }}</p>
-          <time>{{ item.releaseTime | dateformat }}</time>
-        </router-link>
+
+      <div class="index_card">
+        <div class="index_title row row-center">
+          <div class="title col"><img class="ico" src="images/ico-zhengce@2x.png" alt="">政策法规</div>
+          <router-link :to="{ name: 'zhengce'}" class="more">更多></router-link>
+        </div>
+        <div class="index_zhengcelist">
+          <router-link class="item" v-for="item in zhengcelist" :key="item.id" :to="{ name: 'zhengceDetails', query: { id: item.id}}">
+            <p class="title text-over">{{ item.title }}</p>
+            <time>{{ item.releaseTime | dateformat }}</time>
+          </router-link>
+        </div>
       </div>
     </main>
   </div>
@@ -62,6 +72,9 @@ export default {
     this.getclasslist()
     this.getzhengcelist()
     this.getzhengcelist2()
+    this.$wxShare.updateWxShareConfig({
+      link: location.href
+    });
   },
   methods: {
     navclick (item) {

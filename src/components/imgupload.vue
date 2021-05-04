@@ -18,6 +18,7 @@
 
 <script>
 import { MessageBox } from 'mint-ui';
+import { Indicator } from 'mint-ui';
 export default{
   name: 'ImgUpload',
   props: {
@@ -87,18 +88,28 @@ export default{
     change (e) {
       var file = e.target.files;
       if (file.length > this.maxlength) {
-        this.Toast('最大上传数' + this.maxlength)
+        this.Toast({
+          message: '最大上传数' + this.maxlength,
+          duration: 2000
+        })
         return
       }
       var formFile = new FormData();
       formFile.append("action", "UploadVMKImagePath");
       for (var i=0;i<file.length;i++) {
-        if (file[i].size > 10*1024*1024) {
-          this.Toast('上传图片不能超过10M')
+        if (file[i].size > 5*1024*1024) {
+          this.Toast({
+            message: '上传图片不能超过5M',
+            duration: 2000
+          })
           return;
         }
         formFile.append("files", file[i]); //加入文件对象
       }
+      Indicator.open({
+        text: '加载中...',
+        spinnerType: 'fading-circle'
+      });
       this.$http.post('/api/Files/UploadImage', formFile).then((res) => {
         console.log(res)
         if (res !== 500) {
@@ -109,8 +120,13 @@ export default{
             this.contentWidthChange()
           })
         }
-      }).catch((e) => {
-        this.Toast('图片上传错误，请重试' + e)
+      }).catch(() => {
+        this.Toast({
+          message: '图片上传错误，请重试',
+          duration: 2000
+        })
+      }).finally(() => {
+        Indicator.close();
       })
     },
     del (item, index) {

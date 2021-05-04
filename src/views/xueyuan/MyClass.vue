@@ -1,5 +1,5 @@
 <template>
-  <div class="xueyuanindex clearfix">
+  <div class="myorder clearfix">
 
     <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/kecheng-kong@2x.png" alt="">
@@ -79,6 +79,9 @@ export default {
   },
   created: function () {
     this.getClass(1)
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   computed: {
 
@@ -114,12 +117,10 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 2500);
-        if (res) {
+        if (res !== 500) {
           this.MyClasslist = res.data
           this.pageCount = res.pageCount
           this.page = res.page
-        } else {
-          this.Toast(res.msg)
         }
       }).finally(() => {
         this.isreqursting = false

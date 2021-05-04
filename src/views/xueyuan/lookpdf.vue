@@ -27,6 +27,9 @@ export default {
     }
   },
   created: function () {
+    this.$wxShare.updateWxShareConfig({
+      link: process.env.VUE_APP_BASE + '/login'
+    });
   },
   mounted () {
   },
