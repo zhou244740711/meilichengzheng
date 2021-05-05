@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 10vh;">
+  <div class="settingindex" style="padding-top: 10vh;">
     <div class="yaoqing_img">
       <img src="/images/bangding@2x.png" alt="">
     </div>

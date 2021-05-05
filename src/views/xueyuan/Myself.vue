@@ -2,7 +2,7 @@
   <div class="myself clearfix">
     <div class="Myself_header row">
       <div class="tx" :style="{'background-image': 'url(' + touxiang(info.photo) + ')'}"></div>
-      <div class="col">
+      <div class="col text">
         <p class="title">{{ info.name }}</p>
         <p class="t2">{{ info.identityCard }}</p>
         <div class="yaoqing row row-center">
@@ -31,7 +31,7 @@
       </div>
     </div>
 
-    <div class="Myself_list" style="margin-top: -30px;">
+    <div class="Myself_list" style="margin-top: -25px;">
       <router-link :to="{ name: 'MyClass'}" class="item row row-center">
         <div class="ico"><img src="/images/kecheng@2x.png" alt=""></div>
         <div class="title col">我的课程</div>
@@ -54,16 +54,16 @@
         <div class="title col">个人信息</div>
         <i class="iconfont icon-jiantou-you"></i>
       </router-link>
-      <router-link :to="{ name: 'Coupon'}" class="item row row-center">
-        <div class="ico"><img src="/images/quan@2x.png" alt=""></div>
-        <div class="title col">优惠券</div>
-        <i class="iconfont icon-jiantou-you"></i>
-      </router-link>
-      <router-link :to="{ name: 'address'}" class="item row row-center">
-        <div class="ico"><img src="/images/dizhi@2x.png" alt=""></div>
-        <div class="title col">收件地址</div>
-        <i class="iconfont icon-jiantou-you"></i>
-      </router-link>
+<!--      <router-link :to="{ name: 'Coupon'}" class="item row row-center">-->
+<!--        <div class="ico"><img src="/images/quan@2x.png" alt=""></div>-->
+<!--        <div class="title col">优惠券</div>-->
+<!--        <i class="iconfont icon-jiantou-you"></i>-->
+<!--      </router-link>-->
+<!--      <router-link :to="{ name: 'address'}" class="item row row-center">-->
+<!--        <div class="ico"><img src="/images/dizhi@2x.png" alt=""></div>-->
+<!--        <div class="title col">收件地址</div>-->
+<!--        <i class="iconfont icon-jiantou-you"></i>-->
+<!--      </router-link>-->
       <router-link :to="{ name: 'Yaoqing', query: {code: info.invitationUserCode}}" class="item row row-center">
         <div class="ico"><img src="/images/yaoqing@2x.png" alt=""></div>
         <div class="title col">邀请人码</div>

@@ -52,18 +52,15 @@ export default{
       display: none;
     }
     .input-checked + .checked{
-      width: 13px;
-      height: 13px;
-      border: 1px solid #999999;
-      border-radius: 50%;
-      margin-top: 4px;
+      width: 16px;
+      height: 16px;
       margin-right: 10px;
+      background: url("/images/select2@2x.png") no-repeat center center;
+      background-size: 100%;
     }
     .input-checked:checked + .checked{
-      width: 13px;
-      height: 13px;
-      background: #10A14C;
-      border: 1px solid #10A14C;
+      background: url("/images/select@2x.png") no-repeat center center;
+      background-size: 100%;
     }
     .text{
       font-size: 13px;

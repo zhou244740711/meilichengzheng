@@ -36,8 +36,8 @@ export default {
   methods: {
     showpdf (url) {
       console.log(url)
-      this.url = pdf.createLoadingTask({ url: 'http://jywapi.nonghanxue.com' + url, CMapReaderFactory })
-      this.downurl = 'http://jywapi.nonghanxue.com' + url
+      this.url = pdf.createLoadingTask({ url: process.env.VUE_APP_IMG_API + url, CMapReaderFactory })
+      this.downurl = process.env.VUE_APP_IMG_API + url
       // this.url = process.env.VUE_APP_IMG_API + url
       this.show = true
     },
@@ -46,7 +46,8 @@ export default {
     },
     handledown () {
       console.log('下载')
-      this.$refs.down.click()
+      window.open(this.downurl)
+      // this.$refs.down.click()
     }
   }
 }

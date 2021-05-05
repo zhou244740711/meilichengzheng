@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="bottombtn" @click="handlepost()">提交</div>
+      <div class="kaoshibtn" @click="handlepost()">提交</div>
     </div>
 
   </div>

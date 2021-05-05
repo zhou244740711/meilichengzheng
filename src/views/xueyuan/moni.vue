@@ -1,5 +1,5 @@
 <template>
-  <div class="myorder clearfix" style="background: #FFFFFF">
+  <div class="myorder clearfix">
 
     <div class="noclass" v-if="MyClasslist.length <=0 && !isreqursting" style="margin-top: 30vh;">
       <img src="images/kecheng-kong@2x.png" alt="">
@@ -15,7 +15,10 @@
         <div class="box" :class="{'active': item.status}" v-for="(item, index) in MyClasslist" :key="index" @click="tokaoshi(item)">
           <div class="item">
             <div class="title">{{ item.name }}</div>
-            <div class="button" v-show="item.count > 0" @click.stop="kaoshilog(item)">考试记录</div>
+
+            <mt-button type="primary" size="small" v-show="item.count > 0" plain @click.stop="kaoshilog(item)">考试记录</mt-button>
+
+<!--            <div class="button" v-show="item.count > 0" @click.stop="kaoshilog(item)">考试记录</div>-->
             <div class="textbox">
               <p>已考：{{item.count}}次</p>
               <p>上次得分：{{item.lastScore}}分</p>

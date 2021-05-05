@@ -26,7 +26,7 @@
       </div>
       <div class="MyOrder_footer">
         <p class="shifu">实付金额：<span class="price">￥{{ order.orderPayMoney }}</span></p>
-        <p class="youhui">优惠金额：<span class="price">{{isnull(order.orderDiscountMoney)?0:order.orderDiscountMoney}}元</span></p>
+<!--        <p class="youhui">优惠金额：<span class="price">{{isnull(order.orderDiscountMoney)?0:order.orderDiscountMoney}}元</span></p>-->
       </div>
     </div>
 
@@ -50,7 +50,7 @@
       </template>
       <template v-if="order.orderStatus == 2">
         <div class="btn_cancel" @click="look()" v-show="!isnull(pdfurl)">查看发票</div>
-        <div class="btn_cancel" @click="tuikuan()" style="margin-left: 20px;">申请退款</div>
+        <div class="btn_cancel" @click="tuikuan()" v-show="!order.isLockVideo" style="margin-left: 20px;">申请退款</div>
       </template>
       <template v-if="order.orderStatus == 3 || order.orderStatus == 4 || order.orderStatus == 5">
         <div class="btn_cancel" @click="look()" v-show="!isnull(pdfurl)">查看发票</div>
@@ -135,7 +135,7 @@ export default {
         case 2:
           return '已支付'
         case 3:
-          return '退款'
+          return '已退款'
         case 4:
           return '退款中'
         case 5:
@@ -237,7 +237,9 @@ export default {
     getpdf (){
       this.$http.get(`/api/My/OrderInvoiceDetail?Id=${this.pid}`).then((res) => {
         if (res !== 500) {
-          this.pdfurl = res.invoiceImageList[0].filePath
+          if (!this.isnull(res.invoiceImageList) && res.invoiceImageList.length > 0) {
+            this.pdfurl = res.invoiceImageList[0].filePath
+          }
         }
       })
     },

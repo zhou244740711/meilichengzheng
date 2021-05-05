@@ -10,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: '',
-    redirect: '/Home',
+    redirect: '/login',
     component: BasicLayout,
     children: [
       {
@@ -119,7 +119,7 @@ const routes = [
     name: 'choseaddress',
     component: () => import('../views/xueyuan/choseaddress'),
     meta: {
-      title: '收件地址'
+      title: '选择收件地址'
     }
   },
   {

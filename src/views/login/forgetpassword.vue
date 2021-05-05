@@ -1,5 +1,5 @@
 <template>
-  <div style="padding-top: 10vh;">
+  <div class="settingindex" style="padding-top: 10vh;">
     <div class="forget_title">
       <p class="title">设置新密码</p>
     </div>

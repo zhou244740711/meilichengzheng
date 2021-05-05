@@ -26,10 +26,11 @@
 
     <div class="xueyuan_scroll">
 
-      <div class="noclass" v-if="studylist.length <=0 && !isreqursting">
+      <div class="noclass" v-if="studylist.length <=0 && !isreqursting" style="margin-top: 20vh;">
         <img src="images/kecheng-kong@2x.png" alt="">
         <p>请选择课程</p>
       </div>
+
       <div
           class="xueyuan_main"
           v-else

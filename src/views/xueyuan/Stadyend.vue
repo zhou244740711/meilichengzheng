@@ -22,7 +22,7 @@
         <div class="stadyendcard_main">
           <div class="stadyendcard_list">
             <div class="item" v-for="(data, dindex) in item.children" :key="dindex">
-              <p class="t1">{{ data.categoryName }}({{data.isBuy?'已购买':'未购买'}})</p>
+              <p class="t1">{{ data.categoryName }}(已购买)</p>
               <p class="t2">共 <span class="num">{{data.period}}</span> 学时</p>
             </div>
           </div>

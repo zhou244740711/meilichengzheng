@@ -110,7 +110,9 @@ export default{
         text: '加载中...',
         spinnerType: 'fading-circle'
       });
-      this.$http.post('/api/Files/UploadImage', formFile).then((res) => {
+      // /api/Files/UploadImage
+      const imgurl = process.env.VUE_APP_IMG_API + '/api/Rpc/UploadImage'
+      this.$http.post(imgurl, formFile).then((res) => {
         console.log(res)
         if (res !== 500) {
           this.list = res.map((item) => {

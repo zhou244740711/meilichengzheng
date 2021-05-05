@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<video id="my-video" controls preload="meta" height="70%" width="100%" data-setup="{}">
+    <source src="http://jywapi.nonghanxue.com/videos/2021/04/15/202104151455565940.mp4" type="video/mp4">
+</video>
+<script type="text/javascript">
+    var video = document.getElementById("my-video");
+    var last = 0;
+    //当目前的播放位置已更改时
+    video.ontimeupdate = function () {
+        var current = video.currentTime;
+        if(current - last > 0.5) {
+            video.currentTime = last;
+        } else {
+            last = current;
+        }
+    };
+</script>
+</body>
+</html>

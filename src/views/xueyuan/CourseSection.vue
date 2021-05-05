@@ -93,7 +93,9 @@ export default {
           this.loading = false;
         }, 2500);
         if (res !== 500) {
-          this.CourseSectionList = res.data
+          if (!this.isnull(res.data)){
+            this.CourseSectionList = res.data
+          }
           this.pageCount = res.pageCount
           this.page = res.page
         }

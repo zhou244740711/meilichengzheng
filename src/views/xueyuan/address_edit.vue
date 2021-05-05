@@ -1,5 +1,5 @@
 <template>
-  <div style="background: #f7f7f7">
+  <div class="address">
     <div class="addressedit_list">
       <div class="item row row-center">
         <span class="title">收货人</span>
@@ -60,6 +60,8 @@ export default {
     if (this.$route.query.id) {
       this.isadd = false
       this.getAddressDetail(this.$route.query.id)
+    } else {
+      document.title = '新增地址'
     }
     this.$wxShare.updateWxShareConfig({
       link: process.env.VUE_APP_BASE + '/login'

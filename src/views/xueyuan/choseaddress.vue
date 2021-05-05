@@ -1,5 +1,5 @@
 <template>
-  <div class="address" style="background: #f7f7f7">
+  <div class="address">
 
     <div class="noclass" v-if="Addresslist.length <=0 && !isreqursting">
       <img src="images/wei-kong@2x.png" alt="">
@@ -26,7 +26,12 @@
       </label>
 
     </div>
-    <div class="login_btn" @click="handlePost()">选择地址</div>
+
+    <div style="height: 44px; background: transparent"></div>
+    <div class="row row-center choseaddressfooter">
+      <div class="addbtn" @click="handleAdd()">添加新地址</div>
+      <div class="qrbtn" @click="handlePost()">确定</div>
+    </div>
 
   </div>
 </template>
@@ -60,9 +65,12 @@ export default {
 
   },
   methods: {
-    // handleAdd () {
-    //   this.$router.push({name: 'addressAdd'})
-    // },
+    handleAdd () {
+      this.$router.push({name: 'addressAdd'})
+    },
+    handleEdit (item) {
+      this.$router.push({name: 'addressAdd', query: {id: item.id}})
+    },
     loadMore() {
       this.loading = true;
       this.getOrder(2)
@@ -101,8 +109,20 @@ export default {
     getchose () {
       this.$http.get(`/api/My/GetCourseAddress?CourseId=${this.courseId}`).then((res) => {
         if (res !== 500) {
-          this.morenid = res
-          this.AddressId = res
+          if (res !== 0) {
+            this.morenid = res
+            this.AddressId = res
+          } else {
+            this.getmoren()
+          }
+        }
+      })
+    },
+    getmoren () {
+      this.$http.get(`/api/My/AddressDefaultDetail`).then((res) => {
+        if (res !== 500) {
+          this.morenid = res.id
+          this.AddressId = res.id
         }
       })
     },
@@ -124,17 +144,14 @@ export default {
     handlePost () {
       if (this.isnull(this.AddressId)) {
         this.Toast({
-          message: "请选择地址",
+          message: "请选择收货地址",
           duration: 2000
         });
         return
       }
       this.$http.get(`/api/My/AddCourseAddress?AddressId=${this.AddressId}&CourseId=${this.courseId}`).then((res) => {
         if (res !== 500) {
-          this.Toast({
-            message: "课程地址添加成功",
-            duration: 2000
-          });
+          this.$router.go(-1)
         }
       })
     },

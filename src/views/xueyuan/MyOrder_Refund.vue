@@ -9,7 +9,7 @@
 
     <div class="MyOrder_Refund_count">
       <p class="shifu clearfix">实际退款金额：<span class="price">￥<b>{{ order.orderPayMoney }}</b></span></p>
-      <p class="youhui">优惠金额：<span class="price">{{isnull(order.orderDiscountMoney)?0:order.orderDiscountMoney}}元</span></p>
+<!--      <p class="youhui">优惠金额：<span class="price">{{isnull(order.orderDiscountMoney)?0:order.orderDiscountMoney}}元</span></p>-->
     </div>
 
     <div class="MyOrder_card MyOrder_Refund_card">

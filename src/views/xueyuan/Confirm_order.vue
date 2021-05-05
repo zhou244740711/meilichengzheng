@@ -21,11 +21,11 @@
     </div>
 
     <div class="confirm_list">
-      <div class="item row row-center">
-        <span class="title">优惠劵</span>
-        <div class="col text" @click="choseCoupon()">{{ isnull(Coupon.discount)?'请选择优惠劵':Coupon.discount+'折' }}</div>
-        <i class="iconfont icon-jiantou-you"></i>
-      </div>
+<!--      <div class="item row row-center">-->
+<!--        <span class="title">优惠劵</span>-->
+<!--        <div class="col text" @click="choseCoupon()">{{ isnull(Coupon.discount)?'请选择优惠劵':Coupon.discount+'折' }}</div>-->
+<!--        <i class="iconfont icon-jiantou-you"></i>-->
+<!--      </div>-->
       <div class="item row row-center">
         <span class="title">发票</span>
         <div class="col text" :class="{'greg9':isnull(invoicedata.invoiceHeader)}" @click="showinvoice()">{{ fapiao() }}</div>
@@ -38,7 +38,7 @@
     <div class="confirm_footer row row-center">
       <div class="col text">
         <p class="t1">实付金额：<span class="t3">¥{{orderPayMoney}}</span></p>
-        <p class="t2">优惠金额：¥ {{orderDiscountMoney}}</p>
+<!--        <p class="t2">优惠金额：¥ {{orderDiscountMoney}}</p>-->
       </div>
       <div class="button" @click="handlepost()">确认支付</div>
     </div>
